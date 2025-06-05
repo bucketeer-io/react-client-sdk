@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@bucketeer/react-client-sdk": "file:..",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "bkt-js-client-sdk": "^2.2.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -16,10 +19,7 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": []
   },
   "browserslist": {
     "production": [

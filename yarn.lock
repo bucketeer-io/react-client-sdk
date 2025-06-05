@@ -1585,13 +1585,13 @@ __metadata:
 
 "@bucketeer/react-client-sdk@file:..::locator=bucketeer-react-example%40workspace%3Aexample":
   version: 1.0.0
-  resolution: "@bucketeer/react-client-sdk@file:..#..::hash=efec86&locator=bucketeer-react-example%40workspace%3Aexample"
+  resolution: "@bucketeer/react-client-sdk@file:..#..::hash=46529c&locator=bucketeer-react-example%40workspace%3Aexample"
   dependencies:
     bkt-js-client-sdk: "npm:^2.2.6"
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 10c0/6d594829848092c9bb8f6e9306ed92640f90804d2aec6619bede3e41a9896d933f8e4583c2cf34cf3d51a2c71f31c65270e98d63b1549f1f6ef6ef2537f20185
+  checksum: 10c0/0c1373322302cd6b54a05114451a2841ecc317183a974b533d01ea70365344ddd97c9c5c63c2e8939e5c5b3734d64a3dd2859a4f0173030b823e70a8b2a01d27
   languageName: node
   linkType: hard
 
@@ -3447,7 +3447,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.2.19":
+"@types/react-dom@npm:^18.2.0, @types/react-dom@npm:^18.2.19":
   version: 18.3.7
   resolution: "@types/react-dom@npm:18.3.7"
   peerDependencies:
@@ -3456,7 +3456,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.2.61":
+"@types/react@npm:^18.2.0, @types/react@npm:^18.2.61":
   version: 18.3.23
   resolution: "@types/react@npm:18.3.23"
   dependencies:
@@ -4945,6 +4945,9 @@ __metadata:
   resolution: "bucketeer-react-example@workspace:example"
   dependencies:
     "@bucketeer/react-client-sdk": "file:.."
+    "@types/react": "npm:^18.2.0"
+    "@types/react-dom": "npm:^18.2.0"
+    bkt-js-client-sdk: "npm:^2.2.6"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     react-scripts: "npm:5.0.1"
