@@ -1,77 +1,54 @@
-# Bucketeer React SDK Example
+# React + TypeScript + Vite
 
-This example demonstrates how to use the Bucketeer React Client SDK in a React application.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Setup
+Currently, two official plugins are available:
 
-1. **Configure your Bucketeer credentials**
-   
-   Edit `src/App.tsx` and update the configuration:
-   
-   ```tsx
-   import { defineBKTConfig, defineBKTUser } from 'bkt-js-client-sdk';
-   
-   const config = defineBKTConfig({
-     apiKey: 'your-actual-api-key',        // Replace with your API key
-     apiEndpoint: 'https://api.bucketeer.io', // Your Bucketeer endpoint
-     featureTag: 'your-feature-tag',       // Your feature tag
-   });
-   
-   const user = defineBKTUser({
-     id: 'user-123',                       // Unique user identifier
-     attributes: {
-       name: 'John Doe',                   // User attributes
-       email: 'john@example.com',
-       plan: 'premium',
-     },
-   });
-   ```
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-2. **Create feature flags in Bucketeer**
-   
-   This example expects the following feature flags to be configured in your Bucketeer dashboard:
-   
-   - `new-design-enabled` (Boolean) - Controls whether the new design is shown
-   - `welcome-message` (String) - Customizable welcome message
-   - `max-items` (Number) - Maximum number of items to display
-   - `theme-config` (JSON) - Theme configuration object with `primaryColor` and `fontFamily`
+## Expanding the ESLint configuration
 
-3. **Run the example**
-   
-   ```bash
-   # From the root directory
-   yarn build
-   yarn example:start
-   ```
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## Features Demonstrated
-
-- **Provider Setup**: How to configure the BucketeerProvider
-- **Boolean Flags**: Conditional UI rendering based on feature flags
-- **String Flags**: Dynamic content with string variations
-- **Number Flags**: Configurable limits and values
-- **Object Flags**: Complex configuration objects
-- **Real-time Updates**: Feature flags update automatically when changed
-- **User Attributes**: Updating user attributes dynamically
-
-## File Structure
-
-```
-example/
-├── public/
-│   └── index.html
-├── src/
-│   ├── App.tsx          # Main application with SDK demo
-│   └── index.tsx        # React app entry point
-├── package.json
-└── tsconfig.json
+```js
+export default tseslint.config({
+  extends: [
+    // Remove ...tseslint.configs.recommended and replace with this
+    ...tseslint.configs.recommendedTypeChecked,
+    // Alternatively, use this for stricter rules
+    ...tseslint.configs.strictTypeChecked,
+    // Optionally, add this for stylistic rules
+    ...tseslint.configs.stylisticTypeChecked,
+  ],
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
 ```
 
-## Note
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-This example uses placeholder configuration. To see real feature flag behavior, you'll need to:
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-1. Sign up for Bucketeer.io
-2. Create a project and get your API credentials
-3. Set up the feature flags mentioned above
-4. Update the configuration in `App.tsx`
+export default tseslint.config({
+  plugins: {
+    // Add the react-x and react-dom plugins
+    'react-x': reactX,
+    'react-dom': reactDom,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended typescript rules
+    ...reactX.configs['recommended-typescript'].rules,
+    ...reactDom.configs.recommended.rules,
+  },
+})
+```

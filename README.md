@@ -43,7 +43,7 @@ const config = defineBKTConfig({
 
 const user = defineBKTUser({
   id: 'user-123',
-  attributes: {
+  customAttributes: {
     platform: 'ios',
     version: '1.0.0',
   },

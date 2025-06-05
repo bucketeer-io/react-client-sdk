@@ -1,33 +1,30 @@
 {
-  "name": "bucketeer-react-example",
-  "version": "1.0.0",
+  "name": "example",
   "private": true,
+  "version": "0.0.0",
   "type": "module",
-  "dependencies": {
-    "@bucketeer/react-client-sdk": "workspace:*",
-    "@types/react": "^18.3.23",
-    "@types/react-dom": "^18.3.7",
-    "bkt-js-client-sdk": "^2.2.7",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "typescript": "^5.8.3"
-  },
-  "devDependencies": {
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^14.6.1",
-    "@vitejs/plugin-react": "^4.5.1",
-    "@vitest/ui": "^1.6.1",
-    "jsdom": "^24.1.3",
-    "typescript": "^5.8.3",
-    "vite": "^5.4.19",
-    "vitest": "^1.6.1"
-  },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "test": "vitest",
-    "test:ui": "vitest --ui"
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "example": "link:",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.0",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.4.1",
+    "eslint": "^9.25.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^16.0.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.30.1",
+    "vite": "^6.3.5"
   }
 }
