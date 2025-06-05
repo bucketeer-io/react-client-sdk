@@ -19,9 +19,9 @@
     "format": "prettier --write src/**/*.{ts,tsx}",
     "format:check": "prettier --check src/**/*.{ts,tsx}",
     "type-check": "tsc --noEmit",
-    "prepare": "yarn build",
-    "example:start": "cd example && yarn start",
-    "example:build": "cd example && yarn build"
+    "prepare": "pnpm build",
+    "example:start": "cd example && pnpm start",
+    "example:build": "cd example && pnpm build"
   },
   "keywords": [
     "bucketeer",
@@ -62,9 +62,6 @@
     "tslib": "^2.6.2",
     "typescript": "^5.3.3"
   },
-  "workspaces": [
-    "example"
-  ],
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
@@ -77,5 +74,5 @@
     "url": "https://github.com/bucketeer-io/react-client-sdk/issues"
   },
   "homepage": "https://github.com/bucketeer-io/react-client-sdk#readme",
-  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
+  "packageManager": "pnpm@10.11.1"
 }
