@@ -128,6 +128,22 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
+# VS Code settings (keep only the ones we want to share)
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
 # yarn v2
 .yarn/cache
 .yarn/unplugged
