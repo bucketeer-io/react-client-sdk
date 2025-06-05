@@ -5,22 +5,23 @@
   "type": "module",
   "dependencies": {
     "@bucketeer/react-client-sdk": "workspace:*",
-    "bkt-js-client-sdk": "^2.2.6",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "bkt-js-client-sdk": "^2.2.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.8.3"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
-    "@vitejs/plugin-react": "^4.3.1",
-    "@vitest/ui": "^1.6.0",
-    "jsdom": "^24.1.0",
-    "typescript": "^5.3.3",
-    "vite": "^5.3.1",
-    "vitest": "^1.6.0"
+    "@vitejs/plugin-react": "^4.5.1",
+    "@vitest/ui": "^1.6.1",
+    "jsdom": "^24.1.3",
+    "typescript": "^5.8.3",
+    "vite": "^5.4.19",
+    "vitest": "^1.6.1"
   },
   "scripts": {
     "dev": "vite",
