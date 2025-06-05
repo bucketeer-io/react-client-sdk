@@ -1,7 +1,4 @@
-import { BucketeerProvider, useBooleanVariation, defineBKTConfig, defineBKTUser } from '../../src';
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import { BucketeerProvider, useBooleanVariation, useStringVariation, useNumberVariation, useObjectVariation, defineBKTConfig, defineBKTUser } from '../../src';
 import './App.css';
 
 // Example Bucketeer config and user (replace with your real values)
@@ -20,43 +17,40 @@ const user = defineBKTUser({
 });
 
 function FeatureFlagDemo() {
-  // Use a boolean feature flag to toggle text
+  // Boolean feature flag
   const showNewText = useBooleanVariation('show-new-text', false);
+  // String feature flag
+  const theme = useStringVariation('theme', 'light');
+  // Number feature flag
+  const maxItems = useNumberVariation('max-items-per-order', 10);
+  // Object/JSON feature flag
+  const config = useObjectVariation('app-config', { enable_logging: true, guest_mode: false });
+
   return (
-    <div style={{ marginTop: 32, fontSize: 20 }}>
-      {showNewText ? '🎉 The new feature is enabled!' : 'The new feature is disabled.'}
+    <div style={{ marginTop: 32, fontSize: 18 }}>
+      <div>
+        <strong>Boolean flag:</strong> {showNewText ? '🎉 The new feature is enabled!' : 'The new feature is disabled.'}
+      </div>
+      <div>
+        <strong>String flag (theme):</strong> {theme}
+      </div>
+      <div>
+        <strong>Number flag (max items):</strong> {maxItems}
+      </div>
+      <div>
+        <strong>Object flag (config):</strong> {JSON.stringify(config)}
+      </div>
     </div>
   );
 }
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <BucketeerProvider config={bucketeerConfig} user={user}>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React + Bucketeer Example</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
+      <h1>Bucketeer React SDK Demo</h1>
       <FeatureFlagDemo />
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </BucketeerProvider>
-  )
+  );
 }
 
 export default App
