@@ -6,10 +6,10 @@ This document tracks the test plan for the SDK, split into Unit and Integration 
 
 ## Unit Tests
 
-- [ ] BucketeerProvider initializes client and provides context
-- [ ] BucketeerProvider handles invalid config/user gracefully
-- [ ] useBooleanVariation returns correct value and updates on flag change
-- [ ] useBooleanVariation falls back to default if flag missing
+- [x] BucketeerProvider initializes client and provides context
+- [x] BucketeerProvider handles invalid config/user gracefully
+- [x] useBooleanVariation returns correct value and updates on flag change
+- [x] useBooleanVariation falls back to default if flag missing
 - [ ] useStringVariation returns correct value and updates on flag change
 - [ ] useStringVariation falls back to default if flag missing
 - [ ] useNumberVariation returns correct value and updates on flag change

@@ -12,7 +12,7 @@ export function useBooleanVariation(
   useEffect(() => {
     if (client) {
       const variation = client.booleanVariation(flagId, defaultValue);
-      setValue(variation);
+      setValue(variation !== undefined ? variation : defaultValue);
     }
   }, [client, flagId, defaultValue, lastUpdated]);
 
@@ -29,7 +29,7 @@ export function useStringVariation(
   useEffect(() => {
     if (client) {
       const variation = client.stringVariation(flagId, defaultValue);
-      setValue(variation);
+      setValue(variation !== undefined ? variation : defaultValue);
     }
   }, [client, flagId, defaultValue, lastUpdated]);
 
@@ -46,7 +46,7 @@ export function useNumberVariation(
   useEffect(() => {
     if (client) {
       const variation = client.numberVariation(flagId, defaultValue);
-      setValue(variation);
+      setValue(variation !== undefined ? variation : defaultValue);
     }
   }, [client, flagId, defaultValue, lastUpdated]);
 
@@ -63,7 +63,7 @@ export function useObjectVariation<T extends BKTValue>(
   useEffect(() => {
     if (client) {
       const variation = client.objectVariation(flagId, defaultValue);
-      setValue(variation as T);
+      setValue(variation !== undefined ? (variation as T) : defaultValue);
     }
   }, [client, flagId, defaultValue, lastUpdated]);
 

@@ -8,7 +8,7 @@ export {
   useNumberVariation,
   useObjectVariation,
   useBucketeerClient,
-} from './hooks';
+} from './hooks/index';
 
 // Re-export types from bkt-js-client-sdk for convenience
 export * from 'bkt-js-client-sdk';

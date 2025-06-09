@@ -30,14 +30,13 @@ export function BucketeerProvider({
       try {
         await initializeBKTClient(config, user);
         bktClient = getBKTClient()!;
-        setClient(bktClient);
-        setLastUpdated(Date.now());
-
         // Add listener to update timestamp on flag changes
         const listener = () => {
           setLastUpdated(Date.now());
         };
         listenToken = bktClient.addEvaluationUpdateListener(listener);
+        setClient(bktClient);
+        setLastUpdated(Date.now());
       } catch (error) {
         console.error('Failed to initialize Bucketeer client:', error);
       }
