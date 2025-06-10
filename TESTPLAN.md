@@ -10,12 +10,12 @@ This document tracks the test plan for the SDK, split into Unit and Integration 
 - [x] BucketeerProvider handles invalid config/user gracefully
 - [x] useBooleanVariation returns correct value and updates on flag change
 - [x] useBooleanVariation falls back to default if flag missing
-- [ ] useStringVariation returns correct value and updates on flag change
-- [ ] useStringVariation falls back to default if flag missing
-- [ ] useNumberVariation returns correct value and updates on flag change
-- [ ] useNumberVariation falls back to default if flag missing
-- [ ] useObjectVariation returns correct value and updates on flag change
-- [ ] useObjectVariation falls back to default if flag missing
+- [x] useStringVariation returns correct value and updates on flag change
+- [x] useStringVariation falls back to default if flag missing
+- [x] useNumberVariation returns correct value and updates on flag change
+- [x] useNumberVariation falls back to default if flag missing
+- [x] useObjectVariation returns correct value and updates on flag change
+- [x] useObjectVariation falls back to default if flag missing
 - [ ] useBucketeerClient exposes client and updateUserAttributes
 - [ ] All hooks enforce correct types (TypeScript)
 - [ ] Handles network errors and fallback logic
