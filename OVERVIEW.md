@@ -83,12 +83,15 @@ Unlike imperative APIs, the hooks integrate with React's rendering cycle:
 ```tsx
 // ❌ Imperative approach (prone to stale data)
 useEffect(() => {
-  const value = client.getBooleanFlag('feature');
+  const value = client.booleanVariation('feature');
   setFeature(value);
 }, []); // Might miss updates
 
 // ✅ Declarative approach (always fresh)
-const feature = useBooleanVariation('feature', false);
+function ComponentA() {
+  const feature = useBooleanVariation('feature', false);
+  return <div>{feature && 'Feature'}</div>; // ✅ DOM updates
+}
 // Automatically updates when flag changes
 ```
 
