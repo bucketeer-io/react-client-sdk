@@ -94,38 +94,38 @@ describe('useBucketeerClient', () => {
     expect(mockClient.updateUserAttributes).toHaveBeenCalledTimes(1);
   });
 
-  // it('handles updateUserAttributes gracefully when client is null', async () => {
-  //   // Mock getBKTClient to return null to simulate no client
-  //   (getBKTClient as jest.Mock).mockReturnValue(null);
+  it('handles updateUserAttributes gracefully when client is null', async () => {
+    // Mock getBKTClient to return null to simulate no client
+    (getBKTClient as jest.Mock).mockReturnValue(null);
 
-  //   const TestComponent = () => {
-  //     const { client, updateUserAttributes } = useBucketeerClient();
+    const TestComponent = () => {
+      const { client, updateUserAttributes } = useBucketeerClient();
 
-  //     // Test the function directly in useEffect
-  //     React.useEffect(() => {
-  //       const testAttributes = { newAttribute: 'newValue' };
-  //       // This should not throw even when client is null
-  //       updateUserAttributes(testAttributes);
-  //     }, [updateUserAttributes]);
+      // Test the function directly in useEffect
+      React.useEffect(() => {
+        const testAttributes = { newAttribute: 'newValue' };
+        // This should not throw even when client is null
+        updateUserAttributes(testAttributes);
+      }, [updateUserAttributes]);
 
-  //     return (
-  //       <div>
-  //         <div data-testid="client-null">{client ? 'false' : 'true'}</div>
-  //         <div data-testid="ready">ready</div>
-  //       </div>
-  //     );
-  //   };
+      return (
+        <div>
+          <div data-testid="client-null">{client ? 'false' : 'true'}</div>
+          <div data-testid="ready">ready</div>
+        </div>
+      );
+    };
 
-  //   const { getByTestId } = await setupAsync(<TestComponent />);
+    const { getByTestId } = await setupAsync(<TestComponent />);
 
-  //   await waitFor(() => {
-  //     expect(getByTestId('ready')).toHaveTextContent('ready');
-  //     expect(getByTestId('client-null')).toHaveTextContent('true');
-  //   });
+    await waitFor(() => {
+      expect(getByTestId('ready')).toHaveTextContent('ready');
+      expect(getByTestId('client-null')).toHaveTextContent('true');
+    });
 
-  //   // The test passes if no error was thrown during render/useEffect
-  //   expect(getByTestId('ready')).toHaveTextContent('ready');
-  // });
+    // The test passes if no error was thrown during render/useEffect
+    expect(getByTestId('ready')).toHaveTextContent('ready');
+  });
 
   it('returns the same client instance across re-renders', async () => {
     const clientInstances: (BKTClient | null)[] = [];
