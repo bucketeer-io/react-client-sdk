@@ -83,5 +83,19 @@ describe('useObjectVariation', () => {
     expect(renderResult.getByTestId('flag-value')).toHaveTextContent(
       '{"bar":123}'
     );
+
+    // Ensure the client was called with the correct default value
+    await waitFor(() => {
+      expect(
+        (mockClient.addEvaluationUpdateListener as jest.Mock).mock.calls.length
+      ).toBeGreaterThan(0);
+      expect(mockClient.objectVariation).toHaveBeenCalledWith('missing-flag', {
+        bar: 123,
+      });
+    });
+
+    expect(renderResult.getByTestId('flag-value')).toHaveTextContent(
+      '{"bar":123}'
+    );
   });
 });

@@ -45,6 +45,7 @@ describe('useBooleanVariation', () => {
     // Check initial value
     expect(renderResult.getByTestId('flag-value')).toHaveTextContent('false');
 
+    // Ensure the client was called with the correct default value
     await waitFor(() => {
       expect(
         (mockClient.addEvaluationUpdateListener as jest.Mock).mock.calls.length
@@ -73,6 +74,19 @@ describe('useBooleanVariation', () => {
     }
 
     const renderResult = await setupAsync(<TestComponent />);
+    expect(renderResult.getByTestId('flag-value')).toHaveTextContent('true');
+
+    // Ensure the client was called with the correct default value
+    await waitFor(() => {
+      expect(
+        (mockClient.addEvaluationUpdateListener as jest.Mock).mock.calls.length
+      ).toBeGreaterThan(0);
+      expect(mockClient.booleanVariation).toHaveBeenCalledWith(
+        'missing-flag',
+        true
+      );
+    });
+
     expect(renderResult.getByTestId('flag-value')).toHaveTextContent('true');
   });
 });

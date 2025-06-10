@@ -73,5 +73,18 @@ describe('useStringVariation', () => {
 
     const renderResult = await setupAsync(<TestComponent />);
     expect(renderResult.getByTestId('flag-value')).toHaveTextContent('default');
+
+    // Ensure the client was called with the correct default value
+    await waitFor(() => {
+      expect(
+        (mockClient.addEvaluationUpdateListener as jest.Mock).mock.calls.length
+      ).toBeGreaterThan(0);
+      expect(mockClient.stringVariation).toHaveBeenCalledWith(
+        'missing-flag',
+        'default'
+      );
+    });
+
+    expect(renderResult.getByTestId('flag-value')).toHaveTextContent('default');
   });
 });
