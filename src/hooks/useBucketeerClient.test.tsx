@@ -128,26 +128,42 @@ describe('useBucketeerClient', () => {
   // });
 
   it('returns the same client instance across re-renders', async () => {
-    const TestComponent = () => {
+    const clientInstances: (BKTClient | null)[] = [];
+
+    const TestComponent = ({
+      onClientCapture,
+    }: {
+      onClientCapture: (client: BKTClient | null) => void;
+    }) => {
       const { client } = useBucketeerClient();
 
-      // React.useEffect(() => {
-      //   onClientCapture(client);
-      // }, [client, onClientCapture]);
+      if (client) {
+        onClientCapture(client);
+      }
 
       return (
         <div data-testid="client-ready">{client ? 'ready' : 'loading'}</div>
       );
     };
 
-    // First render
-    const { getByTestId } = await setupAsync(<TestComponent />);
+    // First render - capture first client instance
+    const { getByTestId } = await setupAsync(
+      <TestComponent
+        onClientCapture={(client) => {
+          clientInstances.push(client);
+        }}
+      />
+    );
 
+    // Ensure the client was called with the correct default value
     await waitFor(() => {
+      expect(
+        (mockClient.addEvaluationUpdateListener as jest.Mock).mock.calls.length
+      ).toBeGreaterThan(0);
       expect(getByTestId('client-ready')).toHaveTextContent('ready');
     });
 
-    // Re-render by triggering an update
+    // Re-render with same callback to capture second instance
     await act(async () => {
       const listener = (mockClient.addEvaluationUpdateListener as jest.Mock)
         .mock.calls[0][0];
@@ -158,8 +174,69 @@ describe('useBucketeerClient', () => {
       expect(getByTestId('client-ready')).toHaveTextContent('ready');
     });
 
-    // Both instances should be the same
-    // expect(firstClient).toBe(secondClient);
-    // expect(firstClient).toBe(mockClient);
+    // Verify we captured both instances and they are the same
+    expect(clientInstances).toHaveLength(2);
+    expect(clientInstances[0]).toBe(clientInstances[1]);
+    expect(clientInstances[0]).toBe(mockClient);
+  });
+
+  it('works correctly when component re-mounts', async () => {
+    let firstMountClient: BKTClient | null = null;
+    let secondMountClient: BKTClient | null = null;
+
+    const TestComponent = ({ mountId }: { mountId: string }) => {
+      const { client } = useBucketeerClient();
+
+      React.useEffect(() => {
+        if (mountId === 'first' && client) {
+          firstMountClient = client;
+        } else if (mountId === 'second' && client) {
+          secondMountClient = client;
+        }
+      }, [client, mountId]);
+
+      return (
+        <div>
+          <div data-testid={`client-${mountId}`}>
+            {client ? 'ready' : 'loading'}
+          </div>
+          <div data-testid={`mount-${mountId}`}>Mount: {mountId}</div>
+        </div>
+      );
+    };
+
+    // First mount
+    const { getByTestId, unmount } = await setupAsync(
+      <TestComponent mountId="first" />
+    );
+
+    await waitFor(() => {
+      expect(getByTestId('client-first')).toHaveTextContent('ready');
+      expect(getByTestId('mount-first')).toHaveTextContent('Mount: first');
+    });
+
+    // Verify first mount captured the client
+    expect(firstMountClient).toBe(mockClient);
+
+    // Completely unmount the component
+    unmount();
+
+    // Re-mount with a fresh component instance
+    const { getByTestId: getByTestId2 } = await setupAsync(
+      <TestComponent mountId="second" />
+    );
+
+    await waitFor(() => {
+      expect(getByTestId2('client-second')).toHaveTextContent('ready');
+      expect(getByTestId2('mount-second')).toHaveTextContent('Mount: second');
+    });
+
+    // Verify second mount also gets the same client instance
+    expect(secondMountClient).toBe(mockClient);
+    expect(firstMountClient).toBe(secondMountClient);
+
+    // Both mounts should get the same client from the context
+    expect(firstMountClient).not.toBeNull();
+    expect(secondMountClient).not.toBeNull();
   });
 });
