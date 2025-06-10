@@ -95,6 +95,11 @@ describe('useBucketeerClient', () => {
   });
 
   it('handles updateUserAttributes gracefully when client is null', async () => {
+    // Suppress expected console.error for this test
+    const consoleSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+
     // Mock getBKTClient to return null to simulate no client
     (getBKTClient as jest.Mock).mockReturnValue(null);
 
@@ -123,8 +128,18 @@ describe('useBucketeerClient', () => {
       expect(getByTestId('client-null')).toHaveTextContent('true');
     });
 
+    // Verify that the expected error was logged exactly once
+    expect(consoleSpy).toHaveBeenCalledTimes(1);
+    expect(consoleSpy).toHaveBeenCalledWith(
+      'Failed to initialize Bucketeer client:',
+      expect.any(Error)
+    );
+
     // The test passes if no error was thrown during render/useEffect
     expect(getByTestId('ready')).toHaveTextContent('ready');
+
+    // Restore console.error
+    consoleSpy.mockRestore();
   });
 
   it('returns the same client instance across re-renders', async () => {
