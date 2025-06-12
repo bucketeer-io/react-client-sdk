@@ -17,7 +17,7 @@ import {
   useNumberVariation,
   useObjectVariation,
   useBucketeerClient,
-} from '../index';
+} from '.';
 
 // Mock global fetch before any SDK code runs
 (globalThis as unknown as { fetch: jest.Mock }).fetch = jest.fn();
