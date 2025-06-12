@@ -173,30 +173,51 @@ describe('Reliability and Edge Case Tests', () => {
         expect(getByTestId('flag-value')).toHaveTextContent('true');
       });
 
-      // Simulate rapid flag changes
+      // Get the listener function
+      const listener = (mockClient.addEvaluationUpdateListener as jest.Mock)
+        .mock.calls[0][0];
+
+      // Test sequence: true -> false -> true -> false -> true (final)
+      // Each update should be processed individually
+
+      // Update 1: true -> false
       await act(async () => {
-        const listener = (mockClient.addEvaluationUpdateListener as jest.Mock)
-          .mock.calls[0][0];
-
-        // Rapid sequence: true -> false -> true -> false -> true (final state)
-        (mockClient.booleanVariation as jest.Mock)
-          .mockReturnValueOnce(false)
-          .mockReturnValueOnce(true)
-          .mockReturnValueOnce(false)
-          .mockReturnValueOnce(true);
-
-        // Fire multiple updates rapidly
-        listener();
-        listener();
-        listener();
+        (mockClient.booleanVariation as jest.Mock).mockReturnValue(false);
         listener();
       });
+      await waitFor(() => {
+        expect(getByTestId('flag-value')).toHaveTextContent('false');
+      });
 
-      // Should show the final state consistently
-      expect(getByTestId('flag-value')).toHaveTextContent('true');
+      // Update 2: false -> true
+      await act(async () => {
+        (mockClient.booleanVariation as jest.Mock).mockReturnValue(true);
+        listener();
+      });
+      await waitFor(() => {
+        expect(getByTestId('flag-value')).toHaveTextContent('true');
+      });
+
+      // Update 3: true -> false
+      await act(async () => {
+        (mockClient.booleanVariation as jest.Mock).mockReturnValue(false);
+        listener();
+      });
+      await waitFor(() => {
+        expect(getByTestId('flag-value')).toHaveTextContent('false');
+      });
+
+      // Update 4: false -> true (final state)
+      await act(async () => {
+        (mockClient.booleanVariation as jest.Mock).mockReturnValue(true);
+        listener();
+      });
+      await waitFor(() => {
+        expect(getByTestId('flag-value')).toHaveTextContent('true');
+      });
 
       // Component should have handled all updates gracefully
-      expect(updateCount).toBeGreaterThan(1);
+      expect(updateCount).toBeGreaterThan(4); // Initial + 4 updates
     });
 
     it('handles concurrent updates to different flags', async () => {
