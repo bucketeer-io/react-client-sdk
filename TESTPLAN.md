@@ -17,9 +17,9 @@ This document tracks the test plan for the SDK, split into Unit and Integration 
 - [x] useObjectVariation returns correct value and updates on flag change
 - [x] useObjectVariation falls back to default if flag missing
 - [x] useBucketeerClient exposes client and updateUserAttributes
-- [ ] All hooks enforce correct types (TypeScript)
-- [ ] Handles network errors and fallback logic
-- [ ] Simulate remote flag changes and verify all hooks/components re-render
+- [x] ~~All hooks enforce correct types (TypeScript)~~ *Not needed - TypeScript compilation ensures type safety*
+- [x] Handles network errors and fallback logic
+- [x] Simulate remote flag changes and verify all hooks/components re-render
 
 ## Integration (E2E) Tests
 
