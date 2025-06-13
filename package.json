@@ -1,6 +1,6 @@
 {
-  "name": "@bucketeer/react-client-sdk",
-  "version": "1.0.0",
+  "name": "bkt-react-client-sdk",
+  "version": "0.0.1",
   "description": "Bucketeer React Client SDK - A TypeScript React library for feature flagging",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
