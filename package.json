@@ -1,6 +1,6 @@
 {
   "name": "bkt-react-client-sdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Bucketeer React Client SDK - A TypeScript React library for feature flagging",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -21,7 +21,8 @@
     "type-check": "tsc --noEmit",
     "prepare": "pnpm build",
     "example:start": "cd example && pnpm start",
-    "example:build": "cd example && pnpm build"
+    "example:build": "cd example && pnpm build",
+    "publish-npm": "pnpm build && pnpm publish --access public"
   },
   "keywords": [
     "bucketeer",
