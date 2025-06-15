@@ -4,6 +4,7 @@ export { BucketeerContext } from './context';
 export type { BucketeerContextType } from './context';
 export {
   useBooleanVariation,
+  useBooleanVariationDetails,
   useStringVariation,
   useNumberVariation,
   useObjectVariation,
