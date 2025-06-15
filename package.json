@@ -1,6 +1,6 @@
 {
   "name": "bkt-react-client-sdk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Bucketeer React Client SDK - A TypeScript React library for feature flagging",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -34,7 +34,7 @@
   "author": "Bucketeer Team",
   "license": "MIT",
   "dependencies": {
-    "bkt-js-client-sdk": "^2.2.7"
+    "bkt-js-client-sdk": "2.2.9"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.8",
@@ -47,8 +47,8 @@
     "@types/node": "22.13.14",
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",
-    "@typescript-eslint/eslint-plugin": "^8.33.1",
-    "@typescript-eslint/parser": "^8.33.1",
+    "@typescript-eslint/eslint-plugin": "^8.34.0",
+    "@typescript-eslint/parser": "^8.34.0",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.4.1",
@@ -59,8 +59,8 @@
     "prettier": "^3.5.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "rollup": "^4.41.1",
-    "ts-jest": "^29.3.4",
+    "rollup": "^4.43.0",
+    "ts-jest": "^29.4.0",
     "tslib": "^2.8.1",
     "typescript": "^5.8.3"
   },

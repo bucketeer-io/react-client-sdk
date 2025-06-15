@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useMemo } from 'react';
 import type { BKTValue } from 'bkt-js-client-sdk';
 import { BucketeerContext } from '../context';
 
@@ -7,14 +7,15 @@ export function useObjectVariation<T extends BKTValue>(
   defaultValue: T
 ): T {
   const { client, lastUpdated } = useContext(BucketeerContext);
-  const [value, setValue] = useState(defaultValue);
 
-  useEffect(() => {
-    if (client) {
+  return useMemo(() => {
+    // Keep reference to the client and lastUpdated to trigger re-evaluation
+    // when they change, ensuring the hook is reactive to updates.
+    if (client && lastUpdated !== undefined) {
       const variation = client.objectVariation(flagId, defaultValue);
-      setValue(variation !== undefined ? (variation as T) : defaultValue);
+      const typeSafeVariation = variation ? variation : defaultValue;
+      return typeSafeVariation as T;
     }
+    return defaultValue;
   }, [client, flagId, defaultValue, lastUpdated]);
-
-  return client ? value : defaultValue;
 }

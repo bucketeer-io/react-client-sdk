@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useMemo } from 'react';
 import { BucketeerContext } from '../context';
 
 export function useStringVariation(
@@ -6,14 +6,14 @@ export function useStringVariation(
   defaultValue: string
 ): string {
   const { client, lastUpdated } = useContext(BucketeerContext);
-  const [value, setValue] = useState(defaultValue);
 
-  useEffect(() => {
-    if (client) {
+  return useMemo(() => {
+    // Keep reference to the client and lastUpdated to trigger re-evaluation
+    // when they change, ensuring the hook is reactive to updates.
+    if (client && lastUpdated !== undefined) {
       const variation = client.stringVariation(flagId, defaultValue);
-      setValue(variation !== undefined ? variation : defaultValue);
+      return variation !== undefined ? variation : defaultValue;
     }
+    return defaultValue;
   }, [client, flagId, defaultValue, lastUpdated]);
-
-  return client ? value : defaultValue;
 }
