@@ -1,101 +1,156 @@
-import React from 'react';
-import { render, waitFor } from '@testing-library/react';
-import { act } from 'react';
-import { BKTClient, useObjectVariation } from '../index';
-import { createTestSuite } from './testHelpers';
+/**
+ * Tests for useObjectVariation wrapper hook
+ *
+ * Intent: Test ONLY the wrapper logic that extracts .variationValue from useObjectVariationDetails
+ *
+ * Strategy:
+ * - Mock useObjectVariationDetails directly (not the client)
+ * - Test parameter passing to the underlying hook
+ * - Test correct extraction of object value from evaluation details
+ * - Test return type verification with various object types
+ * - Avoid duplicating complex client/update logic already tested in useObjectVariationDetails.test.tsx
+ *
+ * Focus on LOGIC tests, not DATA tests (no need to test every object combination)
+ *
+ * Note: We don't test React's re-rendering behavior when useObjectVariationDetails changes.
+ * This is React's built-in functionality that we trust to work correctly.
+ * Our tests verify the wrapper logic works - if re-rendering was broken, our tests would fail.
+ */
 
-jest.mock('bkt-js-client-sdk', () => {
-  const actual = jest.requireActual('bkt-js-client-sdk');
-  return {
-    ...actual,
-    getBKTClient: jest.fn(),
-    initializeBKTClient: jest.fn(),
-    destroyBKTClient: jest.fn(),
-  };
-});
+import { render } from '@testing-library/react';
+import { useObjectVariation } from './useObjectVariation';
+import { useObjectVariationDetails } from './useObjectVariationDetails';
+import { BKTEvaluationDetails } from 'bkt-js-client-sdk';
 
-(globalThis as unknown as { fetch: jest.Mock }).fetch = jest.fn();
+// Mock the underlying hook directly instead of mocking the client
+jest.mock('./useObjectVariationDetails');
+
+const mockUseObjectVariationDetails =
+  useObjectVariationDetails as jest.MockedFunction<
+    typeof useObjectVariationDetails
+  >;
 
 describe('useObjectVariation', () => {
-  let mockClient: BKTClient;
-  let setupAsync: (
-    children: React.ReactNode
-  ) => Promise<ReturnType<typeof render>>;
-
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.resetAllMocks();
-    const testSetup = createTestSuite('objectVariation');
-    mockClient = testSetup.mockClient;
-    setupAsync = testSetup.setupAsync;
   });
 
-  it('returns correct value and updates on flag change', async () => {
-    (mockClient.objectVariation as jest.Mock)
-      .mockReturnValueOnce({ foo: 1 })
-      .mockReturnValueOnce({ foo: 2 });
+  it('extracts variationValue correctly from evaluation details', () => {
+    const objectValue = {
+      theme: 'dark',
+      settings: { enabled: true, level: 3 },
+    };
+    const mockEvaluationDetails: BKTEvaluationDetails<typeof objectValue> = {
+      featureId: 'test-object-flag',
+      featureVersion: 1,
+      userId: 'test-user',
+      variationId: 'variation-1',
+      variationName: 'Test Object Variation',
+      variationValue: objectValue,
+      reason: 'RULE',
+    };
+
+    mockUseObjectVariationDetails.mockReturnValue(mockEvaluationDetails);
 
     function TestComponent() {
-      const defaultObj = React.useMemo(() => ({ foo: 1 }), []);
-      const value = useObjectVariation('flag', defaultObj);
-      return <div data-testid="flag-value">{JSON.stringify(value)}</div>;
+      const defaultValue = {
+        theme: 'light',
+        settings: { enabled: false, level: 1 },
+      };
+      const value = useObjectVariation('test-object-flag', defaultValue);
+      return <div data-testid="result">{JSON.stringify(value)}</div>;
     }
 
-    const renderResult = await setupAsync(<TestComponent />);
+    const { getByTestId } = render(<TestComponent />);
 
-    // Check initial value
-    expect(renderResult.getByTestId('flag-value')).toHaveTextContent(
-      '{"foo":1}'
+    // Verify it extracts just the variationValue, not the full object
+    expect(getByTestId('result')).toHaveTextContent(
+      JSON.stringify(objectValue)
     );
-
-    await waitFor(() => {
-      expect(
-        (mockClient.addEvaluationUpdateListener as jest.Mock).mock.calls.length
-      ).toBeGreaterThan(0);
-      expect(mockClient.objectVariation).toHaveBeenCalledWith('flag', {
-        foo: 1,
-      });
-    });
-
-    // Simulate flag update
-    await act(async () => {
-      const listener = (mockClient.addEvaluationUpdateListener as jest.Mock)
-        .mock.calls[0][0];
-      listener();
-    });
-
-    // Check updated value
-    expect(renderResult.getByTestId('flag-value')).toHaveTextContent(
-      '{"foo":2}'
+    expect(mockUseObjectVariationDetails).toHaveBeenCalledWith(
+      'test-object-flag',
+      { theme: 'light', settings: { enabled: false, level: 1 } }
     );
   });
 
-  it('falls back to default if flag missing', async () => {
-    (mockClient.objectVariation as jest.Mock).mockReturnValue(undefined);
+  it('passes parameters correctly to useObjectVariationDetails', () => {
+    const configValue = { feature: 'A', options: ['x', 'y'] };
+    const mockEvaluationDetails: BKTEvaluationDetails<typeof configValue> = {
+      featureId: 'object-toggle',
+      featureVersion: 0,
+      userId: '',
+      variationId: '',
+      variationName: '',
+      variationValue: configValue,
+      reason: 'DEFAULT',
+    };
+
+    mockUseObjectVariationDetails.mockReturnValue(mockEvaluationDetails);
 
     function TestComponent() {
-      const defaultObj = React.useMemo(() => ({ bar: 123 }), []);
-      const value = useObjectVariation('missing-flag', defaultObj);
-      return <div data-testid="flag-value">{JSON.stringify(value)}</div>;
+      const defaultConfig = { feature: 'B', options: ['z'] };
+      useObjectVariation('object-toggle', defaultConfig);
+      return <div>test</div>;
     }
 
-    const renderResult = await setupAsync(<TestComponent />);
-    expect(renderResult.getByTestId('flag-value')).toHaveTextContent(
-      '{"bar":123}'
-    );
+    render(<TestComponent />);
 
-    // Ensure the client was called with the correct default value
-    await waitFor(() => {
-      expect(
-        (mockClient.addEvaluationUpdateListener as jest.Mock).mock.calls.length
-      ).toBeGreaterThan(0);
-      expect(mockClient.objectVariation).toHaveBeenCalledWith('missing-flag', {
-        bar: 123,
-      });
-    });
-
-    expect(renderResult.getByTestId('flag-value')).toHaveTextContent(
-      '{"bar":123}'
+    // Verify the wrapper passes the correct parameters to the underlying hook
+    expect(mockUseObjectVariationDetails).toHaveBeenCalledWith(
+      'object-toggle',
+      { feature: 'B', options: ['z'] }
     );
+    expect(mockUseObjectVariationDetails).toHaveBeenCalledTimes(1);
+  });
+
+  it('returns object type, not evaluation details object', () => {
+    const complexObject = {
+      id: 'complex-123',
+      nested: { deep: { value: 42 } },
+      list: [1, 2, 3],
+      metadata: { created: '2023-01-01', active: true },
+    };
+    const mockEvaluationDetails: BKTEvaluationDetails<typeof complexObject> = {
+      featureId: 'complex-object-flag',
+      featureVersion: 5,
+      userId: 'user-123',
+      variationId: 'var-456',
+      variationName: 'Complex Object Variation',
+      variationValue: complexObject,
+      reason: 'RULE',
+    };
+
+    mockUseObjectVariationDetails.mockReturnValue(mockEvaluationDetails);
+
+    function TestComponent() {
+      const defaultValue = {
+        id: 'default',
+        nested: { deep: { value: 0 } },
+        list: [],
+        metadata: { created: '', active: false },
+      };
+      const value = useObjectVariation('complex-object-flag', defaultValue);
+      return (
+        <div>
+          <div data-testid="result">{JSON.stringify(value)}</div>
+          <div data-testid="type">{typeof value}</div>
+        </div>
+      );
+    }
+
+    const { getByTestId } = render(<TestComponent />);
+
+    // Verify it returns the complex object, not the evaluation object
+    expect(getByTestId('result')).toHaveTextContent(
+      JSON.stringify(complexObject)
+    );
+    expect(getByTestId('type')).toHaveTextContent('object');
+
+    // Verify it doesn't contain evaluation details properties
+    expect(getByTestId('result')).not.toHaveTextContent('complex-object-flag');
+    expect(getByTestId('result')).not.toHaveTextContent(
+      'Complex Object Variation'
+    );
+    expect(getByTestId('result')).not.toHaveTextContent('RULE');
   });
 });

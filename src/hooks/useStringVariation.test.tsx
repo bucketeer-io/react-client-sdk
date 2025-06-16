@@ -1,90 +1,128 @@
-import React from 'react';
-import { render, waitFor } from '@testing-library/react';
-import { act } from 'react';
-import { BKTClient, useStringVariation } from '../index';
-import { createTestSuite } from './testHelpers';
+/**
+ * Tests for useStringVariation wrapper hook
+ *
+ * Intent: Test ONLY the wrapper logic that extracts .variationValue from useStringVariationDetails
+ *
+ * Strategy:
+ * - Mock useStringVariationDetails directly (not the client)
+ * - Test parameter passing to the underlying hook
+ * - Test correct extraction of string value from evaluation details
+ * - Test return type verification
+ * - Avoid duplicating complex client/update logic already tested in useStringVariationDetails.test.tsx
+ *
+ * Focus on LOGIC tests, not DATA tests (no need to test every string combination)
+ *
+ * Note: We don't test React's re-rendering behavior when useStringVariationDetails changes.
+ * This is React's built-in functionality that we trust to work correctly.
+ * Our tests verify the wrapper logic works - if re-rendering was broken, our tests would fail.
+ */
 
-jest.mock('bkt-js-client-sdk', () => {
-  const actual = jest.requireActual('bkt-js-client-sdk');
-  return {
-    ...actual,
-    getBKTClient: jest.fn(),
-    initializeBKTClient: jest.fn(),
-    destroyBKTClient: jest.fn(),
-  };
-});
+import { render } from '@testing-library/react';
+import { useStringVariation } from './useStringVariation';
+import { useStringVariationDetails } from './useStringVariationDetails';
+import { BKTEvaluationDetails } from 'bkt-js-client-sdk';
 
-(globalThis as unknown as { fetch: jest.Mock }).fetch = jest.fn();
+// Mock the underlying hook directly instead of mocking the client
+jest.mock('./useStringVariationDetails');
+
+const mockUseStringVariationDetails =
+  useStringVariationDetails as jest.MockedFunction<
+    typeof useStringVariationDetails
+  >;
 
 describe('useStringVariation', () => {
-  let mockClient: BKTClient;
-  let setupAsync: (
-    children: React.ReactNode
-  ) => Promise<ReturnType<typeof render>>;
-
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.resetAllMocks();
-    const testSetup = createTestSuite('stringVariation');
-    mockClient = testSetup.mockClient;
-    setupAsync = testSetup.setupAsync;
   });
 
-  it('returns correct value and updates on flag change', async () => {
-    (mockClient.stringVariation as jest.Mock)
-      .mockReturnValueOnce('A')
-      .mockReturnValueOnce('B');
+  it('extracts variationValue correctly from evaluation details', () => {
+    const mockEvaluationDetails: BKTEvaluationDetails<string> = {
+      featureId: 'test-flag',
+      featureVersion: 1,
+      userId: 'test-user',
+      variationId: 'variation-1',
+      variationName: 'Test Variation',
+      variationValue: 'hello-world',
+      reason: 'RULE',
+    };
+
+    mockUseStringVariationDetails.mockReturnValue(mockEvaluationDetails);
 
     function TestComponent() {
-      const value = useStringVariation('flag', 'A');
-      return <div data-testid="flag-value">{value}</div>;
+      const value = useStringVariation('test-flag', 'default');
+      return <div data-testid="result">{value}</div>;
     }
 
-    const renderResult = await setupAsync(<TestComponent />);
+    const { getByTestId } = render(<TestComponent />);
 
-    // Check initial value
-    expect(renderResult.getByTestId('flag-value')).toHaveTextContent('A');
-
-    await waitFor(() => {
-      expect(
-        (mockClient.addEvaluationUpdateListener as jest.Mock).mock.calls.length
-      ).toBeGreaterThan(0);
-      expect(mockClient.stringVariation).toHaveBeenCalledWith('flag', 'A');
-    });
-
-    // Simulate flag update
-    await act(async () => {
-      const listener = (mockClient.addEvaluationUpdateListener as jest.Mock)
-        .mock.calls[0][0];
-      listener();
-    });
-
-    // Check updated value
-    expect(renderResult.getByTestId('flag-value')).toHaveTextContent('B');
+    // Verify it extracts just the variationValue, not the full object
+    expect(getByTestId('result')).toHaveTextContent('hello-world');
+    expect(mockUseStringVariationDetails).toHaveBeenCalledWith(
+      'test-flag',
+      'default'
+    );
   });
 
-  it('falls back to default if flag missing', async () => {
-    (mockClient.stringVariation as jest.Mock).mockReturnValue(undefined);
+  it('passes parameters correctly to useStringVariationDetails', () => {
+    const mockEvaluationDetails: BKTEvaluationDetails<string> = {
+      featureId: 'feature-toggle',
+      featureVersion: 0,
+      userId: '',
+      variationId: '',
+      variationName: '',
+      variationValue: 'fallback-value',
+      reason: 'DEFAULT',
+    };
+
+    mockUseStringVariationDetails.mockReturnValue(mockEvaluationDetails);
 
     function TestComponent() {
-      const value = useStringVariation('missing-flag', 'default');
-      return <div data-testid="flag-value">{value}</div>;
+      useStringVariation('feature-toggle', 'my-default');
+      return <div>test</div>;
     }
 
-    const renderResult = await setupAsync(<TestComponent />);
-    expect(renderResult.getByTestId('flag-value')).toHaveTextContent('default');
+    render(<TestComponent />);
 
-    // Ensure the client was called with the correct default value
-    await waitFor(() => {
-      expect(
-        (mockClient.addEvaluationUpdateListener as jest.Mock).mock.calls.length
-      ).toBeGreaterThan(0);
-      expect(mockClient.stringVariation).toHaveBeenCalledWith(
-        'missing-flag',
-        'default'
+    // Verify the wrapper passes the correct parameters to the underlying hook
+    expect(mockUseStringVariationDetails).toHaveBeenCalledWith(
+      'feature-toggle',
+      'my-default'
+    );
+    expect(mockUseStringVariationDetails).toHaveBeenCalledTimes(1);
+  });
+
+  it('returns string type, not evaluation details object', () => {
+    const mockEvaluationDetails: BKTEvaluationDetails<string> = {
+      featureId: 'complex-flag',
+      featureVersion: 5,
+      userId: 'user-123',
+      variationId: 'var-456',
+      variationName: 'Complex Variation',
+      variationValue: 'extracted-string',
+      reason: 'RULE',
+    };
+
+    mockUseStringVariationDetails.mockReturnValue(mockEvaluationDetails);
+
+    function TestComponent() {
+      const value = useStringVariation('complex-flag', 'default');
+      return (
+        <div>
+          <div data-testid="result">{value}</div>
+          <div data-testid="type">{typeof value}</div>
+        </div>
       );
-    });
+    }
 
-    expect(renderResult.getByTestId('flag-value')).toHaveTextContent('default');
+    const { getByTestId } = render(<TestComponent />);
+
+    // Verify it returns simple string, not the complex evaluation object
+    expect(getByTestId('result')).toHaveTextContent('extracted-string');
+    expect(getByTestId('type')).toHaveTextContent('string');
+
+    // Verify it doesn't contain evaluation details properties
+    expect(getByTestId('result')).not.toHaveTextContent('complex-flag');
+    expect(getByTestId('result')).not.toHaveTextContent('Complex Variation');
+    expect(getByTestId('result')).not.toHaveTextContent('RULE');
   });
 });

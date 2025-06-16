@@ -6,8 +6,11 @@ export {
   useBooleanVariation,
   useBooleanVariationDetails,
   useStringVariation,
+  useStringVariationDetails,
   useNumberVariation,
+  useNumberVariationDetails,
   useObjectVariation,
+  useObjectVariationDetails,
   useBucketeerClient,
 } from './hooks/index';
 
