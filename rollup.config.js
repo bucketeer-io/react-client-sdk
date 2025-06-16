@@ -1,6 +1,8 @@
 const resolve = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const typescript = require('@rollup/plugin-typescript');
+const replace = require('@rollup/plugin-replace');
+const pkg = require('./package.json');
 
 module.exports = {
   input: 'src/index.ts',
@@ -17,6 +19,10 @@ module.exports = {
     },
   ],
   plugins: [
+    replace({
+      preventAssignment: true,
+      __BKT_SDK_VERSION__: JSON.stringify(pkg.version),
+    }),
     resolve({
       browser: true,
     }),

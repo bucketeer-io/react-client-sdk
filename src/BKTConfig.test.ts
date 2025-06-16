@@ -1,6 +1,5 @@
 import { defineBKTConfig, type RawBKTConfig } from 'bkt-js-client-sdk';
 import { SOURCE_ID_REACT } from './SourceId';
-import { version } from './version';
 import { defineBKTConfigForReact } from './BKTConfig';
 
 // Mock global fetch before any SDK code runs
@@ -26,7 +25,7 @@ describe('defineBKTConfigForReact', () => {
 
     // React config should have the wrapper SDK fields set correctly
     expect(reactConfig.wrapperSdkSourceId).toBe(SOURCE_ID_REACT);
-    expect(reactConfig.wrapperSdkVersion).toBe(version);
+    expect(reactConfig.wrapperSdkVersion).toBe(__BKT_SDK_VERSION__);
 
     // We use a "spy config" here to ensure our wrapper function does not accidentally
     // remove or alter any fields from the original config. By comparing the output of
@@ -38,7 +37,7 @@ describe('defineBKTConfigForReact', () => {
     const spyConfig = defineBKTConfig({
       ...inputConfig,
       wrapperSdkSourceId: SOURCE_ID_REACT,
-      wrapperSdkVersion: version,
+      wrapperSdkVersion: __BKT_SDK_VERSION__,
     } satisfies RawBKTConfig);
     expect(reactConfig).toEqual(spyConfig);
   });
@@ -68,9 +67,9 @@ describe('defineBKTConfigForReact', () => {
     };
     // Should override with React-specific values
     expect(reactConfig.wrapperSdkSourceId).toBe(SOURCE_ID_REACT);
-    expect(reactConfig.wrapperSdkVersion).toBe(version);
+    expect(reactConfig.wrapperSdkVersion).toBe(__BKT_SDK_VERSION__);
     // Original values should not be present
     expect(sourceId).toBe(SOURCE_ID_REACT);
-    expect(sdkVersion).toBe(version);
+    expect(sdkVersion).toBe(__BKT_SDK_VERSION__);
   });
 });
