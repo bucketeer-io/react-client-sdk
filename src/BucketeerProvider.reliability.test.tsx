@@ -60,14 +60,42 @@ describe('Reliability and Edge Case Tests', () => {
 
     // Create mock client with necessary methods
     mockClient = {
-      booleanVariation: jest.fn().mockReturnValue(true),
-      stringVariation: jest.fn().mockReturnValue('test-value'),
-      numberVariation: jest.fn().mockReturnValue(42),
-      objectVariation: jest.fn().mockReturnValue({ test: 'object' }),
-      booleanVariationDetails: jest.fn(),
-      stringVariationDetails: jest.fn(),
-      numberVariationDetails: jest.fn(),
-      objectVariationDetails: jest.fn(),
+      booleanVariationDetails: jest.fn().mockReturnValue({
+        featureId: 'test-flag',
+        featureVersion: 1,
+        userId: 'user-1',
+        variationId: 'variation-1',
+        variationName: 'Test Variation',
+        variationValue: true,
+        reason: 'RULE',
+      }),
+      stringVariationDetails: jest.fn().mockReturnValue({
+        featureId: 'test-flag',
+        featureVersion: 1,
+        userId: 'user-1',
+        variationId: 'variation-1',
+        variationName: 'Test Variation',
+        variationValue: 'test-value',
+        reason: 'RULE',
+      }),
+      numberVariationDetails: jest.fn().mockReturnValue({
+        featureId: 'test-flag',
+        featureVersion: 1,
+        userId: 'user-1',
+        variationId: 'variation-1',
+        variationName: 'Test Variation',
+        variationValue: 42,
+        reason: 'RULE',
+      }),
+      objectVariationDetails: jest.fn().mockReturnValue({
+        featureId: 'test-flag',
+        featureVersion: 1,
+        userId: 'user-1',
+        variationId: 'variation-1',
+        variationName: 'Test Variation',
+        variationValue: { test: 'object' },
+        reason: 'RULE',
+      }),
       currentUser: jest.fn(),
       updateUserAttributes: jest.fn(),
       addEvaluationUpdateListener: jest
@@ -182,7 +210,15 @@ describe('Reliability and Edge Case Tests', () => {
 
       // Update 1: true -> false
       await act(async () => {
-        (mockClient.booleanVariation as jest.Mock).mockReturnValue(false);
+        (mockClient.booleanVariationDetails as jest.Mock).mockReturnValue({
+          featureId: 'test-flag',
+          featureVersion: 2,
+          userId: 'user-1',
+          variationId: 'variation-2',
+          variationName: 'False Variation',
+          variationValue: false,
+          reason: 'RULE',
+        });
         listener();
       });
       await waitFor(() => {
@@ -191,7 +227,15 @@ describe('Reliability and Edge Case Tests', () => {
 
       // Update 2: false -> true
       await act(async () => {
-        (mockClient.booleanVariation as jest.Mock).mockReturnValue(true);
+        (mockClient.booleanVariationDetails as jest.Mock).mockReturnValue({
+          featureId: 'test-flag',
+          featureVersion: 3,
+          userId: 'user-1',
+          variationId: 'variation-1',
+          variationName: 'True Variation',
+          variationValue: true,
+          reason: 'RULE',
+        });
         listener();
       });
       await waitFor(() => {
@@ -200,7 +244,15 @@ describe('Reliability and Edge Case Tests', () => {
 
       // Update 3: true -> false
       await act(async () => {
-        (mockClient.booleanVariation as jest.Mock).mockReturnValue(false);
+        (mockClient.booleanVariationDetails as jest.Mock).mockReturnValue({
+          featureId: 'test-flag',
+          featureVersion: 4,
+          userId: 'user-1',
+          variationId: 'variation-2',
+          variationName: 'False Variation',
+          variationValue: false,
+          reason: 'RULE',
+        });
         listener();
       });
       await waitFor(() => {
@@ -209,7 +261,15 @@ describe('Reliability and Edge Case Tests', () => {
 
       // Update 4: false -> true (final state)
       await act(async () => {
-        (mockClient.booleanVariation as jest.Mock).mockReturnValue(true);
+        (mockClient.booleanVariationDetails as jest.Mock).mockReturnValue({
+          featureId: 'test-flag',
+          featureVersion: 5,
+          userId: 'user-1',
+          variationId: 'variation-1',
+          variationName: 'True Variation',
+          variationValue: true,
+          reason: 'RULE',
+        });
         listener();
       });
       await waitFor(() => {
@@ -233,7 +293,15 @@ describe('Reliability and Edge Case Tests', () => {
         );
       };
 
-      (mockClient.stringVariation as jest.Mock).mockReturnValue('initial');
+      (mockClient.stringVariationDetails as jest.Mock).mockReturnValue({
+        featureId: 'string-flag',
+        featureVersion: 1,
+        userId: 'user-1',
+        variationId: 'variation-1',
+        variationName: 'Initial String',
+        variationValue: 'initial',
+        reason: 'RULE',
+      });
 
       const { getByTestId } = await act(async () => {
         return render(
@@ -254,8 +322,24 @@ describe('Reliability and Edge Case Tests', () => {
           .mock.calls[0][0];
 
         // Update both flags simultaneously
-        (mockClient.booleanVariation as jest.Mock).mockReturnValue(false);
-        (mockClient.stringVariation as jest.Mock).mockReturnValue('updated');
+        (mockClient.booleanVariationDetails as jest.Mock).mockReturnValue({
+          featureId: 'bool-flag',
+          featureVersion: 2,
+          userId: 'user-1',
+          variationId: 'variation-2',
+          variationName: 'False Variation',
+          variationValue: false,
+          reason: 'RULE',
+        });
+        (mockClient.stringVariationDetails as jest.Mock).mockReturnValue({
+          featureId: 'string-flag',
+          featureVersion: 2,
+          userId: 'user-1',
+          variationId: 'variation-2',
+          variationName: 'Updated String',
+          variationValue: 'updated',
+          reason: 'RULE',
+        });
 
         listener(); // Single listener update affects all flags
       });
@@ -342,7 +426,15 @@ describe('Reliability and Edge Case Tests', () => {
       await act(async () => {
         const listener = (mockClient.addEvaluationUpdateListener as jest.Mock)
           .mock.calls[0][0];
-        (mockClient.booleanVariation as jest.Mock).mockReturnValue(false);
+        (mockClient.booleanVariationDetails as jest.Mock).mockReturnValue({
+          featureId: 'test-flag',
+          featureVersion: 2,
+          userId: 'user-1',
+          variationId: 'variation-2',
+          variationName: 'False Variation',
+          variationValue: false,
+          reason: 'RULE',
+        });
         listener();
       });
 

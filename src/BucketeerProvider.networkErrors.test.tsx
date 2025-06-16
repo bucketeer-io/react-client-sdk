@@ -153,10 +153,6 @@ describe('Network Error Handling and Fallback Logic', () => {
 
       // Create mock client for TimeoutException case
       const mockTimeoutClient = {
-        booleanVariation: jest.fn().mockReturnValue(true),
-        stringVariation: jest.fn().mockReturnValue('test-value'),
-        numberVariation: jest.fn().mockReturnValue(42),
-        objectVariation: jest.fn().mockReturnValue({ test: 'object' }),
         booleanVariationDetails: jest.fn(),
         stringVariationDetails: jest.fn(),
         numberVariationDetails: jest.fn(),
