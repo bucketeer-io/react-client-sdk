@@ -1,12 +1,22 @@
 import React, { useState, useEffect, type JSX } from 'react';
-import {
-  initializeBKTClient,
-  getBKTClient,
-  type BKTClient,
-  type BKTConfig,
-  type BKTUser,
-} from 'bkt-js-client-sdk';
+import { initializeBKTClient, getBKTClient } from 'bkt-js-client-sdk';
+import type { BKTClient, BKTUser, BKTConfig } from 'bkt-js-client-sdk';
 import { BucketeerContext } from './context';
+import { SOURCE_ID_REACT, SOURCE_ID_REACT_NATIVE } from './SourceId';
+
+async function initializeBKTClientForReact(
+  config: BKTConfig,
+  user: BKTUser
+): Promise<void> {
+  if (
+    config.wrapperSdkSourceId === SOURCE_ID_REACT_NATIVE ||
+    config.wrapperSdkSourceId === SOURCE_ID_REACT
+  ) {
+    await initializeBKTClient(config, user);
+  } else {
+    throw new Error('SourceId is not supported');
+  }
+}
 
 interface BucketeerProviderProps {
   config: BKTConfig;
@@ -28,7 +38,7 @@ export function BucketeerProvider({
 
     const init = async () => {
       try {
-        await initializeBKTClient(config, user);
+        await initializeBKTClientForReact(config, user);
       } catch (error) {
         if (error instanceof Error && error.name === 'TimeoutException') {
           // TimeoutException but The BKTClient SDK has been initialized

@@ -13,6 +13,7 @@ export {
   useObjectVariationDetails,
   useBucketeerClient,
 } from './hooks/index';
+export { defineBKTConfigForReact } from './BKTConfig';
 
 // Re-export types from bkt-js-client-sdk for convenience
 export * from 'bkt-js-client-sdk';

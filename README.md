@@ -31,10 +31,10 @@ Wrap your app with the `BucketeerProvider`:
 
 ```tsx
 import React from 'react';
-import { BucketeerProvider } from '@bucketeer/react-client-sdk';
-import { defineBKTConfig, defineBKTUser } from 'bkt-js-client-sdk';
+import { BucketeerProvider, defineBKTConfigForReact } from '@bucketeer/react-client-sdk';
+import { defineBKTUser } from 'bkt-js-client-sdk';
 
-const config = defineBKTConfig({
+const config = defineBKTConfigForReact({
   apiKey: 'your-api-key',
   apiEndpoint: 'https://api.bucketeer.io',
   appVersion: '1.0.0',

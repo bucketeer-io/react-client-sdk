@@ -1,12 +1,16 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { act } from 'react';
-import { hello, BucketeerProvider, BucketeerContext } from './index';
+import {
+  hello,
+  BucketeerProvider,
+  BucketeerContext,
+  defineBKTConfigForReact,
+} from './index';
 import {
   BKTClient,
   BKTConfig,
   BKTUser,
-  defineBKTConfig,
   defineBKTUser,
   getBKTClient,
   initializeBKTClient,
@@ -36,7 +40,7 @@ beforeEach(() => {
     id: 'user-1',
     customAttributes: { foo: 'bar' },
   });
-  mockConfig = defineBKTConfig({
+  mockConfig = defineBKTConfigForReact({
     apiKey: 'test-api-key',
     apiEndpoint: 'http://test-endpoint',
     featureTag: 'test-tag',
@@ -64,6 +68,11 @@ beforeEach(() => {
   // Setup getBKTClient and initializeBKTClient mocks
   (getBKTClient as jest.Mock).mockReturnValue(mockClient);
   (initializeBKTClient as jest.Mock).mockResolvedValue(undefined);
+});
+
+afterEach(() => {
+  (getBKTClient as jest.Mock).mockReset();
+  (initializeBKTClient as jest.Mock).mockReset();
 });
 
 describe('Bucketeer React SDK', () => {

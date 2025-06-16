@@ -5,7 +5,6 @@ import {
   BKTClient,
   BKTConfig,
   BKTUser,
-  defineBKTConfig,
   defineBKTUser,
   getBKTClient,
   initializeBKTClient,
@@ -15,6 +14,7 @@ import {
   useBooleanVariation,
   useStringVariation,
   useBucketeerClient,
+  defineBKTConfigForReact,
 } from '.';
 
 // Mock global fetch before any SDK code runs
@@ -45,7 +45,7 @@ describe('Reliability and Edge Case Tests', () => {
       customAttributes: { foo: 'bar' },
     });
 
-    mockConfig = defineBKTConfig({
+    mockConfig = defineBKTConfigForReact({
       apiKey: 'test-api-key',
       apiEndpoint: 'http://test-endpoint',
       featureTag: 'test-tag',

@@ -5,11 +5,11 @@ import {
   defineBKTUser,
 } from 'bkt-js-client-sdk';
 import React from 'react';
-import { BucketeerProvider } from '../index';
+import { BucketeerProvider, defineBKTConfigForReact } from '../index';
 import { render, act } from '@testing-library/react';
 
 export function createMockConfig(): BKTConfig {
-  return {
+  return defineBKTConfigForReact({
     apiKey: 'test-api-key',
     apiEndpoint: 'http://test-endpoint',
     featureTag: 'test-tag',
@@ -20,7 +20,7 @@ export function createMockConfig(): BKTConfig {
     userAgent: 'test-agent',
     fetch: fetch,
     storageFactory: jest.fn(),
-  } as BKTConfig;
+  });
 }
 
 export function createMockUser(): BKTUser {

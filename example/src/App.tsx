@@ -1,8 +1,8 @@
-import { BucketeerProvider, useBooleanVariation, useStringVariation, useNumberVariation, useObjectVariation, defineBKTConfig, defineBKTUser } from '../../src';
+import { BucketeerProvider, useBooleanVariation, useStringVariation, useNumberVariation, useObjectVariation, defineBKTUser, defineBKTConfigForReact } from '../../src';
 import './App.css';
 
 // Example Bucketeer config and user (replace with your real values)
-const bucketeerConfig = defineBKTConfig({
+const bucketeerConfig = defineBKTConfigForReact({
   apiKey: 'your-api-key', // TODO: Replace with your Bucketeer API key
   apiEndpoint: 'https://your-bucketeer-endpoint', // TODO: Replace with your Bucketeer endpoint
   appVersion: '1.0.0',
