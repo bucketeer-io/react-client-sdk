@@ -20,7 +20,7 @@
 import { render } from '@testing-library/react';
 import { useStringVariation } from './useStringVariation';
 import { useStringVariationDetails } from './useStringVariationDetails';
-import { BKTEvaluationDetails } from 'bkt-js-client-sdk';
+import type { BKTEvaluationDetails } from 'bkt-js-client-sdk';
 
 // Mock the underlying hook directly instead of mocking the client
 jest.mock('./useStringVariationDetails');

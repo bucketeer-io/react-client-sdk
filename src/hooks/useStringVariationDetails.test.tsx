@@ -1,14 +1,14 @@
 /**
  * Tests for useStringVariationDetails hook
- * 
+ *
  * Intent: Test the complete evaluation details functionality for string variations
- * 
+ *
  * Strategy:
- * - Mock client.stringVariationDetails directly 
+ * - Mock client.stringVariationDetails directly
  * - Test complete BKTEvaluationDetails<string> object verification
  * - Test fallback behavior when client is unavailable
  * - Test updates when evaluation changes
- * 
+ *
  * This provides comprehensive coverage of the core string variation details logic.
  */
 
@@ -17,7 +17,7 @@ import { render, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import { BKTClient, useStringVariationDetails } from '../index';
 import { createTestSuite } from './testHelpers';
-import { BKTEvaluationDetails } from 'bkt-js-client-sdk';
+import type { BKTEvaluationDetails } from 'bkt-js-client-sdk';
 
 jest.mock('bkt-js-client-sdk', () => {
   const actual = jest.requireActual('bkt-js-client-sdk');
@@ -88,12 +88,20 @@ describe('useStringVariationDetails', () => {
     const renderResult = await setupAsync(<TestComponent />);
 
     // Check initial evaluation details - verify all properties
-    expect(renderResult.getByTestId('variation-value')).toHaveTextContent('hello');
-    expect(renderResult.getByTestId('feature-id')).toHaveTextContent('string-flag');
+    expect(renderResult.getByTestId('variation-value')).toHaveTextContent(
+      'hello'
+    );
+    expect(renderResult.getByTestId('feature-id')).toHaveTextContent(
+      'string-flag'
+    );
     expect(renderResult.getByTestId('feature-version')).toHaveTextContent('1');
     expect(renderResult.getByTestId('user-id')).toHaveTextContent('test-user');
-    expect(renderResult.getByTestId('variation-id')).toHaveTextContent('variation-1');
-    expect(renderResult.getByTestId('variation-name')).toHaveTextContent('Variation 1');
+    expect(renderResult.getByTestId('variation-id')).toHaveTextContent(
+      'variation-1'
+    );
+    expect(renderResult.getByTestId('variation-name')).toHaveTextContent(
+      'Variation 1'
+    );
     expect(renderResult.getByTestId('reason')).toHaveTextContent('RULE');
 
     // Ensure the client was called with correct parameters
@@ -115,12 +123,20 @@ describe('useStringVariationDetails', () => {
     });
 
     // Check updated evaluation details - verify all properties changed
-    expect(renderResult.getByTestId('variation-value')).toHaveTextContent('world');
-    expect(renderResult.getByTestId('feature-id')).toHaveTextContent('string-flag');
+    expect(renderResult.getByTestId('variation-value')).toHaveTextContent(
+      'world'
+    );
+    expect(renderResult.getByTestId('feature-id')).toHaveTextContent(
+      'string-flag'
+    );
     expect(renderResult.getByTestId('feature-version')).toHaveTextContent('2');
     expect(renderResult.getByTestId('user-id')).toHaveTextContent('test-user');
-    expect(renderResult.getByTestId('variation-id')).toHaveTextContent('variation-2');
-    expect(renderResult.getByTestId('variation-name')).toHaveTextContent('Variation 2');
+    expect(renderResult.getByTestId('variation-id')).toHaveTextContent(
+      'variation-2'
+    );
+    expect(renderResult.getByTestId('variation-name')).toHaveTextContent(
+      'Variation 2'
+    );
     expect(renderResult.getByTestId('reason')).toHaveTextContent('TARGET');
   });
 
@@ -143,10 +159,14 @@ describe('useStringVariationDetails', () => {
     }
 
     const renderResult = await setupAsync(<TestComponent />);
-    
+
     // Check default evaluation details structure - verify all properties
-    expect(renderResult.getByTestId('variation-value')).toHaveTextContent('fallback');
-    expect(renderResult.getByTestId('feature-id')).toHaveTextContent('missing-flag');
+    expect(renderResult.getByTestId('variation-value')).toHaveTextContent(
+      'fallback'
+    );
+    expect(renderResult.getByTestId('feature-id')).toHaveTextContent(
+      'missing-flag'
+    );
     expect(renderResult.getByTestId('feature-version')).toHaveTextContent('0');
     expect(renderResult.getByTestId('user-id')).toHaveTextContent('');
     expect(renderResult.getByTestId('variation-id')).toHaveTextContent('');

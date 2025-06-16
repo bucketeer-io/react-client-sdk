@@ -1,6 +1,6 @@
 import { useContext, useMemo } from 'react';
 import { BucketeerContext } from '../context';
-import { BKTEvaluationDetails } from 'bkt-js-client-sdk';
+import type { BKTEvaluationDetails } from 'bkt-js-client-sdk';
 
 export function useNumberVariationDetails(
   flagId: string,
@@ -10,14 +10,14 @@ export function useNumberVariationDetails(
 
   return useMemo(() => {
     void lastUpdated; // Reference to satisfy ESLint
-    
+
     if (client) {
       const result = client.numberVariationDetails(flagId, defaultValue);
       if (result) {
         return result;
       }
     }
-    
+
     // Fallback when client is null or when client method returns undefined/null
     return {
       featureId: flagId,

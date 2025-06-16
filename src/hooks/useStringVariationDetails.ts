@@ -10,14 +10,14 @@ export function useStringVariationDetails(
 
   return useMemo(() => {
     void lastUpdated; // Reference to satisfy ESLint
-    
+
     if (client) {
       const result = client.stringVariationDetails(flagId, defaultValue);
       if (result) {
         return result;
       }
     }
-    
+
     // Fallback when client is null or when client method returns undefined/null
     return {
       featureId: flagId,

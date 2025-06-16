@@ -3,7 +3,7 @@ import { render, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import { BKTClient, useNumberVariationDetails } from '../index';
 import { createTestSuite } from './testHelpers';
-import { BKTEvaluationDetails } from 'bkt-js-client-sdk';
+import type { BKTEvaluationDetails } from 'bkt-js-client-sdk';
 
 jest.mock('bkt-js-client-sdk', () => {
   const actual = jest.requireActual('bkt-js-client-sdk');
@@ -60,7 +60,9 @@ describe('useNumberVariationDetails', () => {
       const details = useNumberVariationDetails('number-flag', 0);
       return (
         <div>
-          <div data-testid="variation-value">{String(details.variationValue)}</div>
+          <div data-testid="variation-value">
+            {String(details.variationValue)}
+          </div>
           <div data-testid="feature-id">{details.featureId}</div>
           <div data-testid="feature-version">{details.featureVersion}</div>
           <div data-testid="user-id">{details.userId}</div>
@@ -75,11 +77,17 @@ describe('useNumberVariationDetails', () => {
 
     // Check initial evaluation details - verify all properties
     expect(renderResult.getByTestId('variation-value')).toHaveTextContent('42');
-    expect(renderResult.getByTestId('feature-id')).toHaveTextContent('number-flag');
+    expect(renderResult.getByTestId('feature-id')).toHaveTextContent(
+      'number-flag'
+    );
     expect(renderResult.getByTestId('feature-version')).toHaveTextContent('1');
     expect(renderResult.getByTestId('user-id')).toHaveTextContent('test-user');
-    expect(renderResult.getByTestId('variation-id')).toHaveTextContent('variation-1');
-    expect(renderResult.getByTestId('variation-name')).toHaveTextContent('Small Number');
+    expect(renderResult.getByTestId('variation-id')).toHaveTextContent(
+      'variation-1'
+    );
+    expect(renderResult.getByTestId('variation-name')).toHaveTextContent(
+      'Small Number'
+    );
     expect(renderResult.getByTestId('reason')).toHaveTextContent('RULE');
 
     // Ensure the client was called with the correct parameters
@@ -101,12 +109,20 @@ describe('useNumberVariationDetails', () => {
     });
 
     // Check updated evaluation details - verify all properties changed
-    expect(renderResult.getByTestId('variation-value')).toHaveTextContent('1000');
-    expect(renderResult.getByTestId('feature-id')).toHaveTextContent('number-flag');
+    expect(renderResult.getByTestId('variation-value')).toHaveTextContent(
+      '1000'
+    );
+    expect(renderResult.getByTestId('feature-id')).toHaveTextContent(
+      'number-flag'
+    );
     expect(renderResult.getByTestId('feature-version')).toHaveTextContent('2');
     expect(renderResult.getByTestId('user-id')).toHaveTextContent('test-user');
-    expect(renderResult.getByTestId('variation-id')).toHaveTextContent('variation-2');
-    expect(renderResult.getByTestId('variation-name')).toHaveTextContent('Large Number');
+    expect(renderResult.getByTestId('variation-id')).toHaveTextContent(
+      'variation-2'
+    );
+    expect(renderResult.getByTestId('variation-name')).toHaveTextContent(
+      'Large Number'
+    );
     expect(renderResult.getByTestId('reason')).toHaveTextContent('TARGET');
   });
 
@@ -117,7 +133,9 @@ describe('useNumberVariationDetails', () => {
       const details = useNumberVariationDetails('missing-number-flag', 99);
       return (
         <div>
-          <div data-testid="variation-value">{String(details.variationValue)}</div>
+          <div data-testid="variation-value">
+            {String(details.variationValue)}
+          </div>
           <div data-testid="feature-id">{details.featureId}</div>
           <div data-testid="feature-version">{details.featureVersion}</div>
           <div data-testid="user-id">{details.userId}</div>
@@ -129,10 +147,12 @@ describe('useNumberVariationDetails', () => {
     }
 
     const renderResult = await setupAsync(<TestComponent />);
-    
+
     // Check default evaluation details structure - verify all properties
     expect(renderResult.getByTestId('variation-value')).toHaveTextContent('99');
-    expect(renderResult.getByTestId('feature-id')).toHaveTextContent('missing-number-flag');
+    expect(renderResult.getByTestId('feature-id')).toHaveTextContent(
+      'missing-number-flag'
+    );
     expect(renderResult.getByTestId('feature-version')).toHaveTextContent('0');
     expect(renderResult.getByTestId('user-id')).toHaveTextContent('');
     expect(renderResult.getByTestId('variation-id')).toHaveTextContent('');

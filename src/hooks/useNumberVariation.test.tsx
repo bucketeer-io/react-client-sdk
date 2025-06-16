@@ -20,7 +20,7 @@
 import { render } from '@testing-library/react';
 import { useNumberVariation } from './useNumberVariation';
 import { useNumberVariationDetails } from './useNumberVariationDetails';
-import { BKTEvaluationDetails } from 'bkt-js-client-sdk';
+import type { BKTEvaluationDetails } from 'bkt-js-client-sdk';
 
 // Mock the underlying hook directly instead of mocking the client
 jest.mock('./useNumberVariationDetails');
@@ -122,7 +122,9 @@ describe('useNumberVariation', () => {
 
     // Verify it doesn't contain evaluation details properties
     expect(getByTestId('result')).not.toHaveTextContent('complex-number-flag');
-    expect(getByTestId('result')).not.toHaveTextContent('Complex Number Variation');
+    expect(getByTestId('result')).not.toHaveTextContent(
+      'Complex Number Variation'
+    );
     expect(getByTestId('result')).not.toHaveTextContent('RULE');
   });
 });

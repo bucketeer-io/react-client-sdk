@@ -19,7 +19,7 @@ import { render, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import { BKTClient, useObjectVariationDetails } from '../index';
 import { createTestSuite } from './testHelpers';
-import { BKTEvaluationDetails } from 'bkt-js-client-sdk';
+import type { BKTEvaluationDetails } from 'bkt-js-client-sdk';
 
 jest.mock('bkt-js-client-sdk', () => {
   const actual = jest.requireActual('bkt-js-client-sdk');
@@ -76,11 +76,16 @@ describe('useObjectVariationDetails', () => {
       .mockReturnValueOnce(updatedEvaluation);
 
     function TestComponent() {
-      const defaultConfig = React.useMemo(() => ({ theme: 'default', size: 'medium', count: 0 }), []);
+      const defaultConfig = React.useMemo(
+        () => ({ theme: 'default', size: 'medium', count: 0 }),
+        []
+      );
       const details = useObjectVariationDetails('object-flag', defaultConfig);
       return (
         <div>
-          <div data-testid="variation-value">{JSON.stringify(details.variationValue)}</div>
+          <div data-testid="variation-value">
+            {JSON.stringify(details.variationValue)}
+          </div>
           <div data-testid="feature-id">{details.featureId}</div>
           <div data-testid="feature-version">{details.featureVersion}</div>
           <div data-testid="user-id">{details.userId}</div>
@@ -94,12 +99,20 @@ describe('useObjectVariationDetails', () => {
     const renderResult = await setupAsync(<TestComponent />);
 
     // Check initial evaluation details - verify all properties
-    expect(renderResult.getByTestId('variation-value')).toHaveTextContent(JSON.stringify(initialConfig));
-    expect(renderResult.getByTestId('feature-id')).toHaveTextContent('object-flag');
+    expect(renderResult.getByTestId('variation-value')).toHaveTextContent(
+      JSON.stringify(initialConfig)
+    );
+    expect(renderResult.getByTestId('feature-id')).toHaveTextContent(
+      'object-flag'
+    );
     expect(renderResult.getByTestId('feature-version')).toHaveTextContent('1');
     expect(renderResult.getByTestId('user-id')).toHaveTextContent('test-user');
-    expect(renderResult.getByTestId('variation-id')).toHaveTextContent('variation-1');
-    expect(renderResult.getByTestId('variation-name')).toHaveTextContent('Dark Theme Config');
+    expect(renderResult.getByTestId('variation-id')).toHaveTextContent(
+      'variation-1'
+    );
+    expect(renderResult.getByTestId('variation-name')).toHaveTextContent(
+      'Dark Theme Config'
+    );
     expect(renderResult.getByTestId('reason')).toHaveTextContent('RULE');
 
     // Ensure the client was called with the correct parameters
@@ -121,12 +134,20 @@ describe('useObjectVariationDetails', () => {
     });
 
     // Check updated evaluation details - verify all properties changed
-    expect(renderResult.getByTestId('variation-value')).toHaveTextContent(JSON.stringify(updatedConfig));
-    expect(renderResult.getByTestId('feature-id')).toHaveTextContent('object-flag');
+    expect(renderResult.getByTestId('variation-value')).toHaveTextContent(
+      JSON.stringify(updatedConfig)
+    );
+    expect(renderResult.getByTestId('feature-id')).toHaveTextContent(
+      'object-flag'
+    );
     expect(renderResult.getByTestId('feature-version')).toHaveTextContent('2');
     expect(renderResult.getByTestId('user-id')).toHaveTextContent('test-user');
-    expect(renderResult.getByTestId('variation-id')).toHaveTextContent('variation-2');
-    expect(renderResult.getByTestId('variation-name')).toHaveTextContent('Light Theme Config');
+    expect(renderResult.getByTestId('variation-id')).toHaveTextContent(
+      'variation-2'
+    );
+    expect(renderResult.getByTestId('variation-name')).toHaveTextContent(
+      'Light Theme Config'
+    );
     expect(renderResult.getByTestId('reason')).toHaveTextContent('TARGET');
   });
 
@@ -134,11 +155,19 @@ describe('useObjectVariationDetails', () => {
     (mockClient.objectVariationDetails as jest.Mock).mockReturnValue(undefined);
 
     function TestComponent() {
-      const defaultSettings = React.useMemo(() => ({ enabled: true, level: 'info' }), []);
-      const details = useObjectVariationDetails('missing-object-flag', defaultSettings);
+      const defaultSettings = React.useMemo(
+        () => ({ enabled: true, level: 'info' }),
+        []
+      );
+      const details = useObjectVariationDetails(
+        'missing-object-flag',
+        defaultSettings
+      );
       return (
         <div>
-          <div data-testid="variation-value">{JSON.stringify(details.variationValue)}</div>
+          <div data-testid="variation-value">
+            {JSON.stringify(details.variationValue)}
+          </div>
           <div data-testid="feature-id">{details.featureId}</div>
           <div data-testid="feature-version">{details.featureVersion}</div>
           <div data-testid="user-id">{details.userId}</div>
@@ -150,10 +179,14 @@ describe('useObjectVariationDetails', () => {
     }
 
     const renderResult = await setupAsync(<TestComponent />);
-    
+
     // Check default evaluation details structure - verify all properties
-    expect(renderResult.getByTestId('variation-value')).toHaveTextContent(JSON.stringify({ enabled: true, level: 'info' }));
-    expect(renderResult.getByTestId('feature-id')).toHaveTextContent('missing-object-flag');
+    expect(renderResult.getByTestId('variation-value')).toHaveTextContent(
+      JSON.stringify({ enabled: true, level: 'info' })
+    );
+    expect(renderResult.getByTestId('feature-id')).toHaveTextContent(
+      'missing-object-flag'
+    );
     expect(renderResult.getByTestId('feature-version')).toHaveTextContent('0');
     expect(renderResult.getByTestId('user-id')).toHaveTextContent('');
     expect(renderResult.getByTestId('variation-id')).toHaveTextContent('');

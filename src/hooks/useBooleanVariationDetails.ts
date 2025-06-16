@@ -1,6 +1,6 @@
 import { useContext, useMemo } from 'react';
 import { BucketeerContext } from '../context';
-import { BKTEvaluationDetails } from 'bkt-js-client-sdk';
+import type { BKTEvaluationDetails } from 'bkt-js-client-sdk';
 
 export function useBooleanVariationDetails(
   flagId: string,
