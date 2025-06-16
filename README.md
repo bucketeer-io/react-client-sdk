@@ -67,6 +67,10 @@ import {
   useStringVariation,
   useNumberVariation,
   useObjectVariation,
+  useBooleanVariationDetails,
+  useStringVariationDetails,
+  useNumberVariationDetails,
+  useObjectVariationDetails,
   useBucketeerClient,
 } from '@bucketeer/react-client-sdk';
 
@@ -83,6 +87,12 @@ function MyComponent() {
   // JSON feature flag
   const config = useObjectVariation('app-config', { timeout: 5000 });
   
+  // Feature flag with detailed evaluation information
+  const featureDetails = useBooleanVariationDetails('advanced-feature', false);
+  console.log('Feature ID:', featureDetails.featureId);
+  console.log('Variation ID:', featureDetails.variationId);
+  console.log('Reason:', featureDetails.reason);
+  
   // Access client for advanced operations
   const { client, updateUserAttributes } = useBucketeerClient();
   
@@ -96,9 +106,11 @@ function MyComponent() {
   return (
     <div>
       {showNewFeature && <NewFeature />}
+      {featureDetails.variationValue && <AdvancedFeature />}
       <div>Theme: {theme}</div>
       <div>Max items: {maxItems}</div>
       <div>Timeout: {config.timeout}ms</div>
+      <div>Feature reason: {featureDetails.reason}</div>
       <button onClick={handleUpdateUser}>Update User</button>
     </div>
   );
@@ -162,6 +174,55 @@ Returns a JSON/object feature flag value with type safety. Uses the modern `obje
 
 **Note:** The generic type `T` must extend `BKTValue` (which includes objects, arrays, and primitive values).
 
+#### `useBooleanVariationDetails(flagId, defaultValue)`
+
+Returns a boolean feature flag value along with detailed evaluation information.
+
+**Parameters:**
+- `flagId`: string - The feature flag identifier
+- `defaultValue`: boolean - Default value if flag is not available
+
+**Returns:** `BKTEvaluationDetails<boolean>` - Object containing:
+- `variationValue`: boolean - The feature flag value
+- `featureId`: string - The feature flag identifier
+- `featureVersion`: number - Version of the feature flag
+- `userId`: string - User ID used for evaluation
+- `variationId`: string - ID of the variation returned
+- `variationName`: string - Name of the variation
+- `reason`: string - Reason for the evaluation result
+
+#### `useStringVariationDetails(flagId, defaultValue)`
+
+Returns a string feature flag value along with detailed evaluation information.
+
+**Parameters:**
+- `flagId`: string - The feature flag identifier
+- `defaultValue`: string - Default value if flag is not available
+
+**Returns:** `BKTEvaluationDetails<string>`
+
+#### `useNumberVariationDetails(flagId, defaultValue)`
+
+Returns a number feature flag value along with detailed evaluation information.
+
+**Parameters:**
+- `flagId`: string - The feature flag identifier
+- `defaultValue`: number - Default value if flag is not available
+
+**Returns:** `BKTEvaluationDetails<number>`
+
+#### `useObjectVariationDetails<T>(flagId, defaultValue)`
+
+Returns a JSON/object feature flag value along with detailed evaluation information.
+
+**Parameters:**
+- `flagId`: string - The feature flag identifier
+- `defaultValue`: T - Default value if flag is not available
+
+**Returns:** `BKTEvaluationDetails<T>`
+
+**Note:** The generic type `T` must extend `BKTValue`.
+
 #### `useBucketeerClient()`
 
 Returns the Bucketeer client instance and utility functions.
@@ -178,6 +239,7 @@ The following types are re-exported from `bkt-js-client-sdk` for convenience:
 - `BKTUser` - User information object
 - `BKTClient` - Bucketeer client instance
 - `BKTValue` - Valid feature flag value types
+- `BKTEvaluationDetails<T>` - Detailed evaluation information for feature flags
 - `defineBKTConfig` - Helper to create configuration
 - `defineBKTUser` - Helper to create user objects
 
