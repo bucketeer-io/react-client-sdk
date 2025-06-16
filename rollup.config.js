@@ -22,6 +22,7 @@ module.exports = {
     replace({
       preventAssignment: true,
       __BKT_SDK_VERSION__: JSON.stringify(pkg.version),
+      delimiters: ['\\${', '}'],
     }),
     resolve({
       browser: true,
