@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       bkt-js-client-sdk:
-        specifier: 2.2.9
-        version: 2.2.9
+        specifier: 2.2.13
+        version: 2.2.13
     devDependencies:
       '@rollup/plugin-commonjs':
         specifier: ^25.0.8
@@ -1193,8 +1193,8 @@ packages:
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
-  bkt-js-client-sdk@2.2.9:
-    resolution: {integrity: sha512-/WLqgyZoBwEITTbT6259XJXSuMPX1LO58hCq9/wfh2NHt1qkEPnnosfNT0EFd4V9ww6PRd6f0laJHqtOTp3vxg==}
+  bkt-js-client-sdk@2.2.13:
+    resolution: {integrity: sha512-v0IzhxNBFejf1eAL5JzF7BjuMzD35lh5YnHZ9s8T4+q854gxE26hQyGSk8XJVkG1QEJPUid3DnfbmADtSIryYw==}
 
   brace-expansion@1.1.12:
     resolution: {integrity: sha512-9T9UjW3r0UW5c1Q7GTwllptXwhvYmEzFhzMfZ9H7FQWt+uZePjZPjBP/W1ZEyZ1twGWom5/56TF4lPcqjnDHcg==}
@@ -4277,7 +4277,7 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
-  bkt-js-client-sdk@2.2.9: {}
+  bkt-js-client-sdk@2.2.13: {}
 
   brace-expansion@1.1.12:
     dependencies:
