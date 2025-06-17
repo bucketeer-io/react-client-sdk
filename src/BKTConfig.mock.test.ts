@@ -42,6 +42,7 @@ describe('defineBKTConfigForReact (mocked defineBKTConfig)', () => {
         ...inputConfig,
         wrapperSdkSourceId: SOURCE_ID_REACT,
         wrapperSdkVersion: SDK_VERSION,
+        userAgent: `Bucketeer React SDK(${SDK_VERSION})`,
       })
     );
   });

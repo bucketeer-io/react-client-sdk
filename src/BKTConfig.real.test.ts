@@ -33,6 +33,7 @@ describe('defineBKTConfigForReact (real implementation)', () => {
     };
     expect(reactConfig.wrapperSdkSourceId).toBe(SOURCE_ID_REACT);
     expect(reactConfig.wrapperSdkVersion).toBe(SDK_VERSION);
+    expect(reactConfig.userAgent).toBe(`Bucketeer React SDK(${SDK_VERSION})`);
     expect(sourceId).toBe(SOURCE_ID_REACT);
     expect(sdkVersion).toBe(SDK_VERSION);
   });

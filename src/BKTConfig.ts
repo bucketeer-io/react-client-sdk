@@ -8,6 +8,7 @@ function defineBKTConfigForReact(config: RawBKTConfig): BKTConfig {
     ...config,
     wrapperSdkSourceId: SOURCE_ID_REACT,
     wrapperSdkVersion: SDK_VERSION,
+    userAgent: `Bucketeer React SDK(${SDK_VERSION})`,
   } satisfies RawBKTConfig);
 }
 
