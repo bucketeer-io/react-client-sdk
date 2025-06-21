@@ -6,6 +6,8 @@
 import { SOURCE_ID_REACT } from './SourceId';
 import { SDK_VERSION } from './version';
 
+(globalThis as unknown as { fetch: jest.Mock }).fetch = jest.fn();
+
 afterEach(() => {
   jest.resetModules();
   jest.clearAllMocks();
