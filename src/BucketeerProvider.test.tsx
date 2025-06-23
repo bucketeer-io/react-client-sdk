@@ -12,6 +12,7 @@ import {
   BKTConfig,
   BKTUser,
   defineBKTUser,
+  destroyBKTClient,
   getBKTClient,
   initializeBKTClient,
 } from 'bkt-js-client-sdk';
@@ -118,7 +119,10 @@ describe('Bucketeer React SDK', () => {
       // The context should be defined and have expected shape
       expect(contextValue).toHaveProperty('client');
       expect(contextValue).toHaveProperty('lastUpdated');
+      // destroyBKTClient should have been called to clear any previous client
+      expect(destroyBKTClient).toHaveBeenCalledTimes(1);
     });
+
     it('handles invalid config gracefully', async () => {
       // Simulate initializeBKTClient throwing an error
       (initializeBKTClient as jest.Mock).mockRejectedValueOnce(
@@ -148,6 +152,7 @@ describe('Bucketeer React SDK', () => {
       expect((contextValue as { client: unknown }).client).toBeNull();
       errorSpy.mockRestore();
     });
+
     it('handles invalid user gracefully', async () => {
       (initializeBKTClient as jest.Mock).mockRejectedValueOnce(
         new Error('Invalid user')
@@ -175,6 +180,7 @@ describe('Bucketeer React SDK', () => {
       expect((contextValue as { client: unknown }).client).toBeNull();
       errorSpy.mockRestore();
     });
+
     it('should handle slow initializeBKTClient (500ms delay) gracefully', async () => {
       jest.useFakeTimers();
       (initializeBKTClient as jest.Mock).mockImplementation(
@@ -202,6 +208,28 @@ describe('Bucketeer React SDK', () => {
       // After timers, client should be set
       expect((contextValue as { client: unknown }).client).toBe(mockClient);
       jest.useRealTimers();
+    });
+
+    it('should throw error when nested BucketeerProvider', async () => {
+      function Consumer() {
+        return null;
+      }
+      try {
+        await act(async () => {
+          render(
+            <BucketeerProvider config={mockConfig} user={mockUser}>
+              <BucketeerProvider config={mockConfig} user={mockUser}>
+                <Consumer />
+              </BucketeerProvider>
+            </BucketeerProvider>
+          );
+        });
+      } catch (error) {
+        expect(error).toBeInstanceOf(Error);
+        expect((error as Error).message).toBe(
+          'Nested BucketeerProvider is not supported. BucketeerProvider should not be used inside another BucketeerProvider'
+        );
+      }
     });
   });
 });
