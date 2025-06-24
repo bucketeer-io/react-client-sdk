@@ -1,6 +1,14 @@
-# @bucketeer/react-client-sdk
+# Bucketeer - React SDK for a web clients
 
-A React SDK for Bucketeer feature flags, providing React hooks and components for easy integration. Built on top of the `bkt-js-client-sdk`.
+This SDK enables seamless access to your feature flags in React applications using [Bucketeer](https://bucketeer.io/). It provides intuitive React hooks and components for easy integration, and is built on top of the robust `@bucketeer/js-client-sdk`.
+
+[Bucketeer](https://bucketeer.io) is an open-source platform created by [CyberAgent](https://www.cyberagent.co.jp/en/) to help teams make better decisions, reduce deployment lead time and release risk through feature flags. Bucketeer offers advanced features like dark launches and staged rollouts that perform limited releases based on user attributes, devices, and other segments.
+
+> [!WARNING]
+> This is a beta version. Breaking changes may be introduced before general release.
+
+For documentation related to flags management in Bucketeer, refer to the [Bucketeer documentation website](https://docs.bucketeer.io/sdk/client-side/javascript).
+
 
 ## Features
 
@@ -12,33 +20,45 @@ A React SDK for Bucketeer feature flags, providing React hooks and components fo
 - 📦 Tree-shakeable and lightweight
 
 ## Installation
+### PNPM
+```bash
+pnpm add @bucketeer/react-client-sdk
+```
 
+### NPM
 ```bash
 npm install @bucketeer/react-client-sdk
 ```
 
-or with yarn:
-
+#### Yarn
 ```bash
 yarn add @bucketeer/react-client-sdk
-```
 
 ## Usage
 
-### Basic Setup
+### Initialization
 
-Wrap your app with the `BucketeerProvider`:
+Initialize the Bucketeer client and provide it to your app using the `BucketeerProvider`:
+
+> Use `defineBKTConfigForReact` to create your config and `defineBKTUser` to create a user and initializing the client using `initializeBKTClient`
 
 ```tsx
-import React from 'react';
-import { BucketeerProvider, defineBKTConfigForReact } from '@bucketeer/react-client-sdk';
-import { defineBKTUser } from 'bkt-js-client-sdk';
+import React, { useEffect, useState } from 'react';
+import {
+  BucketeerProvider,
+  defineBKTConfigForReact,
+  defineBKTUser,
+  initializeBKTClient,
+  getBKTClient,
+  destroyBKTClient,
+  type BKTClient,
+} from '@bucketeer/react-client-sdk';
 
 const config = defineBKTConfigForReact({
   apiKey: 'your-api-key',
   apiEndpoint: 'https://api.bucketeer.io',
   appVersion: '1.0.0',
-  featureTag: 'mobile',
+  featureTag: 'web',
 });
 
 const user = defineBKTUser({
@@ -50,13 +70,44 @@ const user = defineBKTUser({
 });
 
 export default function App() {
+  const [client, setClient] = useState<BKTClient | null>(null);
+  useEffect(() => {
+    const init = async () => {
+      try {
+        await initializeBKTClient(config, user);
+      } catch (error) {
+        if (error instanceof Error && error.name === 'TimeoutException') {
+          // TimeoutException but The BKTClient SDK has been initialized
+          console.warn('Bucketeer client initialization timed out, but client is already initialized.');
+        } else {
+          console.error('Failed to initialize Bucketeer client:', error);
+          return;
+        }
+      }
+      try {
+        const bktClient = getBKTClient()!;
+        setClient(bktClient);
+      } catch (error) {
+        console.error('Failed to initialize Bucketeer client:', error);
+      }
+    };
+    init();
+    return () => {
+      destroyBKTClient();
+    };
+  }, []);
+  if (!client) {
+    return <div>Loading Bucketeer client...</div>;
+  }
   return (
-    <BucketeerProvider config={config} user={user}>
+    <BucketeerProvider client={client}>
       <YourAppContent />
     </BucketeerProvider>
   );
 }
 ```
+
+> If you see a `TimeoutException` error during initialization, it means the Bucketeer client has already been initialized successfully. This error is safe to ignore and does not affect the client’s functionality.
 
 ### Using Feature Flag Hooks
 
@@ -77,32 +128,22 @@ import {
 function MyComponent() {
   // Boolean feature flag
   const showNewFeature = useBooleanVariation('show-new-feature', false);
-  
   // String feature flag
   const theme = useStringVariation('app-theme', 'light');
-  
   // Number feature flag
   const maxItems = useNumberVariation('max-items', 10);
-  
   // JSON feature flag
   const config = useObjectVariation('app-config', { timeout: 5000 });
-  
   // Feature flag with detailed evaluation information
   const featureDetails = useBooleanVariationDetails('advanced-feature', false);
-  console.log('Feature ID:', featureDetails.featureId);
-  console.log('Variation ID:', featureDetails.variationId);
-  console.log('Reason:', featureDetails.reason);
-  
   // Access client for advanced operations
   const { client, updateUserAttributes } = useBucketeerClient();
-  
   const handleUpdateUser = () => {
     updateUserAttributes({
       plan: 'premium',
       region: 'us-west',
     });
   };
-
   return (
     <div>
       {showNewFeature && <NewFeature />}
@@ -123,12 +164,23 @@ function MyComponent() {
 
 #### `BucketeerProvider`
 
-Provides Bucketeer context to child components.
+Provides `BucketeerContext` to child components.
 
 **Props:**
-- `config`: BKTConfig - Bucketeer configuration
-- `user`: BKTUser - User information  
-- `children`: ReactNode - Child components
+- `client`: BKTClient - Bucketeer client instance
+- `children`: ReactNode - Child components - The components that will have access to the Bucketeer context
+
+```tsx
+  <BucketeerProvider client={client}>
+    // Put your app content here
+    <YourAppContent />
+  </BucketeerProvider>
+```
+
+- In side your components, you can access the Bucketeer client and last updated time using the `useContext` hook:
+```tsx
+const { client, lastUpdated } = useContext(BucketeerContext);
+```
 
 ### Hooks
 
@@ -223,17 +275,9 @@ Returns a JSON/object feature flag value along with detailed evaluation informat
 
 **Note:** The generic type `T` must extend `BKTValue`.
 
-#### `useBucketeerClient()`
-
-Returns the Bucketeer client instance and utility functions.
-
-**Returns:**
-- `client`: BKTClient | null - The Bucketeer client instance
-- `updateUserAttributes`: Function to update user attributes
-
 ## Re-exported Types
 
-The following types are re-exported from `bkt-js-client-sdk` for convenience:
+The React SDK re-exports several types from the `bkt-js-client-sdk` for convenience. Examples include:
 
 - `BKTConfig` - Bucketeer configuration object
 - `BKTUser` - User information object
@@ -243,113 +287,68 @@ The following types are re-exported from `bkt-js-client-sdk` for convenience:
 - `defineBKTConfig` - Helper to create configuration
 - `defineBKTUser` - Helper to create user objects
 
-## Running the Example
-
-To see the SDK in action, you can run the included example:
-
-```bash
-# Build the SDK
-yarn build
-
-# Start the example app
-yarn example:start
+Without the `BucketeerContext`, you can still access the Bucketeer client using the JS SDK methods:
+```tsx
+import { getBKTClient } from '@bucketeer/react-client-sdk';
+const client = getBKTClient();
 ```
 
-The example will be available at `http://localhost:3000`.
+For full JS API reference, see the [Bucketeer documentation website](https://docs.bucketeer.io/sdk/client-side/javascript).
 
 ## Development
-
-### 🛠️ VS Code Setup (Yarn PnP)
-
-This project uses **Yarn 4.x with PnP (Plug'n'Play)** for better performance and reliability. VS Code requires special configuration to work properly with PnP.
-
-#### **Why Yarn PnP?**
-
-**🚀 Key Benefits:**
-- **Faster installs**: 5-15s vs 30-60s (no file copying, just resolution maps)
-- **Disk space efficient**: Dependencies shared globally across projects
-- **Stricter dependencies**: Prevents phantom dependency bugs
-- **Faster CI/CD**: Dramatically reduces build times
-- **Better performance**: Direct module resolution vs directory tree walking
-- **Cleaner repos**: No massive `node_modules` directories
-
-#### **IDE Setup (Required for IntelliSense)**
-
-If you see these issues in your editor:
-- ❌ "Cannot find module 'bkt-js-client-sdk'" errors
-- ❌ "Cannot find name 'describe', 'it', 'expect'" in test files
-- ❌ Missing auto-imports and IntelliSense
-
-#### **VS Code Setup**
-
-1. **Install the ZipFS extension** (maintained by Yarn team):
-   ```
-   Extension ID: arcanis.vscode-zipfs
-   ```
-
-2. **Generate VS Code SDK configuration**:
-   ```bash
-   yarn dlx @yarnpkg/sdks vscode
-   ```
-
-3. **Activate workspace TypeScript** (required for safety):
-   - Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on Mac) in any TypeScript file
-   - Choose "Select TypeScript Version"
-   - Pick "Use Workspace Version"
-
-4. **Restart VS Code completely**
-
-#### **Other IDEs**
-
-For **WebStorm**, **Vim**, **Neovim**, **Emacs**, and other editors:
-
-```bash
-# Generate SDKs for your specific editor
-yarn dlx @yarnpkg/sdks vim
-yarn dlx @yarnpkg/sdks base  # For generic editors
-```
-
-✅ **After setup**: Full IntelliSense, auto-imports, and dependency resolution should work perfectly.
-
-**📚 Complete Setup Guide**: [Yarn Editor SDKs Documentation](https://yarnpkg.com/getting-started/editor-sdks#editor-setup)
 
 ### Setup
 
 ```bash
 # Install dependencies
-yarn install
+pnpm install
 
 # Run tests
-yarn test
+pnpm test
 
 # Run tests with coverage
-yarn test:coverage
+pnpm test:coverage
 
 # Build the library
-yarn build
+pnpm build
 
 # Lint code
-yarn lint
+pnpm lint
 
 # Format code
-yarn format
+pnpm format
 
 # Type check
-yarn type-check
+pnpm type-check
 ```
 
 ### Scripts
 
-- `yarn build` - Build the library for production
-- `yarn dev` - Build in watch mode
-- `yarn test` - Run tests
-- `yarn test:watch` - Run tests in watch mode
-- `yarn test:coverage` - Run tests with coverage report
-- `yarn lint` - Lint and fix code
-- `yarn lint:check` - Check linting without fixing
-- `yarn format` - Format code with Prettier
-- `yarn format:check` - Check formatting without fixing
-- `yarn type-check` - Run TypeScript type checking
+- `pnpm build` - Build the library for production
+- `pnpm dev` - Build in watch mode
+- `pnpm test` - Run tests
+- `pnpm test:watch` - Run tests in watch mode
+- `pnpm test:coverage` - Run tests with coverage report
+- `pnpm lint` - Lint and fix code
+- `pnpm lint:check` - Check linting without fixing
+- `pnpm format` - Format code with Prettier
+- `pnpm format:check` - Check formatting without fixing
+- `pnpm type-check` - Run TypeScript type checking
+
+### Running the Example
+
+To see the SDK in action, you can run the included example:
+
+- Put the client API key and endpoint in the `example/.env`
+- Build the SDK
+```bash
+pnpm build
+```
+
+- Start the example app
+```bash
+pnpm example:start
+```
 
 ## Dependencies
 
