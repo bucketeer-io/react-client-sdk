@@ -114,7 +114,6 @@ import {
   useStringVariationDetails,
   useNumberVariationDetails,
   useObjectVariationDetails,
-  useBucketeerClient,
 } from '@bucketeer/react-client-sdk';
 
 function MyComponent() {
@@ -129,9 +128,9 @@ function MyComponent() {
   // Feature flag with detailed evaluation information
   const featureDetails = useBooleanVariationDetails('advanced-feature', false);
   // Access client for advanced operations
-  const { client, updateUserAttributes } = useBucketeerClient();
+  const { client } = useContext(BucketeerContext);
   const handleUpdateUser = () => {
-    updateUserAttributes({
+    client.updateUserAttributes({
       plan: 'premium',
       region: 'us-west',
     });

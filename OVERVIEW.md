@@ -23,7 +23,7 @@ The SDK follows React's context pattern and hooks architecture:
 │   • useStringVariation  │
 │   • useNumberVariation  │
 │   • useObjectVariation  │
-│   • useBucketeerClient  │
+│   • ...  │
 └─────────────────────────┘
 ```
 
@@ -143,11 +143,11 @@ function ComponentB() {
 ```tsx
 // Simple, intuitive API
 function FeatureComponent() {
-  const { updateUserAttributes } = useBucketeerClient();
+  const { client } = useContext(BucketeerContext);
   const showPremium = useBooleanVariation('premium-ui', false);
   
   const handleUpgrade = () => {
-    updateUserAttributes({ plan: 'premium' });
+    client.updateUserAttributes({ plan: 'premium' });
     // Flags automatically update based on new user attributes
   };
   

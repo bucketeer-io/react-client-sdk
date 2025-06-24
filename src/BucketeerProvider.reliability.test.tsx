@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import {
@@ -9,8 +9,8 @@ import {
 import {
   useBooleanVariation,
   useStringVariation,
-  useBucketeerClient,
   BucketeerProvider,
+  BucketeerContext,
 } from '.';
 
 // Mock global fetch before any SDK code runs
@@ -87,7 +87,7 @@ describe('Reliability and Edge Case Tests', () => {
   describe('Memory Leak Prevention', () => {
     it('cleans up listeners on unmount to prevent memory leaks', async () => {
       const TestComponent = () => {
-        const { client } = useBucketeerClient();
+        const { client } = useContext(BucketeerContext);
         return <div data-testid="client">{client ? 'ready' : 'loading'}</div>;
       };
 
@@ -397,7 +397,7 @@ describe('Reliability and Edge Case Tests', () => {
         .mockImplementation(() => {});
 
       const TestComponent = () => {
-        const { client } = useBucketeerClient();
+        const { client } = useContext(BucketeerContext);
         return <div data-testid="client">{client ? 'ready' : 'loading'}</div>;
       };
 
