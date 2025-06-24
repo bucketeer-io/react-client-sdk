@@ -20,7 +20,7 @@
     "format:check": "prettier --check src/**/*.{ts,tsx}",
     "type-check": "tsc --noEmit",
     "prepare": "pnpm build",
-    "example:start": "cd example && pnpm start",
+    "example:start": "cd example && pnpm dev",
     "example:build": "cd example && pnpm build",
     "publish-npm": "pnpm build && pnpm publish --access public"
   },

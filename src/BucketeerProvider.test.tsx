@@ -1,5 +1,5 @@
-import React from 'react';
-import { render } from '@testing-library/react';
+import React, { useContext } from 'react';
+import { render, renderHook } from '@testing-library/react';
 import { act } from 'react';
 import {
   hello,
@@ -16,6 +16,7 @@ import {
   getBKTClient,
   initializeBKTClient,
 } from 'bkt-js-client-sdk';
+import { BucketeerProvider2 } from './BucketeerProvider';
 
 // Mock global fetch before any SDK code runs
 (globalThis as unknown as { fetch: jest.Mock }).fetch = jest.fn();
@@ -230,6 +231,22 @@ describe('Bucketeer React SDK', () => {
           'Nested BucketeerProvider is not supported. BucketeerProvider should not be used inside another BucketeerProvider'
         );
       }
+    });
+  });
+
+  describe('BucketeerProvider2', () => {
+    it('initializes client and provides context 2', async () => {
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <BucketeerProvider2 client={mockClient}>{children}</BucketeerProvider2>
+      );
+
+      const { result } = renderHook(() => useContext(BucketeerContext), {
+        wrapper,
+      });
+
+      expect(result.current).toHaveProperty('client', mockClient);
+      expect(result.current).toHaveProperty('lastUpdated');
+      expect(typeof result.current.lastUpdated).toBe('number');
     });
   });
 });

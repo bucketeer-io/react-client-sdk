@@ -1,4 +1,10 @@
-import React, { useState, useEffect, type JSX, useContext } from 'react';
+import React, {
+  useState,
+  useEffect,
+  type JSX,
+  useContext,
+  useMemo,
+} from 'react';
 import {
   initializeBKTClient,
   getBKTClient,
@@ -104,10 +110,14 @@ export function BucketeerProvider2({
 }: BucketeerProvider2Props): JSX.Element {
   // Use initClient directly instead of storing in state since it's passed as prop
   const [lastUpdated, setLastUpdated] = useState(0);
-
+  // Memoize the context value to prevent unnecessary re-renders
+  const contextValue = useMemo(
+    () => ({ client: client, lastUpdated }),
+    [client, lastUpdated]
+  );
   useEffect(() => {
     if (!client) {
-      console.error('BucketeerProvider2: initClient is required');
+      console.warn('BucketeerProvider: BKTClient is null or undefined');
       return;
     }
 
@@ -141,7 +151,7 @@ export function BucketeerProvider2({
   }, [client]);
 
   return (
-    <BucketeerContext.Provider value={{ client: client, lastUpdated }}>
+    <BucketeerContext.Provider value={contextValue}>
       {children}
     </BucketeerContext.Provider>
   );
