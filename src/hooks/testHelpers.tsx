@@ -58,9 +58,7 @@ export function createTestSuite(variationMethod: string): {
     let renderResult: ReturnType<typeof render>;
     await act(async () => {
       renderResult = render(
-        <BucketeerProvider config={mockConfig} user={mockUser}>
-          {children}
-        </BucketeerProvider>
+        <BucketeerProvider client={mockClient}>{children}</BucketeerProvider>
       );
     });
     return renderResult!;

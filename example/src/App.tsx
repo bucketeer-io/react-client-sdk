@@ -6,13 +6,18 @@ import {
   defineBKTUser,
   defineBKTConfigForReact,
   BucketeerProvider,
+  initializeBKTClient,
+  type BKTClient,
+  getBKTClient,
+  destroyBKTClient,
 } from 'bkt-react-client-sdk';
 import './App.css';
+import { useEffect, useState } from 'react';
 
 // Example Bucketeer config and user (replace with your real values)
 const bucketeerConfig = defineBKTConfigForReact({
-  apiKey: 'your-api-key', // TODO: Replace with your Bucketeer API key
-  apiEndpoint: 'https://your-bucketeer-endpoint', // TODO: Replace with your Bucketeer endpoint
+  apiKey: import.meta.env.VITE_BUCKETEER_API_KEY,
+  apiEndpoint: import.meta.env.VITE_BUCKETEER_API_ENDPOINT,
   appVersion: '1.0.0',
   featureTag: 'web',
 });
@@ -59,48 +64,53 @@ function FeatureFlagDemo() {
 }
 
 function App() {
-  // const [client, setClient] = useState<BKTClient | null>(null);
-  // useEffect(() => {
-  //   const init = async () => {
-  //     try {
-  //       await initializeBKTClient(bucketeerConfig, user);
-  //     } catch (error) {
-  //       if (error instanceof Error && error.name === 'TimeoutException') {
-  //         // TimeoutException but The BKTClient SDK has been initialized
-  //         console.warn(
-  //           'Bucketeer client initialization timed out, but client is already initialized.'
-  //         );
-  //       } else {
-  //         console.error('Failed to initialize Bucketeer client:', error);
-  //         return; // Exit early for non-timeout errors
-  //       }
-  //     }
-  //     try {
-  //       const bktClient = getBKTClient()!;
-  //       setClient(bktClient);
-  //     } catch (error) {
-  //       console.error('Failed to initialize Bucketeer client:', error);
-  //     }
-  //   };
+  const [client, setClient] = useState<BKTClient | null>(null);
+  useEffect(() => {
+    const init = async () => {
+      try {
+        await initializeBKTClient(bucketeerConfig, user);
+      } catch (error) {
+        if (error instanceof Error && error.name === 'TimeoutException') {
+          // TimeoutException but The BKTClient SDK has been initialized
+          console.warn(
+            'Bucketeer client initialization timed out, but client is already initialized.'
+          );
+        } else {
+          console.error('Failed to initialize Bucketeer client:', error);
+          return; // Exit early for non-timeout errors
+        }
+      }
+      try {
+        const bktClient = getBKTClient()!;
+        setClient(bktClient);
+      } catch (error) {
+        console.error('Failed to initialize Bucketeer client:', error);
+      }
+    };
 
-  //   init();
+    init();
 
-  //   // Cleanup listener on unmount
-  //   return () => {
-  //     destroyBKTClient();
-  //   };
-  // }, []);
-  return (
-    // <BucketeerProvider2 client={client}>
-    //   <h1>Bucketeer React SDK Demo</h1>
-    //   <FeatureFlagDemo />
-    // </BucketeerProvider2>
-    <BucketeerProvider config={bucketeerConfig} user={user}>
-
+    // Cleanup listener on unmount
+    return () => {
+      destroyBKTClient();
+    };
+  }, []);
+  if (!client) {
+    return (
+      <>
+        <h1>Bucketeer React SDK Demo</h1>
+        <div className="loading-spinner"></div>
+        <div>Loading Bucketeer client...</div>
+      </>
+    );
+  } else {
+    return (
+      <BucketeerProvider client={client}>
         <h1>Bucketeer React SDK Demo</h1>
         <FeatureFlagDemo />
       </BucketeerProvider>
-  );
+    );
+  }
 }
 
 export default App;

@@ -3,18 +3,14 @@ import { render, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import {
   BKTClient,
-  BKTConfig,
-  BKTUser,
-  defineBKTUser,
   getBKTClient,
   initializeBKTClient,
 } from 'bkt-js-client-sdk';
 import {
-  BucketeerProvider,
   useBooleanVariation,
   useStringVariation,
   useBucketeerClient,
-  defineBKTConfigForReact,
+  BucketeerProvider,
 } from '.';
 
 // Mock global fetch before any SDK code runs
@@ -32,31 +28,11 @@ jest.mock('bkt-js-client-sdk', () => {
 });
 
 describe('Reliability and Edge Case Tests', () => {
-  let mockConfig: BKTConfig;
-  let mockUser: BKTUser;
   let mockClient: BKTClient;
 
   beforeEach(() => {
     jest.clearAllMocks();
     jest.resetAllMocks();
-
-    mockUser = defineBKTUser({
-      id: 'user-1',
-      customAttributes: { foo: 'bar' },
-    });
-
-    mockConfig = defineBKTConfigForReact({
-      apiKey: 'test-api-key',
-      apiEndpoint: 'http://test-endpoint',
-      featureTag: 'test-tag',
-      eventsFlushInterval: 30,
-      eventsMaxQueueSize: 100,
-      pollingInterval: 60,
-      appVersion: '1.0.0',
-      userAgent: 'test-agent',
-      fetch: fetch,
-      storageFactory: jest.fn(),
-    });
 
     // Create mock client with necessary methods
     mockClient = {
@@ -117,7 +93,7 @@ describe('Reliability and Edge Case Tests', () => {
 
       const { unmount, getByTestId } = await act(async () => {
         return render(
-          <BucketeerProvider config={mockConfig} user={mockUser}>
+          <BucketeerProvider client={mockClient}>
             <TestComponent />
           </BucketeerProvider>
         );
@@ -155,7 +131,7 @@ describe('Reliability and Edge Case Tests', () => {
       for (let i = 0; i < 3; i++) {
         const { unmount, getByTestId } = await act(async () => {
           return render(
-            <BucketeerProvider config={mockConfig} user={mockUser}>
+            <BucketeerProvider client={mockClient}>
               <TestComponent />
             </BucketeerProvider>
           );
@@ -191,7 +167,7 @@ describe('Reliability and Edge Case Tests', () => {
 
       const { getByTestId } = await act(async () => {
         return render(
-          <BucketeerProvider config={mockConfig} user={mockUser}>
+          <BucketeerProvider client={mockClient}>
             <TestComponent />
           </BucketeerProvider>
         );
@@ -305,7 +281,7 @@ describe('Reliability and Edge Case Tests', () => {
 
       const { getByTestId } = await act(async () => {
         return render(
-          <BucketeerProvider config={mockConfig} user={mockUser}>
+          <BucketeerProvider client={mockClient}>
             <TestComponent />
           </BucketeerProvider>
         );
@@ -351,42 +327,6 @@ describe('Reliability and Edge Case Tests', () => {
   });
 
   describe('Component Unmount Safety', () => {
-    it('handles component unmount during client initialization', async () => {
-      // Make initialization take a long time
-      let resolveInit: () => void;
-      const initPromise = new Promise<void>((resolve) => {
-        resolveInit = resolve;
-      });
-      (initializeBKTClient as jest.Mock).mockReturnValue(initPromise);
-
-      const TestComponent = () => {
-        const { client } = useBucketeerClient();
-        return <div data-testid="client">{client ? 'ready' : 'loading'}</div>;
-      };
-
-      const { unmount, getByTestId } = render(
-        <BucketeerProvider config={mockConfig} user={mockUser}>
-          <TestComponent />
-        </BucketeerProvider>
-      );
-
-      // Should show loading state initially
-      expect(getByTestId('client')).toHaveTextContent('loading');
-
-      // Unmount before initialization completes
-      unmount();
-
-      // Complete the async operation after unmount
-      await act(async () => {
-        resolveInit!();
-        await initPromise;
-      });
-
-      // Should not cause any React warnings or errors
-      // (This test passes if no console errors occur)
-      expect(true).toBe(true); // Test passes if we reach here without errors
-    });
-
     it('handles hook usage in component that unmounts during flag evaluation', async () => {
       let shouldShowComponent = true;
       let forceUpdate: () => void;
@@ -396,7 +336,7 @@ describe('Reliability and Edge Case Tests', () => {
         forceUpdate = () => setTick((tick) => tick + 1);
 
         return (
-          <BucketeerProvider config={mockConfig} user={mockUser}>
+          <BucketeerProvider client={mockClient}>
             {shouldShowComponent && <ChildComponent />}
           </BucketeerProvider>
         );
@@ -463,7 +403,7 @@ describe('Reliability and Edge Case Tests', () => {
 
       const { getByTestId } = await act(async () => {
         return render(
-          <BucketeerProvider config={mockConfig} user={mockUser}>
+          <BucketeerProvider client={mockClient}>
             <TestComponent />
           </BucketeerProvider>
         );
@@ -472,13 +412,12 @@ describe('Reliability and Edge Case Tests', () => {
       await waitFor(() => {
         // Even with listener setup failure, component should handle it gracefully
         expect(consoleSpy).toHaveBeenCalledWith(
-          'Failed to initialize Bucketeer client:',
+          'Failed to initialize Bucketeer client listener:',
           expect.any(Error)
         );
       });
 
-      // Client should still be null due to the error, but app shouldn't crash
-      expect(getByTestId('client')).toHaveTextContent('loading');
+      expect(getByTestId('client')).toHaveTextContent('ready');
 
       consoleSpy.mockRestore();
     });

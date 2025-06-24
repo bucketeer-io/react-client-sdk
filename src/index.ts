@@ -1,5 +1,5 @@
 // Export React components and hooks
-export { BucketeerProvider, BucketeerProvider2 } from './BucketeerProvider';
+export { BucketeerProvider } from './BucketeerProvider';
 export { BucketeerContext } from './context';
 export type { BucketeerContextType } from './context';
 export {

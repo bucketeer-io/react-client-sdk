@@ -1,7 +1,12 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { act } from 'react';
-import { BKTClient, getBKTClient, useBucketeerClient } from '../index';
+import {
+  BKTClient,
+  BucketeerProvider,
+  getBKTClient,
+  useBucketeerClient,
+} from '../index';
 import { createTestSuite } from './testHelpers';
 
 jest.mock('bkt-js-client-sdk', () => {
@@ -95,13 +100,9 @@ describe('useBucketeerClient', () => {
   });
 
   it('handles updateUserAttributes gracefully when client is null', async () => {
-    // Suppress expected console.error for this test
-    const consoleSpy = jest
-      .spyOn(console, 'error')
+    const consoleWarnSpy = jest
+      .spyOn(console, 'warn')
       .mockImplementation(() => {});
-
-    // Mock getBKTClient to return null to simulate no client
-    (getBKTClient as jest.Mock).mockReturnValue(null);
 
     const TestComponent = () => {
       const { client, updateUserAttributes } = useBucketeerClient();
@@ -121,7 +122,16 @@ describe('useBucketeerClient', () => {
       );
     };
 
-    const { getByTestId } = await setupAsync(<TestComponent />);
+    const renderFn = async (children: React.ReactNode) => {
+      let renderResult: ReturnType<typeof render>;
+      await act(async () => {
+        renderResult = render(
+          <BucketeerProvider client={null}>{children}</BucketeerProvider>
+        );
+      });
+      return renderResult!;
+    };
+    const { getByTestId } = await renderFn(<TestComponent />);
 
     await waitFor(() => {
       expect(getByTestId('ready')).toHaveTextContent('ready');
@@ -129,17 +139,15 @@ describe('useBucketeerClient', () => {
     });
 
     // Verify that the expected error was logged exactly once
-    expect(consoleSpy).toHaveBeenCalledTimes(1);
-    expect(consoleSpy).toHaveBeenCalledWith(
-      'Failed to initialize Bucketeer client:',
-      expect.any(Error)
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(1);
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      'BucketeerProvider: BKTClient is null or undefined'
     );
-
     // The test passes if no error was thrown during render/useEffect
     expect(getByTestId('ready')).toHaveTextContent('ready');
 
     // Restore console.error
-    consoleSpy.mockRestore();
+    consoleWarnSpy.mockRestore();
   });
 
   it('returns the same client instance across re-renders', async () => {

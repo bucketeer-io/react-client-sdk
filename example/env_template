@@ -1,0 +1,5 @@
+# Update this file with your environment variables
+# and rename it to .env before running the application.
+# https://vite.dev/guide/env-and-mode
+VITE_BUCKETEER_API_KEY=your-api-key
+VITE_BUCKETEER_API_ENDPOINT=https://your-bucketeer-endpoint
