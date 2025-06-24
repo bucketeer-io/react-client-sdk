@@ -1,6 +1,6 @@
-# Bucketeer - React SDK for a web clients
+# Bucketeer React SDK for Web Clients
 
-This SDK enables seamless access to your feature flags in React applications using [Bucketeer](https://bucketeer.io/). It provides intuitive React hooks and components for easy integration, and is built on top of the robust `@bucketeer/js-client-sdk`.
+This SDK enables seamless access to your feature flags in React applications using [Bucketeer](https://bucketeer.io/). It provides React hooks and components for easy integration, and is built on top of the robust `@bucketeer/js-client-sdk`.
 
 [Bucketeer](https://bucketeer.io) is an open-source platform created by [CyberAgent](https://www.cyberagent.co.jp/en/) to help teams make better decisions, reduce deployment lead time and release risk through feature flags. Bucketeer offers advanced features like dark launches and staged rollouts that perform limited releases based on user attributes, devices, and other segments.
 
@@ -20,19 +20,11 @@ For documentation related to flags management in Bucketeer, refer to the [Bucket
 - 📦 Tree-shakeable and lightweight
 
 ## Installation
-### PNPM
-```bash
-pnpm add @bucketeer/react-client-sdk
-```
-
-### NPM
 ```bash
 npm install @bucketeer/react-client-sdk
 ```
 
-#### Yarn
-```bash
-yarn add @bucketeer/react-client-sdk
+> Required React version is `^16.8.0` or later, as it uses React Hooks. React DOM version should match the React version.
 
 ## Usage
 
@@ -164,21 +156,24 @@ function MyComponent() {
 
 #### `BucketeerProvider`
 
-Provides `BucketeerContext` to child components.
+Provides Bucketeer context to child components. Most users should use the provided hooks for feature flag access; direct context access is for advanced use cases.
 
 **Props:**
 - `client`: BKTClient - Bucketeer client instance
-- `children`: ReactNode - Child components - The components that will have access to the Bucketeer context
+- `children`: ReactNode - Child components
 
 ```tsx
-  <BucketeerProvider client={client}>
-    // Put your app content here
-    <YourAppContent />
-  </BucketeerProvider>
+<BucketeerProvider client={client}>
+  {/* Your app content here */}
+  <YourAppContent />
+</BucketeerProvider>
 ```
 
-- In side your components, you can access the Bucketeer client and last updated time using the `useContext` hook:
+Inside your components, you can access the Bucketeer client and last updated time using the `useContext` hook:
+
 ```tsx
+import { useContext } from 'react';
+import { BucketeerContext } from '@bucketeer/react-client-sdk';
 const { client, lastUpdated } = useContext(BucketeerContext);
 ```
 
@@ -339,7 +334,13 @@ pnpm type-check
 
 To see the SDK in action, you can run the included example:
 
-- Put the client API key and endpoint in the `example/.env`
+- Copy the `example/env_template` file to `example/.env` and update it with your Bucketeer credentials. Example:
+
+```env
+VITE_BUCKETEER_API_KEY=your-api-key
+VITE_BUCKETEER_API_ENDPOINT=https://your-bucketeer-endpoint
+```
+
 - Build the SDK
 ```bash
 pnpm build
