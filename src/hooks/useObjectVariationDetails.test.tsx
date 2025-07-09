@@ -76,10 +76,7 @@ describe('useObjectVariationDetails', () => {
       .mockReturnValueOnce(updatedEvaluation);
 
     function TestComponent() {
-      const defaultConfig = React.useMemo(
-        () => ({ theme: 'default', size: 'medium', count: 0 }),
-        []
-      );
+      const defaultConfig = { theme: 'default', size: 'medium', count: 0 };
       const details = useObjectVariationDetails('object-flag', defaultConfig);
       return (
         <div>
@@ -155,10 +152,7 @@ describe('useObjectVariationDetails', () => {
     (mockClient.objectVariationDetails as jest.Mock).mockReturnValue(undefined);
 
     function TestComponent() {
-      const defaultSettings = React.useMemo(
-        () => ({ enabled: true, level: 'info' }),
-        []
-      );
+      const defaultSettings = { enabled: true, level: 'info' };
       const details = useObjectVariationDetails(
         'missing-object-flag',
         defaultSettings
