@@ -16,9 +16,11 @@
 
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
 import { act } from 'react';
 import { BKTClient, useObjectVariationDetails } from '../index';
 import { createTestSuite } from './testHelpers';
+import { BucketeerContext } from '../context';
 import type { BKTEvaluationDetails } from 'bkt-js-client-sdk';
 
 jest.mock('bkt-js-client-sdk', () => {
@@ -196,6 +198,147 @@ describe('useObjectVariationDetails', () => {
         'missing-object-flag',
         { enabled: true, level: 'info' }
       );
+    });
+  });
+
+  // Memoization tests
+  describe('memoization', () => {
+    let memoMockClient: BKTClient;
+    beforeEach(() => {
+      jest.clearAllMocks();
+      jest.resetAllMocks();
+      const testSetup = createTestSuite('objectVariationDetails');
+      memoMockClient = testSetup.mockClient;
+    });
+
+    // Helper to create a wrapper with context for memoization tests
+    const createMemoWrapper = (
+      client: BKTClient | null,
+      lastUpdated: number
+    ) => {
+      // eslint-disable-next-line react/display-name
+      return ({ children }: { children: React.ReactNode }) => (
+        <BucketeerContext.Provider value={{ client, lastUpdated }}>
+          {children}
+        </BucketeerContext.Provider>
+      );
+    };
+
+    it('should not call client.objectVariationDetails multiple times when defaultValue object has same content', () => {
+      const flagId = 'test-flag';
+
+      // Mock the client method to return a consistent result
+      (memoMockClient.objectVariationDetails as jest.Mock).mockReturnValue({
+        featureId: flagId,
+        featureVersion: 1,
+        userId: 'test-user',
+        variationId: 'variation-1',
+        variationName: 'Test Variation',
+        variationValue: { timeout: 5000, retries: 3 },
+        reason: 'TARGETING',
+      });
+
+      const wrapper = createMemoWrapper(memoMockClient, 1);
+
+      // First render with object literal
+      const { rerender } = renderHook(
+        () => useObjectVariationDetails(flagId, { timeout: 5000, retries: 3 }),
+        { wrapper }
+      );
+
+      // Second render with same object literal (different reference, same content)
+      rerender();
+
+      // Third render with same object literal again
+      rerender();
+
+      // The client method should only be called once due to memoization
+      expect(memoMockClient.objectVariationDetails).toHaveBeenCalledTimes(1);
+      expect(memoMockClient.objectVariationDetails).toHaveBeenCalledWith(
+        flagId,
+        {
+          timeout: 5000,
+          retries: 3,
+        }
+      );
+    });
+
+    it('should call client.objectVariationDetails again when defaultValue content actually changes', () => {
+      const flagId = 'test-flag';
+
+      (memoMockClient.objectVariationDetails as jest.Mock).mockReturnValue({
+        featureId: flagId,
+        featureVersion: 1,
+        userId: 'test-user',
+        variationId: 'variation-1',
+        variationName: 'Test Variation',
+        variationValue: { timeout: 5000, retries: 3 },
+        reason: 'TARGETING',
+      });
+
+      const wrapper = createMemoWrapper(memoMockClient, 1);
+
+      // First render
+      const { rerender } = renderHook(
+        ({
+          defaultValue,
+        }: {
+          defaultValue: { timeout: number; retries: number };
+        }) => useObjectVariationDetails(flagId, defaultValue),
+        {
+          wrapper,
+          initialProps: { defaultValue: { timeout: 5000, retries: 3 } },
+        }
+      );
+
+      // Second render with different content
+      rerender({ defaultValue: { timeout: 10000, retries: 5 } });
+
+      // Should be called twice - once for each different defaultValue
+      expect(memoMockClient.objectVariationDetails).toHaveBeenCalledTimes(2);
+      expect(memoMockClient.objectVariationDetails).toHaveBeenNthCalledWith(
+        1,
+        flagId,
+        { timeout: 5000, retries: 3 }
+      );
+      expect(memoMockClient.objectVariationDetails).toHaveBeenNthCalledWith(
+        2,
+        flagId,
+        { timeout: 10000, retries: 5 }
+      );
+    });
+
+    it('should return stable reference when defaultValue object reference changes but content is same', () => {
+      const flagId = 'test-flag';
+
+      (memoMockClient.objectVariationDetails as jest.Mock).mockReturnValue({
+        featureId: flagId,
+        featureVersion: 1,
+        userId: 'test-user',
+        variationId: 'variation-1',
+        variationName: 'Test Variation',
+        variationValue: { timeout: 5000, retries: 3 },
+        reason: 'TARGETING',
+      });
+
+      const wrapper = createMemoWrapper(memoMockClient, 1);
+
+      // First render
+      const { result, rerender } = renderHook(
+        () => useObjectVariationDetails(flagId, { timeout: 5000, retries: 3 }),
+        { wrapper }
+      );
+
+      const firstResult = result.current;
+
+      // Second render with same object content but different reference
+      rerender();
+
+      const secondResult = result.current;
+
+      // Results should be the same reference due to memoization
+      expect(firstResult).toBe(secondResult);
+      expect(memoMockClient.objectVariationDetails).toHaveBeenCalledTimes(1);
     });
   });
 });
