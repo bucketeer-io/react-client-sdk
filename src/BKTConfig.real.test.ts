@@ -27,6 +27,9 @@ describe('defineBKTConfigForReact (real implementation)', () => {
       wrapperSdkVersion: 'old-version',
     };
     const reactConfig = defineBKTConfigForReact(inputConfig);
+    // Check sourceId and sdkVersion by casting to the expected type,
+    // because their properties are not directly available on the RawBKTConfig type.
+    // It is private.
     const { sourceId, sdkVersion } = reactConfig as unknown as {
       sdkVersion: string;
       sourceId: number;
