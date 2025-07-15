@@ -147,3 +147,9 @@ Thumbs.db
 # pnpm
 .pnpm-debug.log*
 node_modules/.pnpm/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

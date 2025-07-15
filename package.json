@@ -37,6 +37,7 @@
     "bkt-js-client-sdk": "2.2.26"
   },
   "devDependencies": {
+    "@playwright/test": "^1.54.1",
     "@rollup/plugin-commonjs": "^25.0.8",
     "@rollup/plugin-node-resolve": "^15.3.1",
     "@rollup/plugin-replace": "^6.0.2",
