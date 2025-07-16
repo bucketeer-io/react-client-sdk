@@ -13,6 +13,10 @@ import {
 } from 'bkt-react-client-sdk';
 import './App.css';
 import { useEffect, useState } from 'react';
+import { StringEvaluations } from './components/StringEvaluations';
+import { NumberEvaluations } from './components/NumberEvaluations';
+import { BoolEvaluations } from './components/BoolEvaluations';
+import { ObjectEvaluations } from './components/ObjectEvaluations';
 
 // Example Bucketeer config and user (replace with your real values)
 const bucketeerConfig = defineBKTConfigForReact({
@@ -29,42 +33,10 @@ const user = defineBKTUser({
   },
 });
 
-function FeatureFlagDemo() {
-  // Boolean feature flag
-  const showNewText = useBooleanVariation('show-new-text', false);
-  // String feature flag
-  const theme = useStringVariation('theme', 'light');
-  // Number feature flag
-  const maxItems = useNumberVariation('max-items-per-order', 10);
-  // Object/JSON feature flag
-  const config = useObjectVariation('app-config', {
-    enable_logging: true,
-    guest_mode: false,
-  });
-
-  return (
-    <div style={{ marginTop: 32, fontSize: 18 }}>
-      <div>
-        <strong>Boolean flag:</strong>{' '}
-        {showNewText
-          ? '🎉 The new feature is enabled!'
-          : 'The new feature is disabled.'}
-      </div>
-      <div>
-        <strong>String flag (theme):</strong> {theme}
-      </div>
-      <div>
-        <strong>Number flag (max items):</strong> {maxItems}
-      </div>
-      <div>
-        <strong>Object flag (config):</strong> {JSON.stringify(config)}
-      </div>
-    </div>
-  );
-}
-
 function App() {
   const [client, setClient] = useState<BKTClient | null>(null);
+  const [page, setPage] = useState<'string' | 'number' | 'bool' | 'object'>('string');
+
   useEffect(() => {
     const init = async () => {
       try {
@@ -95,6 +67,7 @@ function App() {
       destroyBKTClient();
     };
   }, []);
+
   if (!client) {
     return (
       <>
@@ -103,14 +76,47 @@ function App() {
         <div>Loading Bucketeer client...</div>
       </>
     );
-  } else {
-    return (
-      <BucketeerProvider client={client}>
-        <h1>Bucketeer React SDK Demo</h1>
-        <FeatureFlagDemo />
-      </BucketeerProvider>
-    );
   }
+
+  return (
+    <BucketeerProvider client={client}>
+      <h1>Bucketeer React SDK Demo</h1>
+      <div style={{ marginBottom: 24 }}>
+        <button
+          data-testid="nav-string"
+          onClick={() => setPage('string')}
+          style={{ marginRight: 8, fontWeight: page === 'string' ? 'bold' : undefined }}
+        >
+          String Demo
+        </button>
+        <button
+          data-testid="nav-number"
+          onClick={() => setPage('number')}
+          style={{ marginRight: 8, fontWeight: page === 'number' ? 'bold' : undefined }}
+        >
+          Number Demo
+        </button>
+        <button
+          data-testid="nav-bool"
+          onClick={() => setPage('bool')}
+          style={{ marginRight: 8, fontWeight: page === 'bool' ? 'bold' : undefined }}
+        >
+          Bool Demo
+        </button>
+        <button
+          data-testid="nav-object"
+          onClick={() => setPage('object')}
+          style={{ fontWeight: page === 'object' ? 'bold' : undefined }}
+        >
+          Object Demo
+        </button>
+      </div>
+      {page === 'string' && <StringEvaluations />}
+      {page === 'number' && <NumberEvaluations />}
+      {page === 'bool' && <BoolEvaluations />}
+      {page === 'object' && <ObjectEvaluations />}
+    </BucketeerProvider>
+  );
 }
 
 export default App;
