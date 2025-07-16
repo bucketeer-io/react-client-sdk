@@ -1,5 +1,5 @@
 import { useStringVariation, useStringVariationDetails } from 'bkt-react-client-sdk';
-import { cellStyle, labelCellStyle } from './style';
+import { cellStyle, labelCellStyle } from './baseStyle';
 
 function StringEvaluations() {
   // string

@@ -2,7 +2,7 @@ import {
   useBooleanVariation,
   useBooleanVariationDetails,
 } from 'bkt-react-client-sdk';
-import { cellStyle, labelCellStyle } from './style';
+import { cellStyle, labelCellStyle } from './baseStyle';
 
 function BoolEvaluations() {
   // boolean
