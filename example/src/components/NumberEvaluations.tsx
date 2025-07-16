@@ -3,7 +3,7 @@ import {
   useNumberVariationDetails,
 } from 'bkt-react-client-sdk';
 
-import { cellStyle, labelCellStyle } from './baseStyle';
+import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
 
 function NumberEvaluations() {
   // number
@@ -20,7 +20,8 @@ function NumberEvaluations() {
       </div>
       <div style={{ marginTop: 16 }} data-testid="number-evaluation-details">
         <strong>Evaluation Details:</strong>
-         <table style={{ borderCollapse: 'collapse', marginTop: 8 }} data-testid="number-evaluation-details-table">
+        <div style={tableCenterStyle}>
+          <table style={{ borderCollapse: 'collapse' }} data-testid="number-evaluation-details-table">
             <tbody>
               <tr>
                 <td style={labelCellStyle}>featureId</td>
@@ -52,6 +53,7 @@ function NumberEvaluations() {
               </tr>
             </tbody>
           </table>
+        </div>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import {
   useBooleanVariation,
   useBooleanVariationDetails,
 } from 'bkt-react-client-sdk';
-import { cellStyle, labelCellStyle } from './baseStyle';
+import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
 
 function BoolEvaluations() {
   // boolean
@@ -19,38 +19,66 @@ function BoolEvaluations() {
       </div>
       <div style={{ marginTop: 16 }} data-testid="bool-evaluation-details">
         <strong>Evaluation Details:</strong>
-         <table style={{ borderCollapse: 'collapse', marginTop: 8 }} data-testid="bool-evaluation-details-table">
+        <div style={tableCenterStyle}>
+          <table
+            style={{ borderCollapse: 'collapse' }}
+            data-testid="bool-evaluation-details-table"
+          >
             <tbody>
               <tr>
                 <td style={labelCellStyle}>featureId</td>
-                <td style={cellStyle} data-testid="bool-evaluation-featureId">{evaluationDetails.featureId}</td>
+                <td style={cellStyle} data-testid="bool-evaluation-featureId">
+                  {evaluationDetails.featureId}
+                </td>
               </tr>
               <tr>
                 <td style={labelCellStyle}>featureVersion</td>
-                <td style={cellStyle} data-testid="bool-evaluation-featureVersion">{evaluationDetails.featureVersion}</td>
+                <td
+                  style={cellStyle}
+                  data-testid="bool-evaluation-featureVersion"
+                >
+                  {evaluationDetails.featureVersion}
+                </td>
               </tr>
               <tr>
                 <td style={labelCellStyle}>userId</td>
-                <td style={cellStyle} data-testid="bool-evaluation-userId">{evaluationDetails.userId}</td>
+                <td style={cellStyle} data-testid="bool-evaluation-userId">
+                  {evaluationDetails.userId}
+                </td>
               </tr>
               <tr>
                 <td style={labelCellStyle}>variationId</td>
-                <td style={cellStyle} data-testid="bool-evaluation-variationId">{evaluationDetails.variationId}</td>
+                <td style={cellStyle} data-testid="bool-evaluation-variationId">
+                  {evaluationDetails.variationId}
+                </td>
               </tr>
               <tr>
                 <td style={labelCellStyle}>variationName</td>
-                <td style={cellStyle} data-testid="bool-evaluation-variationName">{evaluationDetails.variationName}</td>
+                <td
+                  style={cellStyle}
+                  data-testid="bool-evaluation-variationName"
+                >
+                  {evaluationDetails.variationName}
+                </td>
               </tr>
               <tr>
                 <td style={labelCellStyle}>variationValue</td>
-                <td style={cellStyle} data-testid="bool-evaluation-variationValue">{String(evaluationDetails.variationValue)}</td>
+                <td
+                  style={cellStyle}
+                  data-testid="bool-evaluation-variationValue"
+                >
+                  {String(evaluationDetails.variationValue)}
+                </td>
               </tr>
               <tr>
                 <td style={labelCellStyle}>reason</td>
-                <td style={cellStyle} data-testid="bool-evaluation-reason">{evaluationDetails.reason}</td>
+                <td style={cellStyle} data-testid="bool-evaluation-reason">
+                  {evaluationDetails.reason}
+                </td>
               </tr>
             </tbody>
           </table>
+        </div>
       </div>
     </div>
   );

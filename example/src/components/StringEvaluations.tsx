@@ -1,5 +1,5 @@
 import { useStringVariation, useStringVariationDetails } from 'bkt-react-client-sdk';
-import { cellStyle, labelCellStyle } from './baseStyle';
+import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
 
 function StringEvaluations() {
   // string
@@ -16,7 +16,8 @@ function StringEvaluations() {
       </div>
       <div style={{ marginTop: 16 }} data-testid="string-evaluation-details">
         <strong>Evaluation Details:</strong>
-         <table style={{ borderCollapse: 'collapse', marginTop: 8 }} data-testid="string-evaluation-details-table">
+        <div style={tableCenterStyle}>
+          <table style={{ borderCollapse: 'collapse' }} data-testid="string-evaluation-details-table">
             <tbody>
               <tr>
                 <td style={labelCellStyle}>featureId</td>
@@ -48,6 +49,7 @@ function StringEvaluations() {
               </tr>
             </tbody>
           </table>
+        </div>
       </div>
     </div>
   );

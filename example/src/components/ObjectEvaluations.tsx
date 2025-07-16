@@ -1,5 +1,5 @@
 import { useObjectVariation, useObjectVariationDetails } from 'bkt-react-client-sdk';
-import { cellStyle, labelCellStyle } from './baseStyle';
+import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
 
 
 function ObjectEvaluations() {
@@ -18,7 +18,8 @@ function ObjectEvaluations() {
       </div>
       <div style={{ marginTop: 16 }} data-testid="object-evaluation-details">
         <strong>Evaluation Details:</strong>
-        <table style={{ borderCollapse: 'collapse', marginTop: 8 }} data-testid="object-evaluation-details-table">
+        <div style={tableCenterStyle}>
+          <table style={{ borderCollapse: 'collapse' }} data-testid="object-evaluation-details-table">
           <tbody>
             <tr>
               <td style={labelCellStyle}>featureId</td>
@@ -52,6 +53,7 @@ function ObjectEvaluations() {
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );
