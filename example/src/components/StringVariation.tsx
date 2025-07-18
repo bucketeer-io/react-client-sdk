@@ -1,40 +1,42 @@
 import {
   BucketeerContext,
-  useNumberVariation,
-  useNumberVariationDetails,
+  useStringVariation,
+  useStringVariationDetails,
 } from 'bkt-react-client-sdk';
-
 import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
 import { useContext } from 'react';
 
-function NumberEvaluations() {
+function StringVariation() {
   const { client } = useContext(BucketeerContext);
-  // number
-  const evaluation = useNumberVariation('number-feature', 0);
-  // BKTEvaluationDetails<number>
-  const evaluationDetails = useNumberVariationDetails('number-feature', 0);
+  // string
+  const evaluation = useStringVariation('string-feature', 'default');
+  // BKTEvaluationDetails<string>
+  const evaluationDetails = useStringVariationDetails(
+    'string-feature',
+    'default'
+  );
 
   return (
-    <div data-testid="number-evaluations-root">
-      <h2>Number Evaluations</h2>
-      <p>This component evaluates number flags.</p>
+    <div data-testid="string-evaluations-root">
+      <h2>String Evaluations</h2>
+      <p>This component evaluates string flags.</p>
       <div data-testid="client-status">
         <strong>Client Status:</strong> {client ? 'Ready' : 'Not Ready'}
       </div>
-      <div data-testid="number-evaluation-value">
-        <strong>Evaluation Value:</strong> {String(evaluation)}
+      <div data-testid="string-flag-value">
+        <strong>Evaluation Value:</strong> {evaluation}
       </div>
-      <div style={{ marginTop: 16 }} data-testid="number-evaluation-details">
+      <div style={{ marginTop: 16 }} data-testid="string-evaluation-details">
         <strong>Evaluation Details:</strong>
         <div style={tableCenterStyle}>
           <table
             style={{ borderCollapse: 'collapse' }}
-            data-testid="number-evaluation-details-table"
+            data-testid="string-evaluation-details-table"
           >
             <tbody>
               <tr>
                 <td style={labelCellStyle}>featureId</td>
-                <td style={cellStyle} data-testid="number-evaluation-featureId">
+                <td style={cellStyle} data-testid="string-details-variation-feature-id">
                   {evaluationDetails.featureId}
                 </td>
               </tr>
@@ -42,14 +44,14 @@ function NumberEvaluations() {
                 <td style={labelCellStyle}>featureVersion</td>
                 <td
                   style={cellStyle}
-                  data-testid="number-evaluation-featureVersion"
+                  data-testid="string-details-variation-feature-version"
                 >
                   {evaluationDetails.featureVersion}
                 </td>
               </tr>
               <tr>
                 <td style={labelCellStyle}>userId</td>
-                <td style={cellStyle} data-testid="number-evaluation-userId">
+                <td style={cellStyle} data-testid="string-details-variation-user-id">
                   {evaluationDetails.userId}
                 </td>
               </tr>
@@ -57,7 +59,7 @@ function NumberEvaluations() {
                 <td style={labelCellStyle}>variationId</td>
                 <td
                   style={cellStyle}
-                  data-testid="number-evaluation-variationId"
+                  data-testid="string-details-variation-id"
                 >
                   {evaluationDetails.variationId}
                 </td>
@@ -66,7 +68,7 @@ function NumberEvaluations() {
                 <td style={labelCellStyle}>variationName</td>
                 <td
                   style={cellStyle}
-                  data-testid="number-evaluation-variationName"
+                  data-testid="string-details-variation-name"
                 >
                   {evaluationDetails.variationName}
                 </td>
@@ -75,14 +77,14 @@ function NumberEvaluations() {
                 <td style={labelCellStyle}>variationValue</td>
                 <td
                   style={cellStyle}
-                  data-testid="number-evaluation-variationValue"
+                  data-testid="string-details-variation-value"
                 >
-                  {String(evaluationDetails.variationValue)}
+                  {evaluationDetails.variationValue}
                 </td>
               </tr>
               <tr>
                 <td style={labelCellStyle}>reason</td>
-                <td style={cellStyle} data-testid="number-evaluation-reason">
+                <td style={cellStyle} data-testid="string-details-variation-reason">
                   {evaluationDetails.reason}
                 </td>
               </tr>
@@ -94,4 +96,4 @@ function NumberEvaluations() {
   );
 }
 
-export { NumberEvaluations };
+export { StringVariation };

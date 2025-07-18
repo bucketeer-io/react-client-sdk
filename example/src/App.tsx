@@ -9,10 +9,10 @@ import {
 } from 'bkt-react-client-sdk';
 import './App.css';
 import { useEffect, useState } from 'react';
-import { StringEvaluations } from './components/StringEvaluations';
-import { NumberEvaluations } from './components/NumberEvaluations';
-import { BoolEvaluations } from './components/BoolEvaluations';
-import { ObjectEvaluations } from './components/ObjectEvaluations';
+import { StringEvaluations } from './components/StringVariation';
+import { NumberEvaluations } from './components/NumberVariation';
+import { BoolEvaluations } from './components/BoolVariation';
+import { ObjectEvaluations } from './components/ObjectVariation';
 
 // Example Bucketeer config and user (replace with your real values)
 const bucketeerConfig = defineBKTConfigForReact({

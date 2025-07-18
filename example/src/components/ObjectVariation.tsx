@@ -3,7 +3,7 @@ import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
 import { useContext } from 'react';
 
 
-function ObjectEvaluations() {
+function ObjectVariation() {
   const { client } = useContext(BucketeerContext);
   // object
   const evaluation = useObjectVariation('object-feature', { default: 'value' });
@@ -17,7 +17,7 @@ function ObjectEvaluations() {
       <div data-testid="client-status">
         <strong>Client Status:</strong> {client ? 'Ready' : 'Not Ready'}
       </div>
-      <div data-testid="object-evaluation-value">
+      <div data-testid="object-flag-value">
         <strong>Evaluation Value:</strong>
         <pre style={{ margin: 0 }}>{JSON.stringify(evaluation, null, 2)}</pre>
       </div>
@@ -28,33 +28,33 @@ function ObjectEvaluations() {
           <tbody>
             <tr>
               <td style={labelCellStyle}>featureId</td>
-              <td style={cellStyle} data-testid="object-evaluation-featureId">{evaluationDetails.featureId}</td>
+              <td style={cellStyle} data-testid="object-details-variation-feature-id">{evaluationDetails.featureId}</td>
             </tr>
             <tr>
               <td style={labelCellStyle}>featureVersion</td>
-              <td style={cellStyle} data-testid="object-evaluation-featureVersion">{evaluationDetails.featureVersion}</td>
+              <td style={cellStyle} data-testid="object-details-variation-feature-version">{evaluationDetails.featureVersion}</td>
             </tr>
             <tr>
               <td style={labelCellStyle}>userId</td>
-              <td style={cellStyle} data-testid="object-evaluation-userId">{evaluationDetails.userId}</td>
+              <td style={cellStyle} data-testid="object-details-variation-userId">{evaluationDetails.userId}</td>
             </tr>
             <tr>
               <td style={labelCellStyle}>variationId</td>
-              <td style={cellStyle} data-testid="object-evaluation-variationId">{evaluationDetails.variationId}</td>
+              <td style={cellStyle} data-testid="object-details-variation-id">{evaluationDetails.variationId}</td>
             </tr>
             <tr>
               <td style={labelCellStyle}>variationName</td>
-              <td style={cellStyle} data-testid="object-evaluation-variationName">{evaluationDetails.variationName}</td>
+              <td style={cellStyle} data-testid="object-details-variation-name">{evaluationDetails.variationName}</td>
             </tr>
             <tr>
               <td style={labelCellStyle}>variationValue</td>
-              <td style={cellStyle} data-testid="object-evaluation-variationValue">
+              <td style={cellStyle} data-testid="object-details-variation-value">
                 <pre style={{ margin: 0 }}>{JSON.stringify(evaluationDetails.variationValue, null, 2)}</pre>
               </td>
             </tr>
             <tr>
               <td style={labelCellStyle}>reason</td>
-              <td style={cellStyle} data-testid="object-evaluation-reason">{evaluationDetails.reason}</td>
+              <td style={cellStyle} data-testid="object-details-variation-reason">{evaluationDetails.reason}</td>
             </tr>
           </tbody>
         </table>
@@ -64,4 +64,4 @@ function ObjectEvaluations() {
   );
 }
 
-export { ObjectEvaluations };
+export { ObjectVariation };

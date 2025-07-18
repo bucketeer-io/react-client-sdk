@@ -1,42 +1,39 @@
 import {
   BucketeerContext,
-  useStringVariation,
-  useStringVariationDetails,
+  useBooleanVariation,
+  useBooleanVariationDetails,
 } from 'bkt-react-client-sdk';
-import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
 import { useContext } from 'react';
+import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
 
-function StringEvaluations() {
+function BoolVariation() {
   const { client } = useContext(BucketeerContext);
-  // string
-  const evaluation = useStringVariation('string-feature', 'default');
-  // BKTEvaluationDetails<string>
-  const evaluationDetails = useStringVariationDetails(
-    'string-feature',
-    'default'
-  );
+  // boolean
+  const evaluation = useBooleanVariation('show-new-text', false);
+  // BKTEvaluationDetails<boolean>
+  const evaluationDetails = useBooleanVariationDetails('show-new-text', false);
 
   return (
-    <div data-testid="string-evaluations-root">
-      <h2>String Evaluations</h2>
-      <p>This component evaluates string flags.</p>
+    <div data-testid="bool-evaluations-root">
+      <h2>Bool Evaluations</h2>
+      <p>This component evaluates boolean flags.</p>
       <div data-testid="client-status">
         <strong>Client Status:</strong> {client ? 'Ready' : 'Not Ready'}
       </div>
-      <div data-testid="string-evaluation-value">
-        <strong>Evaluation Value:</strong> {evaluation}
+      <div data-testid="bool-flag-value">
+        <strong>Evaluation Value:</strong> {String(evaluation)}
       </div>
-      <div style={{ marginTop: 16 }} data-testid="string-evaluation-details">
+      <div style={{ marginTop: 16 }} data-testid="bool-evaluation-details">
         <strong>Evaluation Details:</strong>
         <div style={tableCenterStyle}>
           <table
             style={{ borderCollapse: 'collapse' }}
-            data-testid="string-evaluation-details-table"
+            data-testid="bool-evaluation-details-table"
           >
             <tbody>
               <tr>
                 <td style={labelCellStyle}>featureId</td>
-                <td style={cellStyle} data-testid="string-evaluation-featureId">
+                <td style={cellStyle} data-testid="bool-details-variation-feature-id">
                   {evaluationDetails.featureId}
                 </td>
               </tr>
@@ -44,23 +41,20 @@ function StringEvaluations() {
                 <td style={labelCellStyle}>featureVersion</td>
                 <td
                   style={cellStyle}
-                  data-testid="string-evaluation-featureVersion"
+                  data-testid="bool-details-variation-version"
                 >
                   {evaluationDetails.featureVersion}
                 </td>
               </tr>
               <tr>
                 <td style={labelCellStyle}>userId</td>
-                <td style={cellStyle} data-testid="string-evaluation-userId">
+                <td style={cellStyle} data-testid="bool-details-variation-userId">
                   {evaluationDetails.userId}
                 </td>
               </tr>
               <tr>
                 <td style={labelCellStyle}>variationId</td>
-                <td
-                  style={cellStyle}
-                  data-testid="string-evaluation-variationId"
-                >
+                <td style={cellStyle} data-testid="bool-details-variation-id">
                   {evaluationDetails.variationId}
                 </td>
               </tr>
@@ -68,7 +62,7 @@ function StringEvaluations() {
                 <td style={labelCellStyle}>variationName</td>
                 <td
                   style={cellStyle}
-                  data-testid="string-evaluation-variationName"
+                  data-testid="bool-details-variation-name"
                 >
                   {evaluationDetails.variationName}
                 </td>
@@ -77,14 +71,14 @@ function StringEvaluations() {
                 <td style={labelCellStyle}>variationValue</td>
                 <td
                   style={cellStyle}
-                  data-testid="string-evaluation-variationValue"
+                  data-testid="bool-details-variation-value"
                 >
-                  {evaluationDetails.variationValue}
+                  {String(evaluationDetails.variationValue)}
                 </td>
               </tr>
               <tr>
                 <td style={labelCellStyle}>reason</td>
-                <td style={cellStyle} data-testid="string-evaluation-reason">
+                <td style={cellStyle} data-testid="bool-details-variation-reason">
                   {evaluationDetails.reason}
                 </td>
               </tr>
@@ -96,4 +90,4 @@ function StringEvaluations() {
   );
 }
 
-export { StringEvaluations };
+export { BoolVariation };
