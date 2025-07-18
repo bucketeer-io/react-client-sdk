@@ -11,14 +11,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Cache pnpm store
-      uses: actions/cache@v4
-      with:
-        path: ~/.pnpm-store
-        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-pnpm-store-
-
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
@@ -52,6 +44,6 @@ jobs:
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
-        name: e2e-report
-        path: e2e-report/
+        name: playwright-report
+        path: playwright-report/
         retention-days: 30
