@@ -26,9 +26,6 @@ jobs:
     - name: Install dependencies
       run: npm install -g pnpm && pnpm install
 
-    - name: Install Playwright Browsers
-      run: pnpm exec playwright install --with-deps
-
     - name: Cache Playwright browsers
       uses: actions/cache@v4
       with:
@@ -36,6 +33,9 @@ jobs:
         key: ${{ runner.os }}-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
         restore-keys: |
           ${{ runner.os }}-playwright-
+
+    - name: Install Playwright Browsers
+      run: pnpm exec playwright install --with-deps
     - name: Inject environment variables
       run: |
         rm -f example/.env
