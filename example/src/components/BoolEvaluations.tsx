@@ -1,10 +1,18 @@
 import {
+  BucketeerContext,
   useBooleanVariation,
   useBooleanVariationDetails,
 } from 'bkt-react-client-sdk';
+import { useContext } from 'react';
 import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
 
+
 function BoolEvaluations() {
+  const { client } = useContext(BucketeerContext);
+  if (!client) {
+    console.error('Bucketeer client is not initialized');
+  }
+
   // boolean
   const evaluation = useBooleanVariation('show-new-text', false);
   // BKTEvaluationDetails<boolean>
