@@ -5,14 +5,15 @@ import {
 } from 'bkt-react-client-sdk';
 import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
 import { useContext } from 'react';
+import { FEATURE_ID_STRING } from '../constants';
 
 function StringVariation() {
   const { client } = useContext(BucketeerContext);
   // string
-  const evaluation = useStringVariation('string-feature', 'default');
+  const evaluation = useStringVariation(FEATURE_ID_STRING, 'default');
   // BKTEvaluationDetails<string>
   const evaluationDetails = useStringVariationDetails(
-    'string-feature',
+    FEATURE_ID_STRING,
     'default'
   );
 

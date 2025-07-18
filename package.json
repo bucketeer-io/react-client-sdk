@@ -22,6 +22,7 @@
     "prepare": "pnpm build",
     "example:start": "cd example && pnpm dev",
     "example:build": "cd example && pnpm build",
+    "test:e2e": "pnpm exec playwright test",
     "publish-npm": "pnpm build && pnpm publish --access public"
   },
   "keywords": [

@@ -1,14 +1,15 @@
 import { BucketeerContext, useObjectVariation, useObjectVariationDetails } from 'bkt-react-client-sdk';
 import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
 import { useContext } from 'react';
+import { FEATURE_ID_JSON } from '../constants';
 
 
 function ObjectVariation() {
   const { client } = useContext(BucketeerContext);
   // object
-  const evaluation = useObjectVariation('object-feature', { default: 'value' });
+  const evaluation = useObjectVariation(FEATURE_ID_JSON, { default: 'value' });
   // BKTEvaluationDetails<object>
-  const evaluationDetails = useObjectVariationDetails('object-feature', { default: 'value' });
+  const evaluationDetails = useObjectVariationDetails(FEATURE_ID_JSON, { default: 'value' });
 
   return (
     <div data-testid="object-evaluations-root">
