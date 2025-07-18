@@ -1,8 +1,10 @@
-import { useObjectVariation, useObjectVariationDetails } from 'bkt-react-client-sdk';
+import { BucketeerContext, useObjectVariation, useObjectVariationDetails } from 'bkt-react-client-sdk';
 import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
+import { useContext } from 'react';
 
 
 function ObjectEvaluations() {
+  const { client } = useContext(BucketeerContext);
   // object
   const evaluation = useObjectVariation('object-feature', { default: 'value' });
   // BKTEvaluationDetails<object>
@@ -12,6 +14,9 @@ function ObjectEvaluations() {
     <div data-testid="object-evaluations-root">
       <h2>Object Evaluations</h2>
       <p>This component evaluates object flags.</p>
+      <div data-testid="client-status">
+        <strong>Client Status:</strong> {client ? 'Ready' : 'Not Ready'}
+      </div>
       <div data-testid="object-evaluation-value">
         <strong>Evaluation Value:</strong>
         <pre style={{ margin: 0 }}>{JSON.stringify(evaluation, null, 2)}</pre>

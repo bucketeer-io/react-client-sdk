@@ -6,13 +6,8 @@ import {
 import { useContext } from 'react';
 import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
 
-
 function BoolEvaluations() {
   const { client } = useContext(BucketeerContext);
-  if (!client) {
-    console.error('Bucketeer client is not initialized');
-  }
-
   // boolean
   const evaluation = useBooleanVariation('show-new-text', false);
   // BKTEvaluationDetails<boolean>
@@ -22,6 +17,9 @@ function BoolEvaluations() {
     <div data-testid="bool-evaluations-root">
       <h2>Bool Evaluations</h2>
       <p>This component evaluates boolean flags.</p>
+      <div data-testid="client-status">
+        <strong>Client Status:</strong> {client ? 'Ready' : 'Not Ready'}
+      </div>
       <div data-testid="bool-evaluation-value">
         <strong>Evaluation Value:</strong> {String(evaluation)}
       </div>
