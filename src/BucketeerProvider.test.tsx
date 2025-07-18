@@ -50,10 +50,6 @@ afterEach(() => {
 });
 
 describe('Bucketeer React SDK', () => {
-  it('exports hello function', () => {
-    expect(hello()).toBe('Hello from Bucketeer React Client SDK!');
-  });
-
   it('exports BucketeerProvider', async () => {
     const { BucketeerProvider } = await import('./index');
     expect(BucketeerProvider).toBeDefined();

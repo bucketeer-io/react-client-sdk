@@ -1,10 +1,4 @@
-import { hello } from './index';
-
 describe('Bucketeer React SDK Exports', () => {
-  it('exports hello function', () => {
-    expect(hello()).toBe('Hello from Bucketeer React Client SDK!');
-  });
-
   it('exports all required components and hooks', async () => {
     const exports = await import('./index');
 
