@@ -22,7 +22,7 @@ module.exports = {
   plugins: [
     replace({
       preventAssignment: true,
-      __BKT_SDK_VERSION__: JSON.stringify(pkg.version),
+      __BKT_SDK_VERSION__: pkg.version,
       delimiters: ['\\${', '}'],
     }),
     resolve({
