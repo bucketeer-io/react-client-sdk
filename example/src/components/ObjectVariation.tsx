@@ -20,7 +20,7 @@ function ObjectVariation() {
       </div>
       <div data-testid="object-flag-value">
         <strong>Evaluation Value:</strong>
-        <pre style={{ margin: 0 }}>{JSON.stringify(evaluation, null, 2)}</pre>
+        <pre style={{ margin: 0 }}>{JSON.stringify(evaluation)}</pre>
       </div>
       <div style={{ marginTop: 16 }} data-testid="object-evaluation-details">
         <strong>Evaluation Details:</strong>
@@ -37,7 +37,7 @@ function ObjectVariation() {
             </tr>
             <tr>
               <td style={labelCellStyle}>userId</td>
-              <td style={cellStyle} data-testid="object-details-variation-userId">{evaluationDetails.userId}</td>
+              <td style={cellStyle} data-testid="object-details-variation-user-id">{evaluationDetails.userId}</td>
             </tr>
             <tr>
               <td style={labelCellStyle}>variationId</td>
@@ -50,7 +50,7 @@ function ObjectVariation() {
             <tr>
               <td style={labelCellStyle}>variationValue</td>
               <td style={cellStyle} data-testid="object-details-variation-value">
-                <pre style={{ margin: 0 }}>{JSON.stringify(evaluationDetails.variationValue, null, 2)}</pre>
+                <pre style={{ margin: 0 }}>{JSON.stringify(evaluationDetails.variationValue)}</pre>
               </td>
             </tr>
             <tr>

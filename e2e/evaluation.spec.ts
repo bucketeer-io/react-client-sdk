@@ -195,8 +195,8 @@ test('Object Variation Screen', async ({ page }) => {
   await expect(page.getByTestId('object-details-variation-feature-version')).toContainText('3');
 
   // assertVisible: id: "object-details-userId"
-  await expect(page.getByTestId('object-details-userId')).toBeVisible();
-  await expect(page.getByTestId('object-details-userId')).toContainText('bucketeer-js-user-id-1');
+  await expect(page.getByTestId('object-details-variation-user-id')).toBeVisible();
+  await expect(page.getByTestId('object-details-variation-user-id')).toContainText('bucketeer-js-user-id-1');
 
   // assertVisible: id: "object-details-variation-id"
   await expect(page.getByTestId('object-details-variation-id')).toBeVisible();
