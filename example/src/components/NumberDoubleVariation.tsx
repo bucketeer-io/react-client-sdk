@@ -50,7 +50,7 @@ function NumberDoubleVariation() {
               </tr>
               <tr>
                 <td style={labelCellStyle}>userId</td>
-                <td style={cellStyle} data-testid="nnumber-details-variation-user-id">
+                <td style={cellStyle} data-testid="number-details-variation-user-id">
                   {evaluationDetails.userId}
                 </td>
               </tr>

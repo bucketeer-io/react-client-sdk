@@ -248,9 +248,9 @@ test('NumberInt Variation Screen', async ({ page }) => {
   await expect(page.getByTestId('number-details-variation-feature-version')).toBeVisible();
   await expect(page.getByTestId('number-details-variation-feature-version')).toContainText('3');
 
-  // assertVisible: id: "nnumber-details-variation-user-id"
-  await expect(page.getByTestId('nnumber-details-variation-user-id')).toBeVisible();
-  await expect(page.getByTestId('nnumber-details-variation-user-id')).toContainText('bucketeer-js-user-id-1');
+  // assertVisible: id: "number-details-variation-user-id"
+  await expect(page.getByTestId('number-details-variation-user-id')).toBeVisible();
+  await expect(page.getByTestId('number-details-variation-user-id')).toContainText('bucketeer-js-user-id-1');
 
   // assertVisible: id: "number-details-variation-id"
   await expect(page.getByTestId('number-details-variation-id')).toBeVisible();
@@ -302,9 +302,9 @@ test('NumberDouble Variation Screen', async ({ page }) => {
   await expect(page.getByTestId('number-details-variation-feature-version')).toBeVisible();
   await expect(page.getByTestId('number-details-variation-feature-version')).toContainText('3');
 
-  // assertVisible: id: "nnumber-details-variation-user-id"
-  await expect(page.getByTestId('nnumber-details-variation-user-id')).toBeVisible();
-  await expect(page.getByTestId('nnumber-details-variation-user-id')).toContainText('bucketeer-js-user-id-1');
+  // assertVisible: id: "number-details-variation-user-id"
+  await expect(page.getByTestId('number-details-variation-user-id')).toBeVisible();
+  await expect(page.getByTestId('number-details-variation-user-id')).toContainText('bucketeer-js-user-id-1');
 
   // assertVisible: id: "number-details-variation-id"
   await expect(page.getByTestId('number-details-variation-id')).toBeVisible();
