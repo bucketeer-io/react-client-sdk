@@ -6,14 +6,14 @@ import {
 
 import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
 import { useContext } from 'react';
-import { FEATURE_ID_INT } from '../constants';
+import { FEATURE_ID_DOUBLE } from '../constants';
 
 function NumberDoubleVariation() {
   const { client } = useContext(BucketeerContext);
   // number
-  const evaluation = useNumberVariation(FEATURE_ID_INT, 0);
+  const evaluation = useNumberVariation(FEATURE_ID_DOUBLE, 0);
   // BKTEvaluationDetails<number>
-  const evaluationDetails = useNumberVariationDetails(FEATURE_ID_INT, 0);
+  const evaluationDetails = useNumberVariationDetails(FEATURE_ID_DOUBLE, 0);
 
   return (
     <div data-testid="number-evaluations-root">

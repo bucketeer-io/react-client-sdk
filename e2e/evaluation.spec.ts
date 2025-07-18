@@ -217,3 +217,111 @@ test('Object Variation Screen', async ({ page }) => {
   // tapOn: id: "back-to-demo-button" (update selector if needed)
   // await page.getByTestId('back-to-demo-button').click();
 });
+
+test('NumberInt Variation Screen', async ({ page }) => {
+  // launchApp
+  await page.goto('/');
+
+  // tapOn: id: "nav-number-int" (matches the button for Number Int Demo)
+  await page.getByTestId('nav-number-int').click();
+
+  // assertVisible: "Bucketeer React SDK Demo" (main heading)
+  await expect(page.getByRole('heading', { name: 'Bucketeer React SDK Demo' })).toBeVisible();
+
+  // assertVisible: "Number Evaluations" (screen heading)
+  await expect(page.getByRole('heading', { name: 'Number Evaluations' })).toBeVisible();
+
+  // assertVisible: id: "client-status" and "Client Status: Ready"
+  await expect(page.getByTestId('client-status')).toContainText('Client Status: Ready');
+
+  // assertVisible: id: "number-flag-value"
+  await expect(page.getByTestId('number-flag-value')).toBeVisible();
+
+  // assertVisible: "Evaluation Value: 10"
+  await expect(page.getByTestId('number-flag-value')).toContainText('10');
+
+  // assertVisible: id: "number-details-variation-featureId"
+  await expect(page.getByTestId('number-details-variation-featureId')).toBeVisible();
+  await expect(page.getByTestId('number-details-variation-featureId')).toContainText('feature-js-e2e-int');
+
+  // assertVisible: id: "number-details-variation-feature-version"
+  await expect(page.getByTestId('number-details-variation-feature-version')).toBeVisible();
+  await expect(page.getByTestId('number-details-variation-feature-version')).toContainText('3');
+
+  // assertVisible: id: "nnumber-details-variation-user-id"
+  await expect(page.getByTestId('nnumber-details-variation-user-id')).toBeVisible();
+  await expect(page.getByTestId('nnumber-details-variation-user-id')).toContainText('bucketeer-js-user-id-1');
+
+  // assertVisible: id: "number-details-variation-id"
+  await expect(page.getByTestId('number-details-variation-id')).toBeVisible();
+  await expect(page.getByTestId('number-details-variation-id')).toContainText('6079c503-c281-4561-b870-c2c59a75e6a6');
+
+  // assertVisible: id: "number-details-variation-name"
+  await expect(page.getByTestId('number-details-variation-name')).toBeVisible();
+  await expect(page.getByTestId('number-details-variation-name')).toContainText('variation 10');
+
+  // assertVisible: id: "number-details-variation-value"
+  await expect(page.getByTestId('number-details-variation-value')).toBeVisible();
+  await expect(page.getByTestId('number-details-variation-value')).toContainText('10');
+
+  // assertVisible: id: "number-details-variation-reason"
+  await expect(page.getByTestId('number-details-variation-reason')).toBeVisible();
+  await expect(page.getByTestId('number-details-variation-reason')).toContainText('DEFAULT');
+
+  // tapOn: id: "back-to-demo-button" (update selector if needed)
+  // await page.getByTestId('back-to-demo-button').click();
+});
+
+test('NumberDouble Variation Screen', async ({ page }) => {
+  // launchApp
+  await page.goto('/');
+
+  // tapOn: id: "nav-number-double" (matches the button for Number Double Demo)
+  await page.getByTestId('nav-number-double').click();
+
+  // assertVisible: "Bucketeer React SDK Demo" (main heading)
+  await expect(page.getByRole('heading', { name: 'Bucketeer React SDK Demo' })).toBeVisible();
+
+  // assertVisible: "Number Evaluations" (screen heading)
+  await expect(page.getByRole('heading', { name: 'Number Evaluations' })).toBeVisible();
+
+  // assertVisible: id: "client-status" and "Client Status: Ready"
+  await expect(page.getByTestId('client-status')).toContainText('Client Status: Ready');
+
+  // assertVisible: id: "number-flag-value"
+  await expect(page.getByTestId('number-flag-value')).toBeVisible();
+
+  // assertVisible: "Evaluation Value: 2.1"
+  await expect(page.getByTestId('number-flag-value')).toContainText('2.1');
+
+  // assertVisible: id: "number-details-variation-featureId"
+  await expect(page.getByTestId('number-details-variation-featureId')).toBeVisible();
+  await expect(page.getByTestId('number-details-variation-featureId')).toContainText('feature-js-e2e-double');
+
+  // assertVisible: id: "number-details-variation-feature-version"
+  await expect(page.getByTestId('number-details-variation-feature-version')).toBeVisible();
+  await expect(page.getByTestId('number-details-variation-feature-version')).toContainText('3');
+
+  // assertVisible: id: "nnumber-details-variation-user-id"
+  await expect(page.getByTestId('nnumber-details-variation-user-id')).toBeVisible();
+  await expect(page.getByTestId('nnumber-details-variation-user-id')).toContainText('bucketeer-js-user-id-1');
+
+  // assertVisible: id: "number-details-variation-id"
+  await expect(page.getByTestId('number-details-variation-id')).toBeVisible();
+  await expect(page.getByTestId('number-details-variation-id')).toContainText('2d4a213c-1721-434b-8484-1b72826ece98');
+
+  // assertVisible: id: "number-details-variation-name"
+  await expect(page.getByTestId('number-details-variation-name')).toBeVisible();
+  await expect(page.getByTestId('number-details-variation-name')).toContainText('variation 2.1');
+
+  // assertVisible: id: "number-details-variation-value"
+  await expect(page.getByTestId('number-details-variation-value')).toBeVisible();
+  await expect(page.getByTestId('number-details-variation-value')).toContainText('2.1');
+
+  // assertVisible: id: "number-details-variation-reason"
+  await expect(page.getByTestId('number-details-variation-reason')).toBeVisible();
+  await expect(page.getByTestId('number-details-variation-reason')).toContainText('DEFAULT');
+
+  // tapOn: id: "back-to-demo-button" (update selector if needed)
+  // await page.getByTestId('back-to-demo-button').click();
+});
