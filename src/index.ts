@@ -16,8 +16,3 @@ export { defineBKTConfigForReact } from './BKTConfig';
 export { SDK_VERSION as sdkVersion } from './version';
 // Re-export types from bkt-js-client-sdk for convenience
 export * from 'bkt-js-client-sdk';
-
-// Simple hello function
-export const hello = (): string => {
-  return 'Hello from Bucketeer React Client SDK!';
-};
