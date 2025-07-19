@@ -20,7 +20,7 @@ jobs:
         node-version: lts/*
 
     - name: Install dependencies
-      run: npm install -g pnpm && pnpm install
+      run: npm install -g pnpm && pnpm install --frozen-lockfile
 
     - name: Inject environment variables
       run: |
