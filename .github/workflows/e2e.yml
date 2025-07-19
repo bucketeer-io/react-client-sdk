@@ -8,6 +8,8 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.50.0-noble
     steps:
     - uses: actions/checkout@v4
 
@@ -27,7 +29,7 @@ jobs:
           ${{ runner.os }}-playwright-
 
     - name: Install Playwright Browsers
-      run: pnpm exec playwright install --with-deps
+      run: pnpm exec playwright install
     - name: Inject environment variables
       run: |
         rm -f example/.env
