@@ -17,7 +17,7 @@
   "pull-request-title-pattern": "chore: release v${version}",
   "packages": {
     ".": {
-      "package-name": "@bucketeer/openfeature-js-client-sdk",
+      "package-name": "@bucketeer/react-client-sdk",
       "changelog-path": "CHANGELOG.md"
     }
   },
