@@ -14,5 +14,5 @@ export {
 } from './hooks/index';
 export { defineBKTConfigForReact } from './BKTConfig';
 export { SDK_VERSION as sdkVersion } from './version';
-// Re-export types from bkt-js-client-sdk for convenience
-export * from 'bkt-js-client-sdk';
+// Re-export types from @bucketeer/js-client-sdk for convenience
+export * from '@bucketeer/js-client-sdk';

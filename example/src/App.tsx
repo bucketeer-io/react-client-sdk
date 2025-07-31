@@ -6,7 +6,7 @@ import {
   type BKTClient,
   getBKTClient,
   destroyBKTClient,
-} from 'bkt-react-client-sdk';
+} from '@bucketeer/react-client-sdk';
 import './App.css';
 import { useEffect, useState } from 'react';
 import { StringVariation } from './components/StringVariation';

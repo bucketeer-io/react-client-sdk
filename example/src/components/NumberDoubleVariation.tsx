@@ -2,7 +2,7 @@ import {
   BucketeerContext,
   useNumberVariation,
   useNumberVariationDetails,
-} from 'bkt-react-client-sdk';
+} from '@bucketeer/react-client-sdk';
 
 import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
 import { useContext } from 'react';

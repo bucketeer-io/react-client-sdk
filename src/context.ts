@@ -1,5 +1,5 @@
 import React from 'react';
-import type { BKTClient } from 'bkt-js-client-sdk';
+import type { BKTClient } from '@bucketeer/js-client-sdk';
 
 interface BucketeerContextType {
   client: BKTClient | null;

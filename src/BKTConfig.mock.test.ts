@@ -2,11 +2,11 @@
 // passes the correct arguments to the underlying SDK. We separate this from the real
 // implementation test to avoid issues with Jest's module cache and to ensure isolation.
 // See BKTConfig.real.test.ts for tests using the real implementation.
-jest.mock('bkt-js-client-sdk', () => ({
+jest.mock('@bucketeer/js-client-sdk', () => ({
   defineBKTConfig: jest.fn(),
 }));
 
-import { RawBKTConfig } from 'bkt-js-client-sdk';
+import { RawBKTConfig } from '@bucketeer/js-client-sdk';
 import { SOURCE_ID_REACT } from './SourceId';
 import { SDK_VERSION } from './version';
 import { defineBKTConfigForReact } from './BKTConfig';
@@ -14,7 +14,7 @@ import { defineBKTConfigForReact } from './BKTConfig';
 (globalThis as unknown as { fetch: jest.Mock }).fetch = jest.fn();
 
 // Get the mocked function after imports
-const { defineBKTConfig } = jest.requireMock('bkt-js-client-sdk');
+const { defineBKTConfig } = jest.requireMock('@bucketeer/js-client-sdk');
 const mockDefineBKTConfig = defineBKTConfig as jest.MockedFunction<
   typeof defineBKTConfig
 >;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, type JSX, useMemo } from 'react';
-import { initializeBKTClient } from 'bkt-js-client-sdk';
-import type { BKTClient, BKTUser, BKTConfig } from 'bkt-js-client-sdk';
+import { initializeBKTClient } from '@bucketeer/js-client-sdk';
+import type { BKTClient, BKTUser, BKTConfig } from '@bucketeer/js-client-sdk';
 import { BucketeerContext } from './context';
 import { SOURCE_ID_REACT, SOURCE_ID_REACT_NATIVE } from './SourceId';
 

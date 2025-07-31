@@ -1,5 +1,5 @@
-import { defineBKTConfig } from 'bkt-js-client-sdk';
-import type { BKTConfig, RawBKTConfig } from 'bkt-js-client-sdk';
+import { defineBKTConfig } from '@bucketeer/js-client-sdk';
+import type { BKTConfig, RawBKTConfig } from '@bucketeer/js-client-sdk';
 import { SOURCE_ID_REACT } from './SourceId';
 import { SDK_VERSION } from './version';
 

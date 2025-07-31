@@ -1,4 +1,4 @@
-import { BucketeerContext, useObjectVariation, useObjectVariationDetails } from 'bkt-react-client-sdk';
+import { BucketeerContext, useObjectVariation, useObjectVariationDetails } from '@bucketeer/react-client-sdk';
 import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
 import { useContext } from 'react';
 import { FEATURE_ID_JSON } from '../constants';

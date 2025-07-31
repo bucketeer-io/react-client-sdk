@@ -3,7 +3,7 @@
 // tests using the real implementation are not affected by mocking. See BKTConfig.mock.test.ts for the
 // mock-based test that verifies argument passing to the SDK.
 
-import { type RawBKTConfig } from 'bkt-js-client-sdk';
+import { type RawBKTConfig } from '@bucketeer/js-client-sdk';
 import { SOURCE_ID_REACT } from './SourceId';
 import { defineBKTConfigForReact } from './BKTConfig';
 import { SDK_VERSION } from './version';

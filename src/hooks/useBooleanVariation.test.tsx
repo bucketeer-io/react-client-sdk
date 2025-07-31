@@ -20,7 +20,7 @@
 import { render } from '@testing-library/react';
 import { useBooleanVariation } from './useBooleanVariation';
 import { useBooleanVariationDetails } from './useBooleanVariationDetails';
-import type { BKTEvaluationDetails } from 'bkt-js-client-sdk';
+import type { BKTEvaluationDetails } from '@bucketeer/js-client-sdk';
 
 // Mock the underlying hook directly instead of mocking the client
 jest.mock('./useBooleanVariationDetails');

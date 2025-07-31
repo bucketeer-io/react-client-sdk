@@ -1,6 +1,6 @@
 import { useContext, useMemo, useRef } from 'react';
 import { BucketeerContext } from '../context';
-import type { BKTEvaluationDetails, BKTValue } from 'bkt-js-client-sdk';
+import type { BKTEvaluationDetails, BKTValue } from '@bucketeer/js-client-sdk';
 
 // Deep equality check for objects
 function deepEqual(a: unknown, b: unknown): boolean {

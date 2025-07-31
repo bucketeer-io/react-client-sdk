@@ -34,5 +34,5 @@ module.exports = {
       exclude: ['**/*.test.ts', '**/*.test.tsx'],
     }),
   ],
-  external: ['bkt-js-client-sdk', 'react', 'react-dom'],
+  external: ['@bucketeer/js-client-sdk', 'react', 'react-dom'],
 };

@@ -20,7 +20,7 @@
 import { render } from '@testing-library/react';
 import { useNumberVariation } from './useNumberVariation';
 import { useNumberVariationDetails } from './useNumberVariationDetails';
-import type { BKTEvaluationDetails } from 'bkt-js-client-sdk';
+import type { BKTEvaluationDetails } from '@bucketeer/js-client-sdk';
 
 // Mock the underlying hook directly instead of mocking the client
 jest.mock('./useNumberVariationDetails');

@@ -21,10 +21,10 @@ import { act } from 'react';
 import { BKTClient, useObjectVariationDetails } from '../index';
 import { createTestSuite } from './testHelpers';
 import { BucketeerContext } from '../context';
-import type { BKTEvaluationDetails } from 'bkt-js-client-sdk';
+import type { BKTEvaluationDetails } from '@bucketeer/js-client-sdk';
 
-jest.mock('bkt-js-client-sdk', () => {
-  const actual = jest.requireActual('bkt-js-client-sdk');
+jest.mock('@bucketeer/js-client-sdk', () => {
+  const actual = jest.requireActual('@bucketeer/js-client-sdk');
   return {
     ...actual,
     getBKTClient: jest.fn(),

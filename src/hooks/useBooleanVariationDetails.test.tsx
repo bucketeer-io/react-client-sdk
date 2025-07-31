@@ -8,8 +8,8 @@ import {
 } from '../index';
 import { createTestSuite } from './testHelpers';
 
-jest.mock('bkt-js-client-sdk', () => {
-  const actual = jest.requireActual('bkt-js-client-sdk');
+jest.mock('@bucketeer/js-client-sdk', () => {
+  const actual = jest.requireActual('@bucketeer/js-client-sdk');
   return {
     ...actual,
     getBKTClient: jest.fn(),

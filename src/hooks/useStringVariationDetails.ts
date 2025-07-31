@@ -1,5 +1,5 @@
 import { useContext, useMemo } from 'react';
-import type { BKTEvaluationDetails } from 'bkt-js-client-sdk';
+import type { BKTEvaluationDetails } from '@bucketeer/js-client-sdk';
 import { BucketeerContext } from '../context';
 
 export function useStringVariationDetails(

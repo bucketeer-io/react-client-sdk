@@ -8,9 +8,9 @@ importers:
 
   .:
     dependencies:
-      bkt-js-client-sdk:
-        specifier: 2.2.27
-        version: 2.2.27
+      '@bucketeer/js-client-sdk':
+        specifier: 2.3.0
+        version: 2.3.0
     devDependencies:
       '@playwright/test':
         specifier: ^1.54.1
@@ -99,7 +99,7 @@ importers:
 
   example:
     dependencies:
-      bkt-react-client-sdk:
+      '@bucketeer/react-client-sdk':
         specifier: workspace:*
         version: link:..
       react:
@@ -328,6 +328,9 @@ packages:
 
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
+
+  '@bucketeer/js-client-sdk@2.3.0':
+    resolution: {integrity: sha512-zVvY+9qYjrZ5icE2dE1PDYtfAx2QTArB6389wkB2mVSNa635Yx09KnW5qRU1UfWinPEKBo9Y9c2rzWdJ2s5HJQ==}
 
   '@esbuild/aix-ppc64@0.25.5':
     resolution: {integrity: sha512-9o3TMmpmftaCMepOdA5k/yDw8SfInyzWWTjYTFCX3kPSDJMROQTb8jg+h9Cnwnmm1vOzvxN7gIfB5V2ewpjtGA==}
@@ -1207,9 +1210,6 @@ packages:
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
-
-  bkt-js-client-sdk@2.2.27:
-    resolution: {integrity: sha512-5L3CGSYaIY5xV8VBW/skyarEZxlGM24EW25pkNFz2kA+/FTFdxIFg9hgCecJCKsAc0BAXDMRd25AVS4TdT3LLg==}
 
   brace-expansion@1.1.12:
     resolution: {integrity: sha512-9T9UjW3r0UW5c1Q7GTwllptXwhvYmEzFhzMfZ9H7FQWt+uZePjZPjBP/W1ZEyZ1twGWom5/56TF4lPcqjnDHcg==}
@@ -3283,6 +3283,10 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
+  '@bucketeer/js-client-sdk@2.3.0':
+    dependencies:
+      async-mutex: 0.5.0
+
   '@esbuild/aix-ppc64@0.25.5':
     optional: true
 
@@ -4301,10 +4305,6 @@ snapshots:
       babel-preset-current-node-syntax: 1.1.0(@babel/core@7.27.4)
 
   balanced-match@1.0.2: {}
-
-  bkt-js-client-sdk@2.2.27:
-    dependencies:
-      async-mutex: 0.5.0
 
   brace-expansion@1.1.12:
     dependencies:

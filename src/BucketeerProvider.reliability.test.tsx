@@ -5,7 +5,7 @@ import {
   BKTClient,
   getBKTClient,
   initializeBKTClient,
-} from 'bkt-js-client-sdk';
+} from '@bucketeer/js-client-sdk';
 import {
   useBooleanVariation,
   useStringVariation,
@@ -17,8 +17,8 @@ import {
 (globalThis as unknown as { fetch: jest.Mock }).fetch = jest.fn();
 
 // Mock only specific functions from bkt-js-client-sdk
-jest.mock('bkt-js-client-sdk', () => {
-  const actual = jest.requireActual('bkt-js-client-sdk');
+jest.mock('@bucketeer/js-client-sdk', () => {
+  const actual = jest.requireActual('@bucketeer/js-client-sdk');
   return {
     ...actual,
     getBKTClient: jest.fn(),

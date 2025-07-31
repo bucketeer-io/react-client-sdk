@@ -2,7 +2,7 @@ import {
   BucketeerContext,
   useBooleanVariation,
   useBooleanVariationDetails,
-} from 'bkt-react-client-sdk';
+} from '@bucketeer/react-client-sdk';
 import { useContext } from 'react';
 import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
 import { FEATURE_ID_BOOLEAN } from '../constants';

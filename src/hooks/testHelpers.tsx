@@ -1,9 +1,9 @@
-import type { BKTClient, BKTConfig, BKTUser } from 'bkt-js-client-sdk';
+import type { BKTClient, BKTConfig, BKTUser } from '@bucketeer/js-client-sdk';
 import {
   getBKTClient,
   initializeBKTClient,
   defineBKTUser,
-} from 'bkt-js-client-sdk';
+} from '@bucketeer/js-client-sdk';
 import React from 'react';
 import { BucketeerProvider, defineBKTConfigForReact } from '../index';
 import { render, act } from '@testing-library/react';

@@ -1,4 +1,4 @@
-import type { BKTValue } from 'bkt-js-client-sdk';
+import type { BKTValue } from '@bucketeer/js-client-sdk';
 import { useObjectVariationDetails } from './useObjectVariationDetails';
 
 export function useObjectVariation<T extends BKTValue>(
