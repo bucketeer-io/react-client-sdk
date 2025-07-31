@@ -2,33 +2,58 @@ import { useContext, useMemo, useRef } from 'react';
 import { BucketeerContext } from '../context';
 import type { BKTEvaluationDetails, BKTValue } from '@bucketeer/js-client-sdk';
 
-// Deep equality check for objects
-function deepEqual(a: unknown, b: unknown): boolean {
+// Deep equality check for BKTValue (non-recursive)
+function deepEqualBKTValue(a: BKTValue, b: BKTValue): boolean {
   if (a === b) return true;
   if (a == null || b == null) return false;
+  if (typeof a !== typeof b) return false;
   if (typeof a !== 'object' || typeof b !== 'object') return false;
 
-  const keysA = Object.keys(a);
-  const keysB = Object.keys(b);
+  // Use a stack to avoid recursion
+  const stack: Array<[BKTValue, BKTValue]> = [[a, b]];
 
-  if (keysA.length !== keysB.length) return false;
+  while (stack.length > 0) {
+    const [currentA, currentB] = stack.pop()!;
 
-  for (const key of keysA) {
-    if (keysB.indexOf(key) === -1) return false;
-    if (
-      !deepEqual(
-        (a as Record<string, unknown>)[key],
-        (b as Record<string, unknown>)[key]
-      )
-    ) {
+    if (currentA === currentB) continue;
+    if (currentA == null || currentB == null) return false;
+    if (typeof currentA !== typeof currentB) return false;
+    if (typeof currentA !== 'object' || typeof currentB !== 'object')
       return false;
+
+    const aIsArray = Array.isArray(currentA);
+    const bIsArray = Array.isArray(currentB);
+    if (aIsArray !== bIsArray) return false;
+
+    if (aIsArray) {
+      // Both are arrays
+      const arrA = currentA as BKTValue[];
+      const arrB = currentB as BKTValue[];
+      if (arrA.length !== arrB.length) return false;
+
+      for (let i = 0; i < arrA.length; i++) {
+        stack.push([arrA[i], arrB[i]]);
+      }
+    } else {
+      // Both are objects
+      const keysA = Object.keys(currentA);
+      const keysB = Object.keys(currentB);
+      if (keysA.length !== keysB.length) return false;
+
+      for (const key of keysA) {
+        if (!(key in currentB)) return false;
+        stack.push([
+          (currentA as Record<string, BKTValue>)[key],
+          (currentB as Record<string, BKTValue>)[key],
+        ]);
+      }
     }
   }
 
   return true;
 }
 
-export function useObjectVariationDetails<T extends BKTValue>(
+function useObjectVariationDetails<T extends BKTValue>(
   flagId: string,
   defaultValue: T
 ): BKTEvaluationDetails<T> {
@@ -37,7 +62,7 @@ export function useObjectVariationDetails<T extends BKTValue>(
   // Use ref to store the previous value and only update if content actually changes
   const previousDefaultValue = useRef<T>(defaultValue);
   const stableDefaultValue = useMemo(() => {
-    if (deepEqual(defaultValue, previousDefaultValue.current)) {
+    if (deepEqualBKTValue(defaultValue, previousDefaultValue.current)) {
       return previousDefaultValue.current;
     }
     previousDefaultValue.current = defaultValue;
@@ -45,8 +70,6 @@ export function useObjectVariationDetails<T extends BKTValue>(
   }, [defaultValue]);
 
   return useMemo(() => {
-    void lastUpdated; // Reference to satisfy ESLint
-
     if (client) {
       const result = client.objectVariationDetails(flagId, stableDefaultValue);
       if (result) {
@@ -64,5 +87,10 @@ export function useObjectVariationDetails<T extends BKTValue>(
       variationValue: stableDefaultValue,
       reason: 'DEFAULT',
     } satisfies BKTEvaluationDetails<T>;
+    // lastUpdated is intentionally unused but needed in dependency array
+    // to trigger re-evaluation when client state changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [client, flagId, stableDefaultValue, lastUpdated]);
 }
+
+export { useObjectVariationDetails, deepEqualBKTValue };

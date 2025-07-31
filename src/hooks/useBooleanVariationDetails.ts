@@ -12,8 +12,6 @@ export function useBooleanVariationDetails(
   // Keep useMemo version — it’s simpler, correct, and idiomatic as long as
   // the booleanVariationDetails method is pure and sync.
   return useMemo(() => {
-    void lastUpdated; // Reference to satisfy ESLint
-
     if (client) {
       const result = client.booleanVariationDetails(flagId, defaultValue);
       if (result) {
@@ -31,5 +29,8 @@ export function useBooleanVariationDetails(
       variationValue: defaultValue,
       reason: 'DEFAULT',
     };
+    // lastUpdated is intentionally unused but needed in dependency array
+    // to trigger re-evaluation when client state changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [client, flagId, defaultValue, lastUpdated]);
 }

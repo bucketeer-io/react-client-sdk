@@ -9,8 +9,6 @@ export function useStringVariationDetails(
   const { client, lastUpdated } = useContext(BucketeerContext);
 
   return useMemo(() => {
-    void lastUpdated; // Reference to satisfy ESLint
-
     if (client) {
       const result = client.stringVariationDetails(flagId, defaultValue);
       if (result) {
@@ -28,5 +26,8 @@ export function useStringVariationDetails(
       variationValue: defaultValue,
       reason: 'DEFAULT',
     };
+    // lastUpdated is intentionally unused but needed in dependency array
+    // to trigger re-evaluation when client state changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [client, flagId, defaultValue, lastUpdated]);
 }
