@@ -3,6 +3,7 @@ import { initializeBKTClient } from '@bucketeer/js-client-sdk';
 import type { BKTClient, BKTUser, BKTConfig } from '@bucketeer/js-client-sdk';
 import { BucketeerContext } from './context';
 import { SOURCE_ID_REACT, SOURCE_ID_REACT_NATIVE } from './SourceId';
+import { shouldLogDebug } from './shouldLogDebug';
 
 export async function initializeBKTClientForReact(
   config: BKTConfig,
@@ -36,12 +37,16 @@ export function BucketeerProvider({
   );
   useEffect(() => {
     if (!client) {
-      console.warn('BucketeerProvider: BKTClient is null or undefined');
+      if (shouldLogDebug()) {
+        console.warn('BucketeerProvider: BKTClient is null or undefined');
+      }
       return;
     } else {
-      console.info(
-        'BucketeerProvider:  Initializing Bucketeer client listener'
-      );
+      if (shouldLogDebug()) {
+        console.info(
+          'BucketeerProvider:  Initializing Bucketeer client listener'
+        );
+      }
     }
 
     let listenToken: string | null = null;
@@ -54,7 +59,12 @@ export function BucketeerProvider({
         };
         listenToken = client.addEvaluationUpdateListener(listener);
       } catch (error) {
-        console.error('Failed to initialize Bucketeer client listener:', error);
+        if (shouldLogDebug()) {
+          console.error(
+            'Failed to initialize Bucketeer client listener:',
+            error
+          );
+        }
       }
     };
 
@@ -65,11 +75,15 @@ export function BucketeerProvider({
       if (listenToken) {
         try {
           client.removeEvaluationUpdateListener(listenToken);
-          console.info(
-            `BucketeerProvider: Removed evaluation listener ${listenToken}`
-          );
+          if (shouldLogDebug()) {
+            console.info(
+              `BucketeerProvider: Removed evaluation listener ${listenToken}`
+            );
+          }
         } catch (error) {
-          console.error('Failed to remove evaluation listener:', error);
+          if (shouldLogDebug()) {
+            console.error('Failed to remove evaluation listener:', error);
+          }
         }
       }
     };
