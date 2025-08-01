@@ -15,9 +15,7 @@
  */
 
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
-import { renderHook } from '@testing-library/react';
-import { act } from 'react';
+import { render, waitFor, renderHook, act } from '@testing-library/react';
 import { BKTClient, useObjectVariationDetails } from '../index';
 import { createTestSuite } from './testHelpers';
 import { BucketeerContext } from '../context';

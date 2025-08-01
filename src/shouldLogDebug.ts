@@ -20,16 +20,20 @@ export const shouldLogDebug = (): boolean => {
     if (typeof __DEV__ !== 'undefined') {
       return __DEV__;
     }
-    try {
-      // Dynamic import.meta access (to avoid syntax errors)
-      const importMeta = new Function('return import.meta')();
-      if (importMeta?.env?.DEV) {
+
+    // Check if we're running on localhost (Vite dev server)
+    if (typeof window !== 'undefined' && window.location) {
+      const hostname = window.location.hostname;
+      if (
+        hostname === 'localhost' ||
+        hostname === '127.0.0.1' ||
+        hostname === '0.0.0.0'
+      ) {
         return true;
       }
-    } catch {
-      // Not in ES module environment
     }
-    // Fallback to NODE_ENV for React web
+
+    // Fallback to NODE_ENV for React web and other environments
     if (typeof process !== 'undefined' && process?.env?.NODE_ENV) {
       return process.env.NODE_ENV === 'development';
     }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, type JSX, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { initializeBKTClient } from '@bucketeer/js-client-sdk';
 import type { BKTClient, BKTUser, BKTConfig } from '@bucketeer/js-client-sdk';
 import { BucketeerContext } from './context';
