@@ -47,6 +47,6 @@ jobs:
         run: pnpm build
 
       - name: Publish
-        run: pnpm publish --publish-branch ${{ github.ref_name }}
+        run: pnpm publish --publish-branch ${{ github.ref_name }} --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
