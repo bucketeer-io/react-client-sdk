@@ -24,8 +24,8 @@ For documentation related to flags management in Bucketeer, refer to the [Bucket
 npm install @bucketeer/react-client-sdk
 ```
 
-> Required React version is `^16.8.0` or later, as it uses React Hooks. All following libraries react-dom, @types/react, @type/react-dom version should match the React version. 
-
+> Required React version is `^18.0.0` or later, as it uses React Hooks. All following libraries react-dom, @types/react, @type/react-dom version should match the React version. 
+> The SDK may function with React versions >= 16.8.0, but these are not officially supported. Official support is provided for React ^18.0.0 and above.
 ## Usage
 
 ### Initialization
