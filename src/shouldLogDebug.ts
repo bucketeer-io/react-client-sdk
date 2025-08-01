@@ -20,6 +20,15 @@ export const shouldLogDebug = (): boolean => {
     if (typeof __DEV__ !== 'undefined') {
       return __DEV__;
     }
+    try {
+      // Dynamic import.meta access (to avoid syntax errors)
+      const importMeta = new Function('return import.meta')();
+      if (importMeta?.env?.DEV) {
+        return true;
+      }
+    } catch {
+      // Not in ES module environment
+    }
     // Fallback to NODE_ENV for React web
     if (typeof process !== 'undefined' && process?.env?.NODE_ENV) {
       return process.env.NODE_ENV === 'development';
