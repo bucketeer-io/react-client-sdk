@@ -48,7 +48,7 @@ import {
 
 const config = defineBKTConfigForReact({
   apiKey: 'your-api-key',
-  apiEndpoint: 'https://api.bucketeer.io',
+  apiEndpoint: 'https://api.example.com',
   appVersion: '1.0.0',
   featureTag: 'web',
 });
