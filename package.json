@@ -35,7 +35,7 @@
   "author": "Bucketeer Team",
   "license": "MIT",
   "dependencies": {
-    "@bucketeer/js-client-sdk": "2.3.0"
+    "@bucketeer/js-client-sdk": "2.3.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.54.1",
