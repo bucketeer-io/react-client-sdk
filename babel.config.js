@@ -5,6 +5,8 @@ module.exports = {
     '@babel/preset-typescript',
   ],
   plugins: [
-    'babel-plugin-react-compiler',
+    ['babel-plugin-react-compiler', {
+      target: '18'
+    }],
   ],
 };
