@@ -214,7 +214,7 @@ describe('useObjectVariationDetails', () => {
       client: BKTClient | null,
       lastUpdated: number
     ) => {
-      // eslint-disable-next-line react/display-name
+       
       return ({ children }: { children: React.ReactNode }) => (
         <BucketeerContext.Provider value={{ client, lastUpdated }}>
           {children}
