@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
+const babel = require ('@rollup/plugin-babel');
 const resolve = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const typescript = require('@rollup/plugin-typescript');
@@ -29,6 +30,11 @@ module.exports = {
       browser: true,
     }),
     commonjs(),
+    babel({
+        babelHelpers: 'bundled',
+        exclude: 'node_modules/**',
+        extensions: ['.js', '.jsx', '.ts', '.tsx']
+    }),
     typescript({
       tsconfig: './tsconfig.json',
       exclude: ['**/*.test.ts', '**/*.test.tsx'],
