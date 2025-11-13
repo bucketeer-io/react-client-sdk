@@ -214,7 +214,6 @@ describe('useObjectVariationDetails', () => {
       client: BKTClient | null,
       lastUpdated: number
     ) => {
-       
       return ({ children }: { children: React.ReactNode }) => (
         <BucketeerContext.Provider value={{ client, lastUpdated }}>
           {children}
