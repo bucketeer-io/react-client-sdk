@@ -32,6 +32,18 @@ export default [
     },
   },
   {
+    files: ['**/*.cjs'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        module: 'readonly',
+        require: 'readonly',
+        global: 'readonly',
+      },
+      sourceType: 'commonjs',
+    },
+  },
+  {
     ignores: ['dist/', 'node_modules/', 'coverage/', 'playwright-report/'],
   },
 ];
