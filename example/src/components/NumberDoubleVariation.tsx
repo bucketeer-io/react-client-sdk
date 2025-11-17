@@ -1,15 +1,14 @@
 import {
-  BucketeerContext,
+  useBucketeerClient,
   useNumberVariation,
   useNumberVariationDetails,
 } from '@bucketeer/react-client-sdk';
 
 import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
-import { useContext } from 'react';
 import { FEATURE_ID_DOUBLE } from '../constants';
 
 function NumberDoubleVariation() {
-  const { client } = useContext(BucketeerContext);
+  const client = useBucketeerClient();
   // number
   const evaluation = useNumberVariation(FEATURE_ID_DOUBLE, 0);
   // BKTEvaluationDetails<number>

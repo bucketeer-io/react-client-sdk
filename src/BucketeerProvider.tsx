@@ -27,7 +27,7 @@ interface BucketeerProviderProps {
 export function BucketeerProvider({
   client,
   children,
-}: BucketeerProviderProps): JSX.Element {
+}: BucketeerProviderProps) {
   // Use initClient directly instead of storing in state since it's passed as prop
   const [lastUpdated, setLastUpdated] = useState(0);
   // Memoize the context value to prevent unnecessary re-renders

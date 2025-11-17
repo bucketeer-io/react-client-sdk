@@ -1,11 +1,10 @@
-import { BucketeerContext, useObjectVariation, useObjectVariationDetails } from '@bucketeer/react-client-sdk';
+import { useBucketeerClient, useObjectVariation, useObjectVariationDetails } from '@bucketeer/react-client-sdk';
 import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
-import { useContext } from 'react';
 import { FEATURE_ID_JSON } from '../constants';
 
 
 function ObjectVariation() {
-  const { client } = useContext(BucketeerContext);
+  const client = useBucketeerClient();
   // object
   const evaluation = useObjectVariation(FEATURE_ID_JSON, { default: 'value' });
   // BKTEvaluationDetails<object>

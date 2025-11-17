@@ -1,14 +1,13 @@
 import {
-  BucketeerContext,
+  useBucketeerClient,
   useStringVariation,
   useStringVariationDetails,
 } from '@bucketeer/react-client-sdk';
 import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
-import { useContext } from 'react';
 import { FEATURE_ID_STRING } from '../constants';
 
 function StringVariation() {
-  const { client } = useContext(BucketeerContext);
+  const client = useBucketeerClient();
   // string
   const evaluation = useStringVariation(FEATURE_ID_STRING, 'default');
   // BKTEvaluationDetails<string>

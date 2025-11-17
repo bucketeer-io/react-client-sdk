@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { renderHook } from '@testing-library/react';
-import { BucketeerContext } from './index';
+import { BucketeerContext, useBucketeerClient } from './index';
 import {
   BKTClient,
   getBKTClient,
@@ -76,13 +76,11 @@ describe('Bucketeer React SDK', () => {
         <BucketeerProvider client={mockClient}>{children}</BucketeerProvider>
       );
 
-      const { result } = renderHook(() => useContext(BucketeerContext), {
+      const { result } = renderHook(() => useBucketeerClient(), {
         wrapper,
       });
 
-      expect(result.current).toHaveProperty('client', mockClient);
-      expect(result.current).toHaveProperty('lastUpdated');
-      expect(typeof result.current.lastUpdated).toBe('number');
+      expect(result.current).toBe(mockClient);
     });
   });
 });

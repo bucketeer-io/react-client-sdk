@@ -1,14 +1,13 @@
 import {
-  BucketeerContext,
   useBooleanVariation,
   useBooleanVariationDetails,
+  useBucketeerClient,
 } from '@bucketeer/react-client-sdk';
-import { useContext } from 'react';
 import { cellStyle, labelCellStyle, tableCenterStyle } from './baseStyle';
 import { FEATURE_ID_BOOLEAN } from '../constants';
 
 function BoolVariation() {
-  const { client } = useContext(BucketeerContext);
+  const client = useBucketeerClient();
   // boolean
   const evaluation = useBooleanVariation(FEATURE_ID_BOOLEAN, false);
   // BKTEvaluationDetails<boolean>
