@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { renderHook } from '@testing-library/react';
-import { BucketeerContext, useBucketeerClient } from './index';
+import { useBucketeerClient } from './index';
 import {
   BKTClient,
   getBKTClient,

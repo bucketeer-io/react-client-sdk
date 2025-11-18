@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { render, waitFor, act } from '@testing-library/react';
 import {
   BKTClient,
@@ -9,7 +9,6 @@ import {
   useBooleanVariation,
   useStringVariation,
   BucketeerProvider,
-  BucketeerContext,
   useBucketeerClient,
 } from '.';
 
