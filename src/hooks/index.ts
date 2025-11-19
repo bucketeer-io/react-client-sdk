@@ -6,4 +6,4 @@ export { useNumberVariation } from './useNumberVariation';
 export { useNumberVariationDetails } from './useNumberVariationDetails';
 export { useObjectVariation } from './useObjectVariation';
 export { useObjectVariationDetails } from './useObjectVariationDetails';
-export { useBucketeerClient } from './useBKTClient';
+export { useBucketeerClient } from './useBucketeerClient';

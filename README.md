@@ -28,9 +28,8 @@ npm install @bucketeer/react-client-sdk
 ### Requirements
 
 **React Version Support:**
-- ✅ **Supported:** React 18.2.0 - 18.3.x
+- ✅ **Supported:** React 18.2.0 and above
 - ⚠️ **May work:** React 18.0.0 - 18.1.x (not officially supported)
-- ❌ **Not supported:** React 19.0.0 and above
 
 > Make sure your `react`, `react-dom`, `@types/react`, and `@types/react-dom` versions all match.
 
@@ -136,7 +135,7 @@ function MyComponent() {
   // Feature flag with detailed evaluation information
   const featureDetails = useBooleanVariationDetails('advanced-feature', false);
   // Access client for advanced operations
-  const { client } = useContext(BucketeerContext);
+  const client = useBucketeerClient();
   const handleUpdateUser = () => {
     client.updateUserAttributes({
       plan: 'premium',
@@ -277,6 +276,22 @@ Returns a JSON/object feature flag value along with detailed evaluation informat
 
 **Note:** The generic type `T` must extend `BKTValue`.
 
+#### `useBucketeerClient()`
+
+Returns the initialized Bucketeer client instance.
+**Returns:** `BKTClient`
+
+```tsx
+import { useBucketeerClient } from '@bucketeer/react-client-sdk';
+const client = useBucketeerClient();
+```
+
+Without the hook `useBucketeerClient()`, you can still access the Bucketeer client using the JS SDK methods:
+```tsx
+import { getBKTClient } from '@bucketeer/react-client-sdk';
+const client = getBKTClient();
+```
+
 ## Re-exported Types
 
 The React SDK re-exports several types from the `bkt-js-client-sdk` for convenience. Examples include:
@@ -289,11 +304,6 @@ The React SDK re-exports several types from the `bkt-js-client-sdk` for convenie
 - `defineBKTConfig` - Helper to create configuration
 - `defineBKTUser` - Helper to create user objects
 
-Without the `BucketeerContext`, you can still access the Bucketeer client using the JS SDK methods:
-```tsx
-import { getBKTClient } from '@bucketeer/react-client-sdk';
-const client = getBKTClient();
-```
 
 For full JS API reference, see the [Bucketeer documentation website](https://docs.bucketeer.io/sdk/client-side/javascript).
 
@@ -360,7 +370,7 @@ pnpm example:start
 
 ## Dependencies
 
-This library uses the [bkt-js-client-sdk](https://www.npmjs.com/package/bkt-js-client-sdk) under the hood.
+This library uses the [@bucketeer/js-client-sdk](https://www.npmjs.com/package/@bucketeer/js-client-sdk) under the hood.
 
 ## License
 

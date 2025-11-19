@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@bucketeer/js-client-sdk':
-        specifier: 2.3.1
-        version: 2.3.1
+        specifier: '>=2.4.0 < 3.0.0'
+        version: 2.4.0
     devDependencies:
       '@playwright/test':
         specifier: ^1.54.1
@@ -329,8 +329,8 @@ packages:
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
 
-  '@bucketeer/js-client-sdk@2.3.1':
-    resolution: {integrity: sha512-nte+ZRBBeJ8vKn5YYEFPs+kWwrQ+l4ERWjZdZFfDIEcRQ+ERgHlc5wxlA3qa2fpnRaMNRsGA7HGkPVCcPUaRmA==}
+  '@bucketeer/js-client-sdk@2.4.0':
+    resolution: {integrity: sha512-RUkFQqP4rCxlgXuuYEYJo65E99yrmHCOjN0bKAUxG9fROEva5X0FORPR0N3S87XX22MZ0hj6LTqPex7JPH7AWw==}
 
   '@esbuild/aix-ppc64@0.25.5':
     resolution: {integrity: sha512-9o3TMmpmftaCMepOdA5k/yDw8SfInyzWWTjYTFCX3kPSDJMROQTb8jg+h9Cnwnmm1vOzvxN7gIfB5V2ewpjtGA==}
@@ -3293,7 +3293,7 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@bucketeer/js-client-sdk@2.3.1':
+  '@bucketeer/js-client-sdk@2.4.0':
     dependencies:
       async-mutex: 0.5.0
 

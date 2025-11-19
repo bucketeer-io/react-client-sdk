@@ -34,9 +34,7 @@
   ],
   "author": "Bucketeer Team",
   "license": "MIT",
-  "dependencies": {
-    "@bucketeer/js-client-sdk": "2.3.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@playwright/test": "^1.54.1",
     "@rollup/plugin-commonjs": "^25.0.8",
@@ -68,8 +66,9 @@
     "typescript": "^5.8.3"
   },
   "peerDependencies": {
-    "react": ">=18.0.0 || ^19.0.0",
-    "react-dom": ">=18.0.0 || ^19.0.0"
+    "react": ">=18.2.0 < 20.0.0",
+    "react-dom": ">=18.2.0 < 20.0.0",
+    "@bucketeer/js-client-sdk": ">=2.4.0 < 3.0.0"
   },
   "repository": {
     "type": "git",
