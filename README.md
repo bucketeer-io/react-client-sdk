@@ -23,7 +23,10 @@ For documentation related to flags management in Bucketeer, refer to the [Bucket
 
 ```bash
 npm install @bucketeer/react-client-sdk
+npm install @bucketeer/js-client-sdk
 ```
+
+The `@bucketeer/js-client-sdk` is a peer dependency and must be installed separately.
 
 ### Requirements
 
