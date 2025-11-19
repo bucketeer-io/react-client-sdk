@@ -279,7 +279,7 @@ Returns a JSON/object feature flag value along with detailed evaluation informat
 #### `useBucketeerClient()`
 
 Returns the initialized Bucketeer client instance.
-**Returns:** `BKTClient`
+**Returns:** `BKTClient | null`
 
 ```tsx
 import { useBucketeerClient } from '@bucketeer/react-client-sdk';
