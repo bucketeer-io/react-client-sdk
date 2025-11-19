@@ -1,17 +1,22 @@
 name: E2e Tests
 on:
   push:
-    branches: [ main ]
+    branches: [ main, feat/support-react-19-ver3 ]
   workflow_dispatch:
   workflow_call:
 
 jobs:
-  test:
+  e2e_tests:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.54.0-noble
       options: --user 1001
+    
+    strategy:
+      fail-fast: true
+      matrix:
+        react-version: [18, 19]
 
     steps:
     - uses: actions/checkout@v4
@@ -30,18 +35,24 @@ jobs:
         echo "VITE_BUCKETEER_API_ENDPOINT=${{ secrets.E2E_API_ENDPOINT }}" >> example/.env
         echo "CI=true" >> example/.env
 
+    - name: Install React ${{ matrix.react-version }}
+      if: matrix.react-version == 19
+      run: |
+        cd example
+        ./install_react_19.sh
+        cd ..
+
     - name: Build
       run: |
         pnpm run build
         pnpm run example:build
 
     - name: Run E2e tests
-      run: |
-        pnpm exec playwright test
+      run: pnpm exec playwright test
 
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
-        name: playwright-report
+        name: playwright-report-react-${{ matrix.react-version }}
         path: playwright-report/
         retention-days: 30

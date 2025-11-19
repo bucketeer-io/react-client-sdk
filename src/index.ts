@@ -1,7 +1,5 @@
 // Export React components and hooks
 export { BucketeerProvider } from './BucketeerProvider';
-// export { BucketeerContext } from './context';
-// export type { BucketeerContextType } from './context';
 export {
   useBooleanVariation,
   useBooleanVariationDetails,
