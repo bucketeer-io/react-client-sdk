@@ -1,7 +1,7 @@
 name: E2e Tests
 on:
   push:
-    branches: [ main, feat/support-react-19-ver3 ]
+    branches: [ main ]
   workflow_dispatch:
   workflow_call:
 
