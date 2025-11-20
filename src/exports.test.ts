@@ -3,7 +3,7 @@ describe('Bucketeer React SDK Exports', () => {
     const exports = await import('./index');
 
     expect(exports.BucketeerProvider).toBeDefined();
-    expect(exports.BucketeerContext).toBeDefined();
+    expect(exports.useBucketeerClient).toBeDefined();
     expect(exports.useBooleanVariation).toBeDefined();
     expect(exports.useStringVariation).toBeDefined();
     expect(exports.useNumberVariation).toBeDefined();

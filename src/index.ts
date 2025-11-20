@@ -1,7 +1,5 @@
 // Export React components and hooks
 export { BucketeerProvider } from './BucketeerProvider';
-export { BucketeerContext } from './context';
-export type { BucketeerContextType } from './context';
 export {
   useBooleanVariation,
   useBooleanVariationDetails,
@@ -11,6 +9,7 @@ export {
   useNumberVariationDetails,
   useObjectVariation,
   useObjectVariationDetails,
+  useBucketeerClient,
 } from './hooks/index';
 export { defineBKTConfigForReact } from './BKTConfig';
 export { SDK_VERSION as sdkVersion } from './version';
