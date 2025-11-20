@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.0](https://github.com/bucketeer-io/react-client-sdk/compare/v0.0.2...v0.1.0) (2025-11-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* add support for react 19 ([#9](https://github.com/bucketeer-io/react-client-sdk/issues/9))
+
+### Features
+
+* add support for react 19 ([#9](https://github.com/bucketeer-io/react-client-sdk/issues/9)) ([aabff35](https://github.com/bucketeer-io/react-client-sdk/commit/aabff35f669b22eb0c60c105b7ca4ed9a328646d))
+
 ## [0.0.2](https://github.com/bucketeer-io/react-client-sdk/compare/v0.0.1...v0.0.2) (2025-08-07)
 
 
