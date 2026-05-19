@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/bucketeer-io/react-client-sdk/compare/v0.1.0...v0.1.1) (2026-05-19)
+
+
+### Miscellaneous
+
+* update @bucketeer/js-client-sdk to 2.6.1 ([fcd108c](https://github.com/bucketeer-io/react-client-sdk/commit/fcd108cc93ca183b9158784a5bd6b382c893b23d))
+
 ## [0.1.0](https://github.com/bucketeer-io/react-client-sdk/compare/v0.0.2...v0.1.0) (2025-11-20)
 
 
